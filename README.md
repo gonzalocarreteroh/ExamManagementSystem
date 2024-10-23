@@ -2,7 +2,7 @@
 
 Members:
 
-- Rishab Sukhlecha 20727721 rsukhlecha@connect.ust.hk (Team Leader) (Github: rishabsukhlecha)
+- Rishab Sukhlecha 20727721 rsukhlecha@connect.ust.hk (Team Leader) (Github: rishabsukhlecha, branch: RishabBranch)
 
 - Gonzalo Carretero 21158252 gch@connect.ust.hk (Github: gonzalocarreterohz, branch: GonzaloBranch)
 
