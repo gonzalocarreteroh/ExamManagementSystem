@@ -24,23 +24,4 @@ public class Main extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
-
-	// This function receives a hashmap of username and password, and a username and returns the password of the username
-	public static String getPassword(HashMap<String, String> userPass, String username) {
-		// Check if the username exists in the hashmap
-		if (userPass.containsKey(username)) {
-			return userPass.get(username);
-		}
-		return null;
-	}
-
-	// This function receives a hashmap of usernames and their grades as values, and a username and returns the average grade of the username
-	public static double getAverageGrade(HashMap<String, double[]> userGrade, String username) {
-		double[] grades = userGrade.get(username);
-		double sum = Arrays.stream(grades).sum();
-		if (grades.length == 0) {
-			return 0;
-		}
-		return sum / grades.length;
-	}
 }
