@@ -42,7 +42,7 @@ public class UserDb {
     }
 
     public Teacher[] teachers() {
-        return users.values().stream().map(User::getTeacher).filter(Objects::nonNull).toList().toArray(new Teacher[0]);
+        return teachers("", "", "");
     }
 
     public Student[] students(String username, String name, String department) {
