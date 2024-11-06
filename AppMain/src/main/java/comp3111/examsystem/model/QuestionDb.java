@@ -21,7 +21,9 @@ public class QuestionDb {
     }
 
     public void update(int id, String title, String a, String b, String c, String d, String answer, int points) {
-        questions.put(id, new Question(id, title, a, b, c, d, answer, points));
+        if (questions.containsKey(id)) {
+            questions.put(id, new Question(id, title, a, b, c, d, answer, points));
+        }
     }
 
     public Question get(int id) {
@@ -32,9 +34,9 @@ public class QuestionDb {
         questions.remove(id);
     }
 
-    public Question[] filter(String title, Boolean multiple, Integer points) {
+    public Question[] all(String title, Boolean multiple, Integer points) {
         return questions.values().stream().filter(q -> {
-            boolean titleMatch = q.getTitle().contains(title);
+            boolean titleMatch = q.getTitle().startsWith(title);
             boolean typeMatch = multiple == null || multiple.equals(q.isMultiple());
             boolean pointsMatch = points == null || points.equals(q.getPoints());
             return titleMatch && typeMatch && pointsMatch;
@@ -42,7 +44,7 @@ public class QuestionDb {
     }
 
     public Question[] all() {
-        return filter("", null, null);
+        return all("", null, null);
     }
 
     public int size() {
