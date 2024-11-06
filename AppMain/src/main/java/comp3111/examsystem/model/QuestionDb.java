@@ -2,16 +2,16 @@ package comp3111.examsystem.model;
 
 import java.util.*;
 
-public class QuestionBank {
+public class QuestionDb {
     private int lastId;
     private final HashMap<Integer, Question> questions;
 
-    public QuestionBank(HashMap<Integer, Question> questions) {
+    public QuestionDb(HashMap<Integer, Question> questions) {
         lastId = questions.keySet().stream().max(Comparator.naturalOrder()).orElse(0);
         this.questions = questions;
     }
 
-    public QuestionBank() {
+    public QuestionDb() {
         this(new HashMap<>());
     }
 
