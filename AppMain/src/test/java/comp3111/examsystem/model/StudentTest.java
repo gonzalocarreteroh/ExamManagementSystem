@@ -1,0 +1,22 @@
+package comp3111.examsystem.model;
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
+public class StudentTest {
+    @Test
+    void gettersTest() {
+        Student s = new Student("123456", "john@ust.hk", "John", 20, "CS", Gender.Male);
+        assertEquals("123456", s.getPassword());
+        assertEquals("john@ust.hk", s.getUsername());
+        assertEquals("John", s.getName());
+        assertEquals(20, s.getAge());
+        assertEquals("CS", s.getDepartment());
+        assertEquals(Gender.Male, s.getGender());
+        assertEquals(s, s.getStudent());
+        assertNull(s.getTeacher());
+        assertNull(s.getManager());
+    }
+}

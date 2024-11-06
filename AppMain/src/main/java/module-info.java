@@ -8,4 +8,6 @@ module comp3111.examsystem {
     exports comp3111.examsystem;
     opens comp3111.examsystem.controller to javafx.fxml;
     exports comp3111.examsystem.controller;
+    exports comp3111.examsystem.model;
+    opens comp3111.examsystem.model to javafx.fxml;
 }
