@@ -7,7 +7,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class QuestionTest {
     @Test
     void singleTest() {
-        Question q = new Question("1+1=", "1", "2", "11", "10", "B", 4);
+        Question q = new Question(1, "1+1=", "1", "2", "11", "10", "B", 4);
+        assertEquals(1, q.getId());
         assertEquals("1+1=", q.getTitle());
         assertEquals("1", q.getA());
         assertEquals("2", q.getB());
@@ -21,7 +22,8 @@ public class QuestionTest {
 
     @Test
     void multipleTest() {
-        Question q = new Question("1+1 <", "1", "2", "11", "10", "CD", 4);
+        Question q = new Question(1, "1+1 <", "1", "2", "11", "10", "CD", 4);
+        assertEquals(1, q.getId());
         assertEquals("1+1 <", q.getTitle());
         assertEquals("1", q.getA());
         assertEquals("2", q.getB());

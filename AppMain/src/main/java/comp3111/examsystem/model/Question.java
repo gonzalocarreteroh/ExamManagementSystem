@@ -1,12 +1,14 @@
 package comp3111.examsystem.model;
 
 public class Question {
+    private final int id;
     private final String title;
     private final String a, b, c, d;
     private final String answer;
     private final int points;
 
-    public Question(String title, String a, String b, String c, String d, String answer, int points) {
+    public Question(int id, String title, String a, String b, String c, String d, String answer, int points) {
+        this.id = id;
         this.title = title;
         this.a = a;
         this.b = b;
@@ -14,6 +16,10 @@ public class Question {
         this.d = d;
         this.answer = answer;
         this.points = points;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getTitle() {
