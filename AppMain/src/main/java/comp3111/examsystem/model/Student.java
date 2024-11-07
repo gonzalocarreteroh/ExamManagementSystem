@@ -1,32 +1,34 @@
 package comp3111.examsystem.model;
 
-public class Student extends User {
+public class Student  {
+    private final int id;
+    private final String password;
+    private final String username;
     private final String name;
     private final int age;
     private final String department;
     private final Gender gender;
 
     public Student(int id, String password, String username, String name, int age, String department, Gender gender) {
-        super(id, password, username);
+        this.id = id;
+        this.password = password;
+        this.username = username;
         this.name = name;
         this.age = age;
         this.department = department;
         this.gender = gender;
     }
 
-    @Override
-    public Teacher getTeacher() {
-        return null;
+    public int getId() {
+        return id;
     }
 
-    @Override
-    public Student getStudent() {
-        return this;
+    public String getPassword() {
+        return password;
     }
 
-    @Override
-    public Manager getManager() {
-        return null;
+    public String getUsername() {
+        return username;
     }
 
     public String getName() {

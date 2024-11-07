@@ -11,8 +11,5 @@ public class ManagerTest {
         assertEquals(2, m.getId());
         assertEquals("123456", m.getPassword());
         assertEquals("john@ust.hk", m.getUsername());
-        assertEquals(m, m.getManager());
-        assertNull(m.getTeacher());
-        assertNull(m.getStudent());
     }
 }

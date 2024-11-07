@@ -1,22 +1,25 @@
 package comp3111.examsystem.model;
 
-public class Manager extends User {
+public class Manager {
+    private final int id;
+    private final String password;
+    private final String username;
+
     public Manager(int id, String password, String username) {
-        super(id, password, username);
+        this.id = id;
+        this.password = password;
+        this.username = username;
     }
 
-    @Override
-    public Teacher getTeacher() {
-        return null;
+    public int getId() {
+        return id;
     }
 
-    @Override
-    public Student getStudent() {
-        return null;
+    public String getPassword() {
+        return password;
     }
 
-    @Override
-    public Manager getManager() {
-        return this;
+    public String getUsername() {
+        return username;
     }
 }

@@ -3,7 +3,6 @@ package comp3111.examsystem.model;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class TeacherTest {
     @Test
@@ -16,8 +15,5 @@ public class TeacherTest {
         assertEquals(20, t.getAge());
         assertEquals("CS", t.getDepartment());
         assertEquals("Assistant Professor", t.getPosition());
-        assertEquals(t, t.getTeacher());
-        assertNull(t.getStudent());
-        assertNull(t.getManager());
     }
 }
