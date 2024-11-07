@@ -34,7 +34,7 @@ public class QuestionDb {
         questions.remove(id);
     }
 
-    public Question[] list(String title, Boolean multiple, Integer points) {
+    public Question[] filter(String title, Boolean multiple, Integer points) {
         return questions.values().stream().filter(q -> {
             boolean titleMatch = q.getTitle().startsWith(title);
             boolean typeMatch = multiple == null || multiple.equals(q.isMultiple());
@@ -43,8 +43,8 @@ public class QuestionDb {
         }).toList().toArray(new Question[0]);
     }
 
-    public Question[] list() {
-        return list("", null, null);
+    public Question[] all() {
+        return filter("", null, null);
     }
 
     public int size() {

@@ -2,44 +2,24 @@ package comp3111.examsystem.model;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ManagerDbTest {
     @Test
     void creationTest() {
-        ManagerDb db = new ManagerDb();
-        db.add("123456", "john.smith");
-        db.add("123456", "jane.smith");
-        db.add("123456", "anne.smith");
+        ManagerDb db = new ManagerDb(new Manager[]{
+            new Manager("john.smith", "123456"),
+            new Manager("jane.smith", "456789"),
+            new Manager("anne.smith", "789123")
+        });
 
-        int first = db.list()[0].getId();
-        assertEquals(db.get(first).getId(), first);
+        assertTrue(db.login("john.smith", "123456"));
+        assertTrue(db.login("jane.smith", "456789"));
+        assertTrue(db.login("anne.smith", "789123"));
+        assertFalse(db.login("johny.smith", "123456"));
+        assertFalse(db.login("janey.smith", "456789"));
+        assertFalse(db.login("anney.smith", "789123"));
         assertEquals(3, db.size());
-        assertEquals(3, db.list().length);
-        assertEquals(2, db.list("j").length);
-        assertEquals(0, db.list("x").length);
-    }
-
-    @Test
-    void deletionTest() {
-        ManagerDb db = new ManagerDb();
-        db.add("123456", "john.smith");
-        db.add("123456", "anne.smith");
-
-        assertEquals(2, db.size());
-        db.remove(db.list("john.smith")[0].getId());
-        assertEquals(1, db.size());
-    }
-
-    @Test
-    void updateTest() {
-        ManagerDb db = new ManagerDb();
-        db.update(new Manager(7, "999111", "john.smith"));
-        db.add("123456", "john.smith");
-        db.add("123456", "anne.smith");
-
-        assertEquals(2, db.size());
-        db.update(new Manager(db.list("john.smith")[0].getId(), "999111", "john.smith"));
-        assertEquals("999111", db.list("john.smith")[0].getPassword());
+        assertEquals("john.smith", db.get(0).getUsername());
     }
 }

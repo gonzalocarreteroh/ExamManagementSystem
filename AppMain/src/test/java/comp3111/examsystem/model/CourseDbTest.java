@@ -44,7 +44,7 @@ public class CourseDbTest {
         cb.add("COMP3111", "SwEng", "CS");
 
         assertEquals(3, cb.size());
-        cb.remove(cb.all("", "", "")[0].getId());
+        cb.remove(cb.filter("", "", "")[0].getId());
         assertEquals(2, cb.size());
         cb.remove(cb.all()[0].getId());
         assertEquals(1, cb.size());
@@ -74,8 +74,8 @@ public class CourseDbTest {
         db.add("COMP3213", "EngSw", "CS");
         db.add("COMP3312", "EngS", "CSE");
 
-        assertEquals(2, db.all("COMP31", "", "").length);
-        assertEquals(1, db.all("COMP31", "Sw", "").length);
-        assertEquals(2, db.all("", "", "CSE").length);
+        assertEquals(2, db.filter("COMP31", "", "").length);
+        assertEquals(1, db.filter("COMP31", "Sw", "").length);
+        assertEquals(2, db.filter("", "", "CSE").length);
     }
 }

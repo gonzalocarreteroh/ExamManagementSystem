@@ -7,9 +7,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ManagerTest {
     @Test
     void gettersTest() {
-        Manager m = new Manager(2, "123456", "john@ust.hk");
-        assertEquals(2, m.getId());
-        assertEquals("123456", m.getPassword());
+        Manager m = new Manager("john@ust.hk", "123456");
         assertEquals("john@ust.hk", m.getUsername());
+        assertEquals("123456", m.getPassword());
     }
 }

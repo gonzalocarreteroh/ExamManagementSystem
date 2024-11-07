@@ -1,25 +1,19 @@
 package comp3111.examsystem.model;
 
 public class Manager {
-    private final int id;
-    private final String password;
     private final String username;
+    private final String password;
 
-    public Manager(int id, String password, String username) {
-        this.id = id;
-        this.password = password;
+    public Manager(String username, String password) {
         this.username = username;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getPassword() {
-        return password;
+        this.password = password;
     }
 
     public String getUsername() {
         return username;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }

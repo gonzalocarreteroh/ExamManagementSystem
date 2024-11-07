@@ -35,7 +35,7 @@ public class CourseDb {
         courses.remove(id);
     }
 
-    public Course[] all(String code, String name, String department) {
+    public Course[] filter(String code, String name, String department) {
         return courses.values().stream().filter(s -> {
             return s.getCode().startsWith(code)
                     && s.getName().startsWith(name)
@@ -44,7 +44,7 @@ public class CourseDb {
     }
 
     public Course[] all() {
-        return all("", "", "");
+        return filter("", "", "");
     }
 
     public int size() {

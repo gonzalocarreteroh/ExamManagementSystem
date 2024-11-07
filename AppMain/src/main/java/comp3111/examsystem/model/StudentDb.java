@@ -35,7 +35,7 @@ public class StudentDb {
         students.remove(id);
     }
 
-    public Student[] list(String username, String name, String department) {
+    public Student[] filter(String username, String name, String department) {
         return students.values().stream().filter(s -> {
             return s.getUsername().startsWith(username)
                     && s.getName().startsWith(name)
@@ -43,8 +43,8 @@ public class StudentDb {
         }).toList().toArray(new Student[0]);
     }
 
-    public Student[] list() {
-        return list("", "", "");
+    public Student[] all() {
+        return filter("", "", "");
     }
 
     public int size() {

@@ -11,14 +11,14 @@ public class TeacherDbTest {
         db.add("123456", "carl.smith", "Carl", 20, "CS", "Professor");
         db.add("123456", "rosie.smith",  "Rosie", 20, "CS", "Professor");
 
-        int first = db.list()[0].getId();
+        int first = db.all()[0].getId();
         assertEquals(db.get(first).getId(), first);
         assertEquals(2, db.size());
-        assertEquals(2, db.list().length);
-        assertEquals(1, db.list("c", "", "").length);
-        assertEquals(0, db.list("x", "", "").length);
-        assertEquals(0, db.list("c", "x", "").length);
-        assertEquals(0, db.list("c", "", "x").length);
+        assertEquals(2, db.all().length);
+        assertEquals(1, db.filter("c", "", "").length);
+        assertEquals(0, db.filter("x", "", "").length);
+        assertEquals(0, db.filter("c", "x", "").length);
+        assertEquals(0, db.filter("c", "", "x").length);
     }
 
     @Test
@@ -28,7 +28,7 @@ public class TeacherDbTest {
         db.add("123456", "carl.smith", "Carl", 20, "CS", "Professor");
 
         assertEquals(2, db.size());
-        db.remove(db.list("jane.smith", "", "")[0].getId());
+        db.remove(db.filter("jane.smith", "", "")[0].getId());
         assertEquals(1, db.size());
     }
 
@@ -40,7 +40,7 @@ public class TeacherDbTest {
         db.add("123456", "carl.smith", "Carl", 20, "CS", "Professor");
 
         assertEquals(2, db.size());
-        db.update(new Teacher(db.list("jane.smith", "", "")[0].getId(), "999111", "jane.smith", "Jane", 20, "CS", "Professor"));
-        assertEquals("999111", db.list("jane.smith", "", "")[0].getPassword());
+        db.update(new Teacher(db.filter("jane.smith", "", "")[0].getId(), "999111", "jane.smith", "Jane", 20, "CS", "Professor"));
+        assertEquals("999111", db.filter("jane.smith", "", "")[0].getPassword());
     }
 }
