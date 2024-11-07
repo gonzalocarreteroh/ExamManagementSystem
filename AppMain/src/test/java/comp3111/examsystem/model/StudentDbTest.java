@@ -8,11 +8,11 @@ public class StudentDbTest {
     @Test
     void creationTest() {
         StudentDb db = new StudentDb();
-        db.add("123456", "john.smith", "John", 20, "CS", Gender.Male);
-        db.add("123456", "jane.smith", "Jane", 20, "CS", Gender.Female);
-        db.add("123456", "anne.smith", "Anna", 20, "CS", Gender.Female);
-        db.add("123456", "carl.smith", "Carl", 20, "CS", Gender.Male);
-        db.add("123456", "rosie.smith",  "Rosie", 20, "CS", Gender.Female);
+        db.add("john.smith", "123456", "John", 20, "CS", Gender.Male);
+        db.add("jane.smith", "123456", "Jane", 20, "CS", Gender.Female);
+        db.add("anne.smith", "123456", "Anna", 20, "CS", Gender.Female);
+        db.add("carl.smith", "123456", "Carl", 20, "CS", Gender.Male);
+        db.add("rosie.smith",  "123456", "Rosie", 20, "CS", Gender.Female);
 
         int first = db.all()[0].getId();
         assertEquals(db.get(first).getId(), first);
@@ -27,10 +27,10 @@ public class StudentDbTest {
     @Test
     void deletionTest() {
         StudentDb db = new StudentDb();
-        db.add("123456", "john.smith", "John", 20, "CS", Gender.Male);
-        db.add("123456", "jane.smith",  "Jane", 20, "CS", Gender.Female);
-        db.add("123456", "anne.smith", "Anne", 20, "CS", Gender.Female);
-        db.add("123456", "carl.smith", "Carl", 20, "CS", Gender.Male);
+        db.add("john.smith", "123456", "John", 20, "CS", Gender.Male);
+        db.add("jane.smith",  "123456", "Jane", 20, "CS", Gender.Female);
+        db.add("anne.smith", "123456", "Anne", 20, "CS", Gender.Female);
+        db.add("carl.smith", "123456", "Carl", 20, "CS", Gender.Male);
 
         assertEquals(4, db.size());
         db.remove(db.filter("john.smith", "", "")[0].getId());
@@ -41,13 +41,13 @@ public class StudentDbTest {
     void updateTest() {
         StudentDb db = new StudentDb();
         db.update(new Student(7, "999111", "john.smith", "Carl", 20, "CS", Gender.Male));
-        db.add("123456", "john.smith", "John", 20, "CS", Gender.Male);
-        db.add("123456", "jane.smith",  "Jane", 20, "CS", Gender.Female);
-        db.add("123456", "anne.smith", "Anne", 20, "CS", Gender.Female);
-        db.add("123456", "carl.smith", "Carl", 20, "CS", Gender.Male);
+        db.add("john.smith", "123456", "John", 20, "CS", Gender.Male);
+        db.add("jane.smith",  "123456", "Jane", 20, "CS", Gender.Female);
+        db.add("anne.smith", "123456", "Anne", 20, "CS", Gender.Female);
+        db.add("carl.smith", "123456", "Carl", 20, "CS", Gender.Male);
 
         assertEquals(4, db.size());
-        db.update(new Student(db.filter("john.smith", "", "")[0].getId(), "999111", "john.smith", "John", 20, "CS", Gender.Male));
+        db.update(new Student(db.filter("john.smith", "", "")[0].getId(), "john.smith", "999111", "John", 20, "CS", Gender.Male));
         assertEquals("999111", db.filter("john.smith", "", "")[0].getPassword());
     }
 }

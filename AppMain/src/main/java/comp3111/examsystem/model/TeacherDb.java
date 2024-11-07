@@ -16,9 +16,9 @@ public class TeacherDb {
         this(new HashMap<>());
     }
 
-    public void add(String password, String username, String name, int age, String department, String position) {
+    public void add(String username, String password, String name, int age, String department, String position) {
         lastId += 1;
-        teachers.put(lastId, new Teacher(lastId, password, username, name, age, department, position));
+        teachers.put(lastId, new Teacher(lastId, username, password, name, age, department, position));
     }
 
     public void update(Teacher teacher) {
@@ -37,9 +37,10 @@ public class TeacherDb {
 
     public Teacher[] filter(String username, String name, String department) {
         return teachers.values().stream().filter(s -> {
-            return s.getUsername().startsWith(username)
-                    && s.getName().startsWith(name)
-                    && s.getDepartment().startsWith(department);
+            boolean usernameMatch = username == "" || s.getUsername().startsWith(username);
+            boolean nameMatch = name == "" || s.getName().startsWith(name);
+            boolean departmentMatch = department == "" || s.getDepartment().startsWith(department);
+            return usernameMatch && nameMatch && departmentMatch;
         }).toList().toArray(new Teacher[0]);
     }
 

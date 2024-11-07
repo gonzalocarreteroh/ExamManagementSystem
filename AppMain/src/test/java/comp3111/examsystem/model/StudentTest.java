@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class StudentTest {
     @Test
     void gettersTest() {
-        Student s = new Student(1, "123456", "john@ust.hk", "John", 20, "CS", Gender.Male);
+        Student s = new Student(1, "john@ust.hk", "123456", "John", 20, "CS", Gender.Male);
         assertEquals(1, s.getId());
         assertEquals("123456", s.getPassword());
         assertEquals("john@ust.hk", s.getUsername());
