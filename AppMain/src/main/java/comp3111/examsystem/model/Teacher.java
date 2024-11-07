@@ -6,8 +6,8 @@ public class Teacher extends User {
     private final String department;
     private final String position;
 
-    public Teacher(String password, String username, String name, int age, String department, String position) {
-        super(password, username);
+    public Teacher(int id, String password, String username, String name, int age, String department, String position) {
+        super(id, password, username);
         this.name = name;
         this.age = age;
         this.department = department;

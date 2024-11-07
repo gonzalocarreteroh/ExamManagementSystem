@@ -16,7 +16,7 @@ public class QuestionDbTest {
         qb.add("1+1=", "1", "2", "11", "10", "B", 4);
         qb.add("1+1=", "1", "2", "11", "10", "B", 4);
 
-        for (Question q : qb.all()) {
+        for (Question q : qb.list()) {
             assertEquals("1+1=", q.getTitle());
             assertEquals("1", q.getA());
             assertEquals("2", q.getB());
@@ -35,7 +35,7 @@ public class QuestionDbTest {
         hash.put(4, new Question(4, "1+1=", "1", "2", "11", "10", "B", 4));
         QuestionDb qb = new QuestionDb(hash);
 
-        Question q = qb.all()[0];
+        Question q = qb.list()[0];
         assertEquals(4, q.getId());
         assertEquals("1+1=", q.getTitle());
         assertEquals("1", q.getA());
@@ -56,23 +56,23 @@ public class QuestionDbTest {
         qb.add("1+1=", "1", "2", "11", "10", "B", 4);
 
         assertEquals(3, qb.size());
-        qb.remove(qb.all("", null, null)[0].getId());
+        qb.remove(qb.list("", null, null)[0].getId());
         assertEquals(2, qb.size());
-        qb.remove(qb.all("", null, null)[0].getId());
+        qb.remove(qb.list("", null, null)[0].getId());
         assertEquals(1, qb.size());
     }
 
     @Test
     void updateTest() {
         QuestionDb qb = new QuestionDb();
-        qb.update(77, "1+0=", "1", "2", "11", "10", "A", 4);
+        qb.update(new Question(77, "1+0=", "1", "2", "11", "10", "A", 4));
 
         qb.add("1+1=", "1", "2", "11", "10", "B", 4);
         qb.add("1+1=", "1", "2", "11", "10", "B", 4);
         qb.add("1+1=", "1", "2", "11", "10", "B", 4);
 
-        int first = qb.all()[0].getId();
-        qb.update(first, "1+0=", "1", "2", "11", "10", "A", 4);
+        int first = qb.list()[0].getId();
+        qb.update(new Question(first, "1+0=", "1", "2", "11", "10", "A", 4));
         assertEquals("1+0=", qb.get(first).getTitle());
         assertEquals("A", qb.get(first).getAnswer());
     }
@@ -85,8 +85,8 @@ public class QuestionDbTest {
         qb.add("1+9=", "1", "2", "11", "10", "D", 8);
         qb.add("2+9=", "1", "2", "11", "10", "C", 2);
 
-        assertEquals(3, qb.all("1+", null, null).length);
-        assertEquals(1, qb.all("1+", null, 4).length);
-        assertEquals(0, qb.all("1+", true, null).length);
+        assertEquals(3, qb.list("1+", null, null).length);
+        assertEquals(1, qb.list("1+", null, 4).length);
+        assertEquals(0, qb.list("1+", true, null).length);
     }
 }

@@ -3,9 +3,11 @@ package comp3111.examsystem.model;
 import java.util.*;
 
 public class UserDb {
-    private final HashMap<String, User> users;
+    private int lastId;
+    private final HashMap<Integer, User> users;
 
-    public UserDb(HashMap<String, User> users) {
+    public UserDb(HashMap<Integer, User> users) {
+        lastId = users.keySet().stream().max(Comparator.naturalOrder()).orElse(0);
         this.users = users;
     }
 
@@ -13,24 +15,33 @@ public class UserDb {
         this(new HashMap<>());
     }
 
-    public void add(User user) {
-        if (!users.containsKey(user.getUsername())) {
-            users.put(user.getUsername(), user);
-        }
+    public void addManager(String password, String username) {
+        lastId += 1;
+        users.put(lastId, new Manager(lastId, password, username));
+    }
+
+    public void addStudent(String password, String username, String name, int age, String department, Gender gender) {
+        lastId += 1;
+        users.put(lastId, new Student(lastId, password, username, name, age, department, gender));
+    }
+
+    public void addTeacher(String password, String username, String name, int age, String department, String position) {
+        lastId += 1;
+        users.put(lastId, new Teacher(lastId, password, username, name, age, department, position));
     }
 
     public void update(User user) {
-        if (users.containsKey(user.getUsername())) {
-            users.put(user.getUsername(), user);
+        if (users.containsKey(user.getId())) {
+            users.put(user.getId(), user);
         }
     }
 
-    public User get(String username) {
-        return users.get(username);
+    public User get(int id) {
+        return users.get(id);
     }
 
-    public void remove(String username) {
-        users.remove(username);
+    public void remove(int id) {
+        users.remove(id);
     }
 
     public Teacher[] teachers(String username, String name, String department) {

@@ -1,8 +1,8 @@
 package comp3111.examsystem.model;
 
 public class Manager extends User {
-    public Manager(String password, String username) {
-        super(password, username);
+    public Manager(int id, String password, String username) {
+        super(id, password, username);
     }
 
     @Override

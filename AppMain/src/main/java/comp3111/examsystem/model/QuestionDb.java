@@ -20,9 +20,9 @@ public class QuestionDb {
         questions.put(lastId, new Question(lastId, title, a, b, c, d, answer, points));
     }
 
-    public void update(int id, String title, String a, String b, String c, String d, String answer, int points) {
-        if (questions.containsKey(id)) {
-            questions.put(id, new Question(id, title, a, b, c, d, answer, points));
+    public void update(Question question) {
+        if (questions.containsKey(question.getId())) {
+            questions.put(question.getId(), question);
         }
     }
 
@@ -34,7 +34,7 @@ public class QuestionDb {
         questions.remove(id);
     }
 
-    public Question[] all(String title, Boolean multiple, Integer points) {
+    public Question[] list(String title, Boolean multiple, Integer points) {
         return questions.values().stream().filter(q -> {
             boolean titleMatch = q.getTitle().startsWith(title);
             boolean typeMatch = multiple == null || multiple.equals(q.isMultiple());
@@ -43,8 +43,8 @@ public class QuestionDb {
         }).toList().toArray(new Question[0]);
     }
 
-    public Question[] all() {
-        return all("", null, null);
+    public Question[] list() {
+        return list("", null, null);
     }
 
     public int size() {

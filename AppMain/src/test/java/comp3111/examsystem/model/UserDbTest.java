@@ -3,19 +3,19 @@ package comp3111.examsystem.model;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class UserDbTest {
     @Test
     void creationTest() {
         UserDb db = new UserDb();
-        db.add(new Manager("123456", "john.smith"));
-        db.add(new Manager("123456", "john.smith"));
-        db.add(new Manager("123456", "jane.smith"));
-        db.add(new Manager("123456", "anne.smith"));
-        db.add(new Student("123456", "carl.smith", "Carl", 20, "CS", Gender.Male));
-        db.add(new Teacher("123456", "rosie.smith",  "Rosie", 20, "CS", "Professor"));
+        db.addManager("123456", "john.smith");
+        db.addManager("123456", "jane.smith");
+        db.addManager("123456", "anne.smith");
+        db.addStudent("123456", "carl.smith", "Carl", 20, "CS", Gender.Male);
+        db.addTeacher("123456", "rosie.smith",  "Rosie", 20, "CS", "Professor");
 
+        int first = db.managers()[0].getId();
+        assertEquals(db.get(first).getId(), first);
         assertEquals(5, db.size());
         assertEquals(3, db.managers().length);
         assertEquals(2, db.managers("j").length);
@@ -33,31 +33,28 @@ public class UserDbTest {
     @Test
     void deletionTest() {
         UserDb db = new UserDb();
-        db.add(new Manager("123456", "john.smith"));
-        db.add(new Teacher("123456", "jane.smith",  "Jane", 20, "CS", "Professor"));
-        db.add(new Manager("123456", "anne.smith"));
-        db.add(new Student("123456", "carl.smith", "Carl", 20, "CS", Gender.Male));
+        db.addManager("123456", "john.smith");
+        db.addTeacher("123456", "jane.smith",  "Jane", 20, "CS", "Professor");
+        db.addManager("123456", "anne.smith");
+        db.addStudent("123456", "carl.smith", "Carl", 20, "CS", Gender.Male);
 
         assertEquals(4, db.size());
-        db.remove("john.doe");
-        assertEquals(4, db.size());
-        db.remove("john.smith");
+        db.remove(db.managers("john.smith")[0].getId());
         assertEquals(3, db.size());
     }
 
     @Test
     void updateTest() {
         UserDb db = new UserDb();
-        db.add(new Manager("123456", "john.smith"));
-        db.add(new Teacher("123456", "jane.smith",  "Jane", 20, "CS", "Professor"));
-        db.add(new Manager("123456", "anne.smith"));
-        db.add(new Student("123456", "carl.smith", "Carl", 20, "CS", Gender.Male));
+        db.update(new Manager(7, "999111", "john.smith"));
+        db.addManager("123456", "john.smith");
+        db.addTeacher("123456", "jane.smith",  "Jane", 20, "CS", "Professor");
+        db.addManager("123456", "anne.smith");
+        db.addStudent("123456", "carl.smith", "Carl", 20, "CS", Gender.Male);
 
         assertEquals(4, db.size());
-        db.update(new Manager("123456", "john.doe"));
-        assertNull(db.get("john.doe"));
-        db.update(new Manager("999111", "john.smith"));
-        assertEquals("999111", db.get("john.smith").getPassword());
+        db.update(new Manager(db.managers("john.smith")[0].getId(), "999111", "john.smith"));
+        assertEquals("999111", db.managers("john.smith")[0].getPassword());
     }
 
     @Test
@@ -68,8 +65,8 @@ public class UserDbTest {
         qb.add("1+9=", "1", "2", "11", "10", "D", 8);
         qb.add("2+9=", "1", "2", "11", "10", "C", 2);
 
-        assertEquals(3, qb.all("1+", null, null).length);
-        assertEquals(1, qb.all("1+", null, 4).length);
-        assertEquals(0, qb.all("1+", true, null).length);
+        assertEquals(3, qb.list("1+", null, null).length);
+        assertEquals(1, qb.list("1+", null, 4).length);
+        assertEquals(0, qb.list("1+", true, null).length);
     }
 }
