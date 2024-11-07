@@ -35,20 +35,24 @@ public class StudentDb {
         students.remove(id);
     }
 
-    public Student[] filter(String username, String name, String department) {
+    public Student[] all(String username, String name, String department) {
         return students.values().stream().filter(s -> {
-            boolean usernameMatch = username == "" || s.getUsername().startsWith(username);
-            boolean nameMatch = name == "" || s.getName().startsWith(name);
-            boolean departmentMatch = department == "" || s.getDepartment().startsWith(department);
+            boolean usernameMatch = username == "" || s.getUsername().equals(username);
+            boolean nameMatch = name == "" || s.getName().equals(name);
+            boolean departmentMatch = department == "" || s.getDepartment().equals(department);
             return usernameMatch && nameMatch && departmentMatch;
         }).toList().toArray(new Student[0]);
     }
 
-    public Student[] all() {
-        return filter("", "", "");
+    public Student[] all(String username, String name) {
+        return all(username, name, "");
     }
 
-    public int size() {
-        return students.size();
+    public Student[] all(String username) {
+        return all(username, "");
+    }
+
+    public Student[] all() {
+        return all("");
     }
 }

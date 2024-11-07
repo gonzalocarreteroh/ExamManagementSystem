@@ -29,8 +29,12 @@ public class Exam {
         return duration;
     }
 
+    public int getCourseId() {
+        return courseId;
+    }
+
     public Course getCourse(CourseDb db) {
-        return db.get(courseId);
+        return db.get(getCourseId());
     }
 
     public boolean getPublished() {

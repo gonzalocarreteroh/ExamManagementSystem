@@ -56,9 +56,9 @@ public class QuestionDbTest {
         qb.add("1+1=", "1", "2", "11", "10", "B", 4);
 
         assertEquals(3, qb.all().length);
-        qb.remove(qb.filter("", null, null)[0].getId());
+        qb.remove(qb.all("", null, null)[0].getId());
         assertEquals(2, qb.all().length);
-        qb.remove(qb.filter("", null, null)[0].getId());
+        qb.remove(qb.all("", null, null)[0].getId());
         assertEquals(1, qb.all().length);
     }
 
@@ -85,8 +85,8 @@ public class QuestionDbTest {
         qb.add("1+9=", "1", "2", "11", "10", "D", 8);
         qb.add("2+9=", "1", "2", "11", "10", "C", 2);
 
-        assertEquals(3, qb.filter("1+", null, null).length);
-        assertEquals(1, qb.filter("1+", null, 4).length);
-        assertEquals(0, qb.filter("1+", true, null).length);
+        assertEquals(3, qb.all("1+", null, null).length);
+        assertEquals(1, qb.all("1+", null, 4).length);
+        assertEquals(0, qb.all("1+", true, null).length);
     }
 }

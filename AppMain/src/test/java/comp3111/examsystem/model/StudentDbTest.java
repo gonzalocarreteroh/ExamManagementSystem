@@ -16,12 +16,11 @@ public class StudentDbTest {
 
         int first = db.all()[0].getId();
         assertEquals(db.get(first).getId(), first);
-        assertEquals(5, db.size());
         assertEquals(5, db.all().length);
-        assertEquals(2, db.filter("j", "", "").length);
-        assertEquals(0, db.filter("x", "", "").length);
-        assertEquals(0, db.filter("", "x", "").length);
-        assertEquals(0, db.filter("", "", "x").length);
+        assertEquals(1, db.all("john.smith", "", "").length);
+        assertEquals(0, db.all("x", "", "").length);
+        assertEquals(0, db.all("", "x", "").length);
+        assertEquals(0, db.all("", "", "x").length);
     }
 
     @Test
@@ -32,9 +31,9 @@ public class StudentDbTest {
         db.add("anne.smith", "123456", "Anne", 20, "CS", Gender.Female);
         db.add("carl.smith", "123456", "Carl", 20, "CS", Gender.Male);
 
-        assertEquals(4, db.size());
-        db.remove(db.filter("john.smith", "", "")[0].getId());
-        assertEquals(3, db.size());
+        assertEquals(4, db.all().length);
+        db.remove(db.all("john.smith", "", "")[0].getId());
+        assertEquals(3, db.all().length);
     }
 
     @Test
@@ -46,8 +45,8 @@ public class StudentDbTest {
         db.add("anne.smith", "123456", "Anne", 20, "CS", Gender.Female);
         db.add("carl.smith", "123456", "Carl", 20, "CS", Gender.Male);
 
-        assertEquals(4, db.size());
-        db.update(new Student(db.filter("john.smith", "", "")[0].getId(), "john.smith", "999111", "John", 20, "CS", Gender.Male));
-        assertEquals("999111", db.filter("john.smith", "", "")[0].getPassword());
+        assertEquals(4, db.all().length);
+        db.update(new Student(db.all("john.smith", "", "")[0].getId(), "john.smith", "999111", "John", 20, "CS", Gender.Male));
+        assertEquals("999111", db.all("john.smith", "", "")[0].getPassword());
     }
 }
