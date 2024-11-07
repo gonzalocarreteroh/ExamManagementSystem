@@ -47,8 +47,4 @@ public class TeacherDb {
     public Teacher[] all() {
         return filter("", "", "");
     }
-
-    public int size() {
-        return teachers.size();
-    }
 }

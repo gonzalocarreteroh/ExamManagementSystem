@@ -55,11 +55,11 @@ public class QuestionDbTest {
         qb.add("1+1=", "1", "2", "11", "10", "B", 4);
         qb.add("1+1=", "1", "2", "11", "10", "B", 4);
 
-        assertEquals(3, qb.size());
+        assertEquals(3, qb.all().length);
         qb.remove(qb.filter("", null, null)[0].getId());
-        assertEquals(2, qb.size());
+        assertEquals(2, qb.all().length);
         qb.remove(qb.filter("", null, null)[0].getId());
-        assertEquals(1, qb.size());
+        assertEquals(1, qb.all().length);
     }
 
     @Test

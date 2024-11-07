@@ -46,8 +46,4 @@ public class QuestionDb {
     public Question[] all() {
         return filter("", null, null);
     }
-
-    public int size() {
-        return questions.size();
-    }
 }

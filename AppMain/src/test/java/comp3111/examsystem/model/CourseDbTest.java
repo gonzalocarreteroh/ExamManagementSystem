@@ -43,11 +43,11 @@ public class CourseDbTest {
         cb.add("COMP3111", "SwEng", "CS");
         cb.add("COMP3111", "SwEng", "CS");
 
-        assertEquals(3, cb.size());
+        assertEquals(3, cb.all().length);
         cb.remove(cb.filter("", "", "")[0].getId());
-        assertEquals(2, cb.size());
+        assertEquals(2, cb.all().length);
         cb.remove(cb.all()[0].getId());
-        assertEquals(1, cb.size());
+        assertEquals(1, cb.all().length);
     }
 
     @Test

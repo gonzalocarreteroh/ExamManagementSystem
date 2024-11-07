@@ -46,8 +46,4 @@ public class CourseDb {
     public Course[] all() {
         return filter("", "", "");
     }
-
-    public int size() {
-        return courses.size();
-    }
 }
