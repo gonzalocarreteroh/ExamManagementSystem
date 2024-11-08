@@ -70,8 +70,9 @@ public class CourseDbTest {
         db.add("COMP3213", "EngSw", "CS");
         db.add("COMP3312", "EngS", "CSE");
 
-        assertEquals(2, db.all("COMP31", "", "").length);
-        assertEquals(1, db.all("COMP31", "Sw", "").length);
+        assertEquals(1, db.all("COMP3111", "", "").length);
+        assertEquals(1, db.all("COMP3111", "SwEng", "").length);
+        assertEquals(0, db.all("COMP3111", "SEng", "").length);
         assertEquals(2, db.all("", "", "CSE").length);
     }
 }

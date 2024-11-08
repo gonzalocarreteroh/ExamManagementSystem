@@ -21,7 +21,7 @@ public class StudentManagementController extends ControllerBase implements Initi
     public TextField filterName;
     public TextField filterDepartment;
 
-    public record Row(String username, String name, String age, String gender, String department, String password) {
+    public record Row(int id, String username, String name, String age, String gender, String department, String password) {
     }
 
     public TableColumn<Row, String> columnUsername;
@@ -55,6 +55,7 @@ public class StudentManagementController extends ControllerBase implements Initi
         studentList.clear();
         for (Student student : students) {
             studentList.add(new Row(
+                    student.getId(),
                     student.getUsername(),
                     student.getName(),
                     Integer.toString(student.getAge()),
