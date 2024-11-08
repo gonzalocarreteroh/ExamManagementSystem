@@ -37,14 +37,14 @@ public class GradeDbTest {
     @Test
     void updateTest() {
         CourseDb cb = new CourseDb();
-        cb.update(77, "NEVER", "Not a name", "XX");
+        cb.update(new Course(77, "NEVER", "Not a name", "XX"));
 
         cb.add("COMP3111", "SwEng", "CS");
         cb.add("COMP3111", "SwEng", "CS");
         cb.add("COMP3111", "SwEng", "CS");
 
         int first = cb.all()[0].getId();
-        cb.update(first, "COMP2222", "Www", "CSE");
+        cb.update(new Course(first, "COMP2222", "Www", "CSE"));
         assertEquals("COMP2222", cb.get(first).getCode());
         assertEquals("Www", cb.get(first).getName());
         assertEquals("CSE", cb.get(first).getDepartment());
