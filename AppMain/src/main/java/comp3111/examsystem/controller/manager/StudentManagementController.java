@@ -123,6 +123,16 @@ public class StudentManagementController extends ControllerBase implements Initi
         loadStudents();
     }
 
+    private void clearForm() {
+        thisId = null;
+        thisUsername.clear();
+        thisPassword.clear();
+        thisName.clear();
+        thisAge.clear();
+        thisDepartment.clear();
+        thisGender.setValue(null);
+    }
+
     @FXML
     public void add() {
         DataCollection data = loadData();
@@ -136,14 +146,7 @@ public class StudentManagementController extends ControllerBase implements Initi
         );
         storeData(data);
 
-        thisId = null;
-        thisUsername.clear();
-        thisPassword.clear();
-        thisName.clear();
-        thisAge.clear();
-        thisDepartment.clear();
-        thisGender.setValue(null);
-
+        clearForm();
         loadStudents();
     }
 
@@ -165,8 +168,19 @@ public class StudentManagementController extends ControllerBase implements Initi
                         thisGender.getValue().equals("Female") ? Gender.Female : Gender.Male
                 )
         );
-        storeData(data);
 
+        storeData(data);
         loadStudents();
+    }
+
+    public void delete() {
+        if (thisId != null) {
+            var data = loadData();
+            data.getStudents().remove(thisId);
+            storeData(data);
+
+            clearForm();
+            loadStudents();
+        }
     }
 }

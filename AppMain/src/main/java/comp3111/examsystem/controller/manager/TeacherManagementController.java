@@ -121,6 +121,16 @@ public class TeacherManagementController extends ControllerBase implements Initi
         loadTeachers();
     }
 
+    private void clearForm() {
+        thisId = null;
+        thisUsername.clear();
+        thisPassword.clear();
+        thisName.clear();
+        thisAge.clear();
+        thisDepartment.clear();
+        thisPosition.clear();
+    }
+
     @FXML
     public void add() {
         DataCollection data = loadData();
@@ -134,14 +144,7 @@ public class TeacherManagementController extends ControllerBase implements Initi
         );
         storeData(data);
 
-        thisId = null;
-        thisUsername.clear();
-        thisPassword.clear();
-        thisName.clear();
-        thisAge.clear();
-        thisDepartment.clear();
-        thisPosition.clear();
-
+        clearForm();
         loadTeachers();
     }
 
@@ -166,5 +169,16 @@ public class TeacherManagementController extends ControllerBase implements Initi
         storeData(data);
 
         loadTeachers();
+    }
+
+    public void delete() {
+        if (thisId != null) {
+            var data = loadData();
+            data.getTeachers().remove(thisId);
+            storeData(data);
+
+            clearForm();
+            loadTeachers();
+        }
     }
 }
