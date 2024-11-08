@@ -67,7 +67,7 @@
    <bottom>
       <HBox prefHeight="70.0" prefWidth="1000.0" BorderPane.alignment="CENTER_RIGHT">
          <Button mnemonicParsing="false" text="Delete"/>
-         <Button mnemonicParsing="false" text="Refresh"/>
+         <Button mnemonicParsing="false" text="Refresh" onAction="#refresh"/>
       </HBox>
    </bottom>
 </BorderPane>

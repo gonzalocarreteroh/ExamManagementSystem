@@ -95,14 +95,20 @@ public class StudentManagementController extends ControllerBase implements Initi
 
     @FXML
     public void refresh() {
+        loadStudents();
     }
 
     @FXML
     public void reset() {
+        filterUsername.clear();
+        filterName.clear();
+        filterDepartment.clear();
+        loadStudents();
     }
 
     @FXML
     public void query() {
+        loadStudents();
     }
 
     @FXML
@@ -117,6 +123,15 @@ public class StudentManagementController extends ControllerBase implements Initi
                 thisGender.getValue().toString().equals("Female") ? Gender.Female : Gender.Male
         );
         storeData(data);
+
+        thisUsername.clear();
+        thisPassword.clear();
+        thisName.clear();
+        thisAge.clear();
+        thisDepartment.clear();
+        thisGender.setValue(null);
+
+        loadStudents();
     }
 
     @FXML
