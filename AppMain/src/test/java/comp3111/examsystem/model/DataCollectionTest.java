@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SystemDataTest {
+class DataCollectionTest {
     @Test
     void sdTest() {
         var courses = new CourseDb();
@@ -15,7 +15,7 @@ class SystemDataTest {
         var students = new StudentDb();
         var teachers = new TeacherDb();
 
-        var sd = new SystemData(courses, exams, grades, managers, questions, students, teachers);
+        var sd = new DataCollection(courses, exams, grades, managers, questions, students, teachers);
         assertEquals(courses, sd.getCourses());
         assertEquals(exams, sd.getExams());
         assertEquals(grades, sd.getGrades());

@@ -1,6 +1,6 @@
 package comp3111.examsystem.model;
 
-public class SystemData {
+public class DataCollection {
     private final CourseDb courses;
     private final ExamDb exams;
     private final GradeDb grades;
@@ -9,7 +9,7 @@ public class SystemData {
     private final StudentDb students;
     private final TeacherDb teachers;
 
-    public SystemData(CourseDb courses, ExamDb exams, GradeDb grades, ManagerDb managers, QuestionDb questions, StudentDb students, TeacherDb teachers) {
+    public DataCollection(CourseDb courses, ExamDb exams, GradeDb grades, ManagerDb managers, QuestionDb questions, StudentDb students, TeacherDb teachers) {
         this.courses = courses;
         this.exams = exams;
         this.grades = grades;
