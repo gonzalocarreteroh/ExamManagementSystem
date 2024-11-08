@@ -21,8 +21,7 @@ public class ExamDbTest {
 
     @Test
     void creationTest() {
-        ExamDb db = new ExamDb();
-        db.add("Midterm", 60, courseId, true, new int[]{qId1});
+        ExamDb db = new ExamDb(new Exam[]{new Exam(1, "Midterm", 60, courseId, true, new int[]{qId1})});
         db.add("Final", 90, courseId, false, new int[]{qId1, qId2});
 
         assertEquals(2, db.all().length);

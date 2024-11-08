@@ -7,8 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class TeacherDbTest {
     @Test
     void creationTest() {
-        TeacherDb db = new TeacherDb();
-        db.add("carl.smith", "123456", "Carl", 20, "CS", "Professor");
+        TeacherDb db = new TeacherDb(new Teacher[]{new Teacher(7, "carl.smith", "123456", "Carl", 20, "CS", "Professor")});
         db.add("rosie.smith", "123456",  "Rosie", 20, "CS", "Professor");
 
         int first = db.all()[0].getId();

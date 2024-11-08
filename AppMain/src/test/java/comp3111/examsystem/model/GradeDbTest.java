@@ -4,32 +4,20 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class CourseDbTest {
+public class GradeDbTest {
     @Test
     void creationTest() {
-        CourseDb db = new CourseDb();
-        db.add("COMP3111", "SwEng", "CS");
-        db.add("COMP3111", "SwEng", "CS");
-        db.add("COMP3111", "SwEng", "CS");
-        db.add("COMP3111", "SwEng", "CS");
-        db.add("COMP3111", "SwEng", "CS");
+        GradeDb db = new GradeDb();
+        assertEquals(0, db.all().length);
 
-        for (Course c : db.all()) {
-            assertEquals("COMP3111", c.getCode());
-            assertEquals("SwEng", c.getName());
-            assertEquals("CS", c.getDepartment());
-        }
-    }
+        db = new GradeDb(new Grade[]{new Grade(2, 3, 95)});
+        db.add(1, 2, 10);
+        db.add(1, 3, 20);
+        assertEquals(3, db.all().length);
 
-    @Test
-    void initFromMapTest() {
-        CourseDb cb = new CourseDb(new Course[]{new Course(4, "COMP3111", "SwEng", "CS")});
-
-        Course c = cb.all()[0];
-        assertEquals(4, c.getId());
-        assertEquals("COMP3111", c.getCode());
-        assertEquals("SwEng", c.getName());
-        assertEquals("CS", c.getDepartment());
+        assertEquals(95, db.get(2, 3).getPoints());
+        assertEquals(10, db.get(1, 2).getPoints());
+        assertEquals(20, db.get(1, 3).getPoints());
     }
 
     @Test

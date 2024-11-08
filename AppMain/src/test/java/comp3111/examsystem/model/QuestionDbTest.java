@@ -2,8 +2,6 @@ package comp3111.examsystem.model;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class QuestionDbTest {
@@ -31,9 +29,7 @@ public class QuestionDbTest {
 
     @Test
     void initFromMapTest() {
-        HashMap<Integer, Question> hash = new HashMap<>();
-        hash.put(4, new Question(4, "1+1=", "1", "2", "11", "10", "B", 4));
-        QuestionDb qb = new QuestionDb(hash);
+        QuestionDb qb = new QuestionDb(new Question[]{new Question(4, "1+1=", "1", "2", "11", "10", "B", 4)});
 
         Question q = qb.all()[0];
         assertEquals(4, q.getId());

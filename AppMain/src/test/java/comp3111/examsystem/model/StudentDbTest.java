@@ -7,8 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class StudentDbTest {
     @Test
     void creationTest() {
-        StudentDb db = new StudentDb();
-        db.add("john.smith", "123456", "John", 20, "CS", Gender.Male);
+        StudentDb db = new StudentDb(new Student[]{new Student(1, "john.smith", "123456", "John", 20, "CS", Gender.Male)});
         db.add("jane.smith", "123456", "Jane", 20, "CS", Gender.Female);
         db.add("anne.smith", "123456", "Anna", 20, "CS", Gender.Female);
         db.add("carl.smith", "123456", "Carl", 20, "CS", Gender.Male);

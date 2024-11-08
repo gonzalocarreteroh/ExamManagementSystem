@@ -6,13 +6,17 @@ public class QuestionDb {
     private int lastId;
     private final HashMap<Integer, Question> questions;
 
-    public QuestionDb(HashMap<Integer, Question> questions) {
-        lastId = questions.keySet().stream().max(Comparator.naturalOrder()).orElse(0);
-        this.questions = questions;
+    public QuestionDb(Question[] questions) {
+        lastId = Arrays.stream(questions).map(Question::getId).max(Comparator.naturalOrder()).orElse(0);
+
+        this.questions = new HashMap<>();
+        for (Question c : questions) {
+            this.questions.put(c.getId(), c);
+        }
     }
 
     public QuestionDb() {
-        this(new HashMap<>());
+        this(new Question[0]);
     }
 
     public void add(String title, String a, String b, String c, String d, String answer, int points) {

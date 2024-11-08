@@ -1,5 +1,6 @@
 package comp3111.examsystem.model;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 
@@ -7,13 +8,17 @@ public class StudentDb {
     private int lastId;
     private final HashMap<Integer, Student> students;
 
-    public StudentDb(HashMap<Integer, Student> students) {
-        lastId = students.keySet().stream().max(Comparator.naturalOrder()).orElse(0);
-        this.students = students;
+    public StudentDb(Student[] students) {
+        lastId = Arrays.stream(students).map(Student::getId).max(Comparator.naturalOrder()).orElse(0);
+
+        this.students = new HashMap<>();
+        for (Student c : students) {
+            this.students.put(c.getId(), c);
+        }
     }
 
     public StudentDb() {
-        this(new HashMap<>());
+        this(new Student[0]);
     }
 
     public void add(String username, String password, String name, int age, String department, Gender gender) {
