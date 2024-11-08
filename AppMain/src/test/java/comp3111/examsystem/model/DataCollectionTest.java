@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DataCollectionTest {
     @Test
-    void sdTest() {
+    void collectionTest() {
         var courses = new CourseDb();
         var exams = new ExamDb();
         var grades = new GradeDb();
