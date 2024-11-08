@@ -144,7 +144,7 @@ public class CourseManagementController extends ControllerBase implements Initia
     public void delete() {
         if (thisId != null) {
             var data = loadData();
-            data.getTeachers().remove(thisId);
+            data.getCourses().remove(thisId);
             storeData(data);
 
             clearForm();

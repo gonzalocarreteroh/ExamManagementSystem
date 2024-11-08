@@ -53,7 +53,18 @@ public class MainController extends ControllerBase implements Initializable {
     }
 
     @FXML
-    public void openCourseManageUI() {
+    public void openCourseManageUI(ActionEvent e) {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("manager/CourseManagement.fxml"));
+
+        Stage stage = new Stage();
+        stage.setTitle("HKUST Course Management");
+        try {
+            stage.setScene(new Scene(fxmlLoader.load()));
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+        stage.show();
+        ((Stage) ((Button) e.getSource()).getScene().getWindow()).close();
     }
 
     @FXML
