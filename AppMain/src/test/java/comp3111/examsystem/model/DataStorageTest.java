@@ -5,8 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.nio.file.Files;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class DataStorageTest {
     @Test
@@ -49,12 +48,6 @@ class DataStorageTest {
         }
         assertTrue(failStore);
 
-        boolean failLoad = false;
-        try {
-            storage.load();
-        } catch (RuntimeException e) {
-            failLoad = true;
-        }
-        assertTrue(failLoad);
+        assertNull(storage.load());
     }
 }

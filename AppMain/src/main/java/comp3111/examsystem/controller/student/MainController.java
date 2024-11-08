@@ -1,19 +1,14 @@
-package comp3111.examsystem.controller;
+package comp3111.examsystem.controller.student;
 
-import comp3111.examsystem.Main;
-import javafx.event.Event;
+import comp3111.examsystem.controller.ControllerBase;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
-import javafx.stage.Stage;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
-public class StudentMainController implements Initializable {
+public class MainController extends ControllerBase implements Initializable {
     @FXML
     ComboBox<String> examCombox;
 

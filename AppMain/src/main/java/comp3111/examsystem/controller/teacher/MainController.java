@@ -1,6 +1,7 @@
-package comp3111.examsystem.controller;
+package comp3111.examsystem.controller.teacher;
 
 import comp3111.examsystem.Main;
+import comp3111.examsystem.controller.ControllerBase;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -11,7 +12,7 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class TeacherMainController implements Initializable {
+public class MainController extends ControllerBase implements Initializable {
     @FXML
     private VBox mainbox;
 
@@ -29,7 +30,7 @@ public class TeacherMainController implements Initializable {
     @FXML
     public void openGradeStatistic() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("TeacherGradeStatistic.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("teacher/GradeStatistic.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Grade Statistics");
             stage.setScene(new Scene(fxmlLoader.load()));

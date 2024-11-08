@@ -1,6 +1,7 @@
-package comp3111.examsystem.controller;
+package comp3111.examsystem.controller.student;
 
 import comp3111.examsystem.Main;
+import comp3111.examsystem.controller.ControllerBase;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,10 +14,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
-public class ManagerLoginController implements Initializable {
+public class LoginController extends ControllerBase implements Initializable {
     @FXML
     private TextField usernameTxt;
     @FXML
@@ -28,7 +28,7 @@ public class ManagerLoginController implements Initializable {
 
     @FXML
     public void login(ActionEvent e) {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("ManagerMainUI.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("student/MainUI.fxml"));
         Stage stage = new Stage();
         stage.setTitle("Hi " + usernameTxt.getText() +", Welcome to HKUST Examination System");
         try {
@@ -40,4 +40,7 @@ public class ManagerLoginController implements Initializable {
         ((Stage) ((Button) e.getSource()).getScene().getWindow()).close();
     }
 
+    @FXML
+    public void register() {
+    }
 }

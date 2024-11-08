@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="mainbox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600" prefWidth="1023.0" style="-fx-background-repeat: stretch;-fx-background-position: center center;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comp3111.examsystem.controller.TeacherMainController">
+<VBox fx:id="mainbox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600" prefWidth="1023.0" style="-fx-background-repeat: stretch;-fx-background-position: center center;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comp3111.examsystem.controller.teacher.MainController">
     <children>
         <MenuBar>
             <menus>

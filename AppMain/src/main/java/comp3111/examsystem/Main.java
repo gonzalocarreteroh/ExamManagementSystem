@@ -5,14 +5,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.util.Arrays;
-import java.util.HashMap;
-
 
 public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("LoginUI.fxml"));
+			FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("StartPage.fxml"));
 			Scene scene = new Scene(fxmlLoader.load(), 640, 480);
 			primaryStage.setScene(scene);
 			primaryStage.show();
