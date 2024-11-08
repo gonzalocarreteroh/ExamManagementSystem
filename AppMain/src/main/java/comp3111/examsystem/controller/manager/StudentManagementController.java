@@ -1,6 +1,7 @@
 package comp3111.examsystem.controller.manager;
 
 import comp3111.examsystem.controller.ControllerBase;
+import comp3111.examsystem.model.DataCollection;
 import comp3111.examsystem.model.Gender;
 import comp3111.examsystem.model.Student;
 import javafx.collections.FXCollections;
@@ -8,6 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -20,8 +22,33 @@ public class StudentManagementController extends ControllerBase implements Initi
     public TextField filterUsername;
     public TextField filterName;
     public TextField filterDepartment;
+    public TextField thisUsername;
+    public TextField thisName;
+    public TextField thisAge;
+    public ChoiceBox thisGender;
+    public TextField thisDepartment;
+    public TextField thisPassword;
 
-    public record Row(int id, String username, String name, String age, String gender, String department, String password) {
+    public class Row {
+        public int id;
+        public String username, name, age, gender, department, password;
+
+        public Row(int id, String username, String name, String age, String gender, String department, String password) {
+            this.id = id;
+            this.username = username;
+            this.name = name;
+            this.age = age;
+            this.gender = gender;
+            this.department = department;
+            this.password = password;
+        }
+
+        public String getUsername() { return username; }
+        public String getName() { return name; }
+        public String getAge() { return age; }
+        public String getGender() { return gender; }
+        public String getDepartment() { return department; }
+        public String getPassword() { return password; }
     }
 
     public TableColumn<Row, String> columnUsername;
@@ -80,6 +107,16 @@ public class StudentManagementController extends ControllerBase implements Initi
 
     @FXML
     public void add(ActionEvent actionEvent) {
+        DataCollection data = loadData();
+        data.getStudents().add(
+                thisUsername.getText(),
+                thisPassword.getText(),
+                thisName.getText(),
+                Integer.parseInt(thisAge.getText()),
+                thisDepartment.getText(),
+                thisGender.getValue().toString().equals("Female") ? Gender.Female : Gender.Male
+        );
+        storeData(data);
     }
 
     @FXML

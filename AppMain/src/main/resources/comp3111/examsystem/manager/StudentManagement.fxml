@@ -15,47 +15,41 @@
 <BorderPane prefHeight="756.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comp3111.examsystem.controller.manager.StudentManagementController">
    <top>
       <HBox alignment="CENTER" prefHeight="80.0" prefWidth="600.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label text="Username" />
-            <TextField fx:id="filterUsername" />
-            <Label text="Name" />
-            <TextField fx:id="filterName" />
-            <Label text="Department" />
-            <TextField fx:id="filterDepartment" />
-            <Button mnemonicParsing="false" onAction="#reset" text="Reset" />
-            <Button mnemonicParsing="false" onAction="#query" text="Filter" />
-         </children>
+         <Label text="Username"/>
+         <TextField fx:id="filterUsername"/>
+         <Label text="Name"/>
+         <TextField fx:id="filterName"/>
+         <Label text="Department"/>
+         <TextField fx:id="filterDepartment"/>
+         <Button mnemonicParsing="false" onAction="#reset" text="Reset"/>
+         <Button mnemonicParsing="false" onAction="#query" text="Filter"/>
       </HBox>
    </top>
    <right>
       <VBox prefHeight="400.0" prefWidth="180.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label text="Username" />
-            <TextField fx:id="thisUsername" />
-            <Label text="Name" />
-            <TextField fx:id="thisName" />
-            <Label text="Age" />
-            <TextField fx:id="thisAge" prefWidth="170.0" />
-            <Label text="Gender" />
-            <ChoiceBox fx:id="thisGender">
-               <items>
-                  <FXCollections fx:factory="observableArrayList">
-                     <String fx:value="Female" />
-                     <String fx:value="Male" />
-                  </FXCollections>
-               </items>
-            </ChoiceBox>
-            <Label text="Department" />
-            <TextField fx:id="thisDepartment" />
-            <Label text="Password" />
-            <TextField fx:id="thisPassword" />
-            <HBox prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Button onAction="#add" mnemonicParsing="false" text="Add" />
-                  <Button onAction="#update" mnemonicParsing="false" text="Update" />
-               </children>
-            </HBox>
-         </children>
+         <Label text="Username"/>
+         <TextField fx:id="thisUsername"/>
+         <Label text="Name"/>
+         <TextField fx:id="thisName"/>
+         <Label text="Age"/>
+         <TextField fx:id="thisAge"/>
+         <Label text="Gender"/>
+         <ChoiceBox fx:id="thisGender">
+            <items>
+               <FXCollections fx:factory="observableArrayList">
+                  <String fx:value="Female"/>
+                  <String fx:value="Male"/>
+               </FXCollections>
+            </items>
+         </ChoiceBox>
+         <Label text="Department"/>
+         <TextField fx:id="thisDepartment"/>
+         <Label text="Password"/>
+         <TextField fx:id="thisPassword"/>
+         <HBox prefHeight="100.0" prefWidth="200.0">
+            <Button onAction="#add" mnemonicParsing="false" text="Add"/>
+            <Button onAction="#update" mnemonicParsing="false" text="Update"/>
+         </HBox>
       </VBox>
    </right>
    <center>
@@ -72,10 +66,8 @@
    </center>
    <bottom>
       <HBox prefHeight="70.0" prefWidth="1000.0" BorderPane.alignment="CENTER_RIGHT">
-         <children>
-            <Button mnemonicParsing="false" text="Delete" />
-            <Button mnemonicParsing="false" text="Refresh" />
-         </children>
+         <Button mnemonicParsing="false" text="Delete"/>
+         <Button mnemonicParsing="false" text="Refresh"/>
       </HBox>
    </bottom>
 </BorderPane>
