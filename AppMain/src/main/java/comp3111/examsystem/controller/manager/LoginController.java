@@ -23,16 +23,13 @@ public class LoginController extends ControllerBase implements Initializable {
     private PasswordField passwordTxt;
 
     public void initialize(URL location, ResourceBundle resources) {
-
     }
 
     @FXML
     public void login(ActionEvent e) {
-        String username = usernameTxt.getText();
-        String password = passwordTxt.getText();
-
-        if (dataStorage.load().getManagers().login(username, password)) {
+        if (loadData().getManagers().login(usernameTxt.getText(), passwordTxt.getText())) {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("manager/MainUI.fxml"));
+
             Stage stage = new Stage();
             stage.setTitle("Hi " + usernameTxt.getText() + ", Welcome to HKUST Examination System");
             try {
@@ -48,5 +45,4 @@ public class LoginController extends ControllerBase implements Initializable {
             passwordTxt.clear();
         }
     }
-
 }
