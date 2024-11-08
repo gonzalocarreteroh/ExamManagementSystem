@@ -80,7 +80,7 @@ public class TeacherManagementController extends ControllerBase implements Initi
         columnUsername.setCellValueFactory(new PropertyValueFactory<>("username"));
         columnName.setCellValueFactory(new PropertyValueFactory<>("name"));
         columnAge.setCellValueFactory(new PropertyValueFactory<>("age"));
-        columnPosition.setCellValueFactory(new PropertyValueFactory<>("gender"));
+        columnPosition.setCellValueFactory(new PropertyValueFactory<>("position"));
         columnDepartment.setCellValueFactory(new PropertyValueFactory<>("department"));
         columnPassword.setCellValueFactory(new PropertyValueFactory<>("password"));
 
