@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class StartPageController {
+public class StartPageController extends ControllerBase {
     @FXML
     public void studentLogin() {
         try {

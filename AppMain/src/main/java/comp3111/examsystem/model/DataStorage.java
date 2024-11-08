@@ -19,7 +19,7 @@ public class DataStorage {
             String string = new String(Files.readAllBytes(Paths.get(path)), StandardCharsets.UTF_8);
             return dataSerializer.deserialize(string);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            return null;
         }
     }
 

@@ -1,6 +1,7 @@
 package comp3111.examsystem.controller.manager;
 
 import comp3111.examsystem.Main;
+import comp3111.examsystem.controller.ControllerBase;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +16,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class LoginController implements Initializable {
+public class LoginController extends ControllerBase implements Initializable {
     @FXML
     private TextField usernameTxt;
     @FXML

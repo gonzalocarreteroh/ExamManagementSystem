@@ -1,0 +1,22 @@
+{
+    "courses": [],
+    "exams": [],
+    "grades": [],
+    "managers": [
+        {
+            "username": "richard",
+            "password": "admin"
+        },
+        {
+            "username": "gonzalo",
+            "password": "123456"
+        },
+        {
+            "username": "rishab",
+            "password": "letmein"
+        }
+    ],
+    "questions": [],
+    "students": [],
+    "teachers": []
+}

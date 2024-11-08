@@ -1,6 +1,7 @@
 package comp3111.examsystem.controller.teacher;
 
 import comp3111.examsystem.Main;
+import comp3111.examsystem.controller.ControllerBase;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -11,7 +12,7 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class MainController implements Initializable {
+public class MainController extends ControllerBase implements Initializable {
     @FXML
     private VBox mainbox;
 

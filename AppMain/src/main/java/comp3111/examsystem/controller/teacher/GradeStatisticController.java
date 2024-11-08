@@ -1,5 +1,6 @@
 package comp3111.examsystem.controller.teacher;
 
+import comp3111.examsystem.controller.ControllerBase;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -13,7 +14,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class GradeStatisticController implements Initializable {
+public class GradeStatisticController extends ControllerBase implements Initializable {
     public static class GradeExampleClass {
         public String getStudentName() {
             return "student";
