@@ -5,7 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" style="-fx-background-repeat: stretch;-fx-background-position: center center;" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600" prefWidth="600" spacing="20.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comp3111.examsystem.controller.ManagerLoginController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" style="-fx-background-repeat: stretch;-fx-background-position: center center;" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600" prefWidth="600" spacing="20.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comp3111.examsystem.controller.teacher.LoginController">
     <children>
         <Label fx:id="titleLbl" text="Examination Management System">
             <VBox.margin>
@@ -35,6 +35,7 @@
         </GridPane>
         <HBox alignment="CENTER" prefHeight="47.0" prefWidth="600.0" spacing="20.0">
             <children>
+                <Button mnemonicParsing="false" onAction="#register" text="Register" />
                 <Button mnemonicParsing="false" onAction="#login" text="Login" />
             </children>
         </HBox>
