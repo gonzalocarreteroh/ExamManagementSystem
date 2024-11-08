@@ -1,5 +1,18 @@
 {
-    "courses": [],
+    "courses": [
+        {
+            "id": 1,
+            "code": "COMP3111",
+            "name": "Software Engineering",
+            "department": "Comp Sci"
+        },
+        {
+            "id": 3,
+            "code": "ECON1234",
+            "name": "Accounting",
+            "department": "Business"
+        }
+    ],
     "exams": [],
     "grades": [],
     "managers": [
@@ -17,6 +30,44 @@
         }
     ],
     "questions": [],
-    "students": [],
-    "teachers": []
+    "students": [
+        {
+            "id": 3,
+            "username": "sally",
+            "password": "123456",
+            "name": "Sally B",
+            "age": 35,
+            "department": "Econ",
+            "gender": "female"
+        },
+        {
+            "id": 4,
+            "username": "jan.os",
+            "password": "456789",
+            "name": "Jane O'Sullivan",
+            "age": 22,
+            "department": "CompSci",
+            "gender": "female"
+        },
+        {
+            "id": 5,
+            "username": "harry",
+            "password": "avadakedavra",
+            "name": "Harry Potter",
+            "age": 16,
+            "department": "Magic",
+            "gender": "male"
+        }
+    ],
+    "teachers": [
+        {
+            "id": 1,
+            "username": "manuel",
+            "password": "squirrel",
+            "name": "Manuel",
+            "age": 41,
+            "department": "Biology",
+            "position": "Professor"
+        }
+    ]
 }
