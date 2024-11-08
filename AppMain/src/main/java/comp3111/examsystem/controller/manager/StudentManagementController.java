@@ -6,7 +6,6 @@ import comp3111.examsystem.model.Gender;
 import comp3111.examsystem.model.Student;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
@@ -22,14 +21,16 @@ public class StudentManagementController extends ControllerBase implements Initi
     public TextField filterUsername;
     public TextField filterName;
     public TextField filterDepartment;
+
+    public Integer thisId = null;
     public TextField thisUsername;
     public TextField thisName;
     public TextField thisAge;
-    public ChoiceBox thisGender;
+    public ChoiceBox<String> thisGender;
     public TextField thisDepartment;
     public TextField thisPassword;
 
-    public class Row {
+    public static class Row {
         public int id;
         public String username, name, age, gender, department, password;
 
@@ -64,8 +65,19 @@ public class StudentManagementController extends ControllerBase implements Initi
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        loadStudents();
         studentTable.setItems(studentList);
+
+        studentTable.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue != null) {
+                thisId = newValue.id;
+                thisUsername.setText(newValue.getUsername());
+                thisName.setText(newValue.getName());
+                thisAge.setText(newValue.getAge());
+                thisGender.setValue(newValue.getGender());
+                thisDepartment.setText(newValue.getDepartment());
+                thisPassword.setText(newValue.getPassword());
+            }
+        });
 
         columnUsername.setCellValueFactory(new PropertyValueFactory<>("username"));
         columnName.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -112,7 +124,7 @@ public class StudentManagementController extends ControllerBase implements Initi
     }
 
     @FXML
-    public void add(ActionEvent actionEvent) {
+    public void add() {
         DataCollection data = loadData();
         data.getStudents().add(
                 thisUsername.getText(),
@@ -120,10 +132,11 @@ public class StudentManagementController extends ControllerBase implements Initi
                 thisName.getText(),
                 Integer.parseInt(thisAge.getText()),
                 thisDepartment.getText(),
-                thisGender.getValue().toString().equals("Female") ? Gender.Female : Gender.Male
+                thisGender.getValue().equals("Female") ? Gender.Female : Gender.Male
         );
         storeData(data);
 
+        thisId = null;
         thisUsername.clear();
         thisPassword.clear();
         thisName.clear();
@@ -135,6 +148,25 @@ public class StudentManagementController extends ControllerBase implements Initi
     }
 
     @FXML
-    public void update(ActionEvent actionEvent) {
+    public void update() {
+        if (thisId == null) {
+            return;
+        }
+
+        DataCollection data = loadData();
+        data.getStudents().update(
+                new Student(
+                        thisId,
+                        thisUsername.getText(),
+                        thisPassword.getText(),
+                        thisName.getText(),
+                        Integer.parseInt(thisAge.getText()),
+                        thisDepartment.getText(),
+                        thisGender.getValue().equals("Female") ? Gender.Female : Gender.Male
+                )
+        );
+        storeData(data);
+
+        loadStudents();
     }
 }
