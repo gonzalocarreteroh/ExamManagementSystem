@@ -42,9 +42,9 @@ public class TeacherDb {
 
     public Teacher[] all(String username, String name, String department) {
         return teachers.values().stream().filter(s -> {
-            boolean usernameMatch = username == "" || s.getUsername().equals(username);
-            boolean nameMatch = name == "" || s.getName().equals(name);
-            boolean departmentMatch = department == "" || s.getDepartment().equals(department);
+            boolean usernameMatch = username.equals("") || s.getUsername().equals(username);
+            boolean nameMatch = name.equals("") || s.getName().equals(name);
+            boolean departmentMatch = department.equals("") || s.getDepartment().equals(department);
             return usernameMatch && nameMatch && departmentMatch;
         }).toList().toArray(new Teacher[0]);
     }
