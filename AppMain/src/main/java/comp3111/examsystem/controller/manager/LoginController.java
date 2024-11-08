@@ -28,16 +28,25 @@ public class LoginController extends ControllerBase implements Initializable {
 
     @FXML
     public void login(ActionEvent e) {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("manager/MainUI.fxml"));
-        Stage stage = new Stage();
-        stage.setTitle("Hi " + usernameTxt.getText() +", Welcome to HKUST Examination System");
-        try {
-            stage.setScene(new Scene(fxmlLoader.load()));
-        } catch (IOException e1) {
-            e1.printStackTrace();
+        String username = usernameTxt.getText();
+        String password = passwordTxt.getText();
+
+        if (dataStorage.load().getManagers().login(username, password)) {
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("manager/MainUI.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Hi " + usernameTxt.getText() + ", Welcome to HKUST Examination System");
+            try {
+                stage.setScene(new Scene(fxmlLoader.load()));
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+            stage.show();
+            ((Stage) ((Button) e.getSource()).getScene().getWindow()).close();
+
+        } else {
+            usernameTxt.clear();
+            passwordTxt.clear();
         }
-        stage.show();
-        ((Stage) ((Button) e.getSource()).getScene().getWindow()).close();
     }
 
 }
