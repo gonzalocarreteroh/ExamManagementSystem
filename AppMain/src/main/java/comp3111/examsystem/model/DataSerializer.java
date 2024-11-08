@@ -106,6 +106,7 @@ public class DataSerializer {
 
     private JsonNode serialize(Student student) {
         var n = mapper.createObjectNode();
+        n.put("id", student.getId());
         n.put("username", student.getUsername());
         n.put("password", student.getPassword());
         n.put("name", student.getName());
@@ -125,6 +126,7 @@ public class DataSerializer {
 
     private JsonNode serialize(Teacher teacher) {
         var n = mapper.createObjectNode();
+        n.put("id", teacher.getId());
         n.put("username", teacher.getUsername());
         n.put("password", teacher.getPassword());
         n.put("name", teacher.getName());
@@ -153,5 +155,144 @@ public class DataSerializer {
         n.put("teachers", serialize(data.getTeachers()));
 
         return mapper.writeValueAsString(n);
+    }
+
+    private Course deserializeCourse(JsonNode n) {
+        return new Course(
+                n.get("id").asInt(),
+                n.get("code").asText(),
+                n.get("name").asText(),
+                n.get("department").asText()
+        );
+    }
+
+    private CourseDb deserializeCourseDb(JsonNode n) {
+        var courses = new Course[n.size()];
+        for (int i = 0; i < courses.length; ++i) {
+            courses[i] = deserializeCourse(n.get(i));
+        }
+        return new CourseDb(courses);
+    }
+
+    private Exam deserializeExam(JsonNode n) {
+        var qn = n.get("questionIds");
+        int[] questionIds = new int[qn.size()];
+        for (int i = 0; i < questionIds.length; ++i) {
+            questionIds[i] = qn.get(i).asInt();
+        }
+
+        return new Exam(
+                n.get("id").asInt(),
+                n.get("name").asText(),
+                n.get("duration").asInt(),
+                n.get("courseId").asInt(),
+                n.get("published").asBoolean(),
+                questionIds
+        );
+    }
+
+    private ExamDb deserializeExamDb(JsonNode n) {
+        var exams = new Exam[n.size()];
+        for (int i = 0; i < exams.length; ++i) {
+            exams[i] = deserializeExam(n.get(i));
+        }
+        return new ExamDb(exams);
+    }
+
+    private Grade deserializeGrade(JsonNode n) {
+        return new Grade(n.get("studentId").asInt(), n.get("examId").asInt(), n.get("points").asInt());
+    }
+
+    private GradeDb deserializeGradeDb(JsonNode n) {
+        var grades = new Grade[n.size()];
+        for (int i = 0; i < grades.length; ++i) {
+            grades[i] = deserializeGrade(n.get(i));
+        }
+        return new GradeDb(grades);
+    }
+
+    private Manager deserializeManager(JsonNode n) {
+        return new Manager(n.get("username").asText(), n.get("password").asText());
+    }
+
+    private ManagerDb deserializeManagerDb(JsonNode n) {
+        var managers = new Manager[n.size()];
+        for (int i = 0; i < managers.length; ++i) {
+            managers[i] = deserializeManager(n.get(i));
+        }
+        return new ManagerDb(managers);
+    }
+
+    private Question deserializeQuestion(JsonNode n) {
+        return new Question(
+                n.get("id").asInt(),
+                n.get("title").asText(),
+                n.get("a").asText(),
+                n.get("b").asText(),
+                n.get("c").asText(),
+                n.get("d").asText(),
+                n.get("answer").asText(),
+                n.get("points").asInt()
+        );
+    }
+
+    private QuestionDb deserializeQuestionDb(JsonNode n) {
+        var question = new Question[n.size()];
+        for (int i = 0; i < question.length; ++i) {
+            question[i] = deserializeQuestion(n.get(i));
+        }
+        return new QuestionDb(question);
+    }
+
+    private Student deserializeStudent(JsonNode n) {
+        return new Student(
+                n.get("id").asInt(),
+                n.get("username").asText(),
+                n.get("password").asText(),
+                n.get("name").asText(),
+                n.get("age").asInt(),
+                n.get("department").asText(),
+                n.get("gender").asText().equals("male") ? Gender.Male : Gender.Female
+        );
+    }
+
+    private StudentDb deserializeStudentDb(JsonNode n) {
+        var students = new Student[n.size()];
+        for (int i = 0; i < students.length; ++i) {
+            students[i] = deserializeStudent(n.get(i));
+        }
+        return new StudentDb(students);
+    }
+
+    private Teacher deserializeTeacher(JsonNode n) {
+        return new Teacher(
+                n.get("id").asInt(),
+                n.get("username").asText(),
+                n.get("password").asText(),
+                n.get("name").asText(),
+                n.get("age").asInt(),
+                n.get("department").asText(),
+                n.get("position").asText()
+        );
+    }
+
+    private TeacherDb deserializeTeacherDb(JsonNode n) {
+        var teachers = new Teacher[n.size()];
+        for (int i = 0; i < teachers.length; ++i) {
+            teachers[i] = deserializeTeacher(n.get(i));
+        }
+        return new TeacherDb(teachers);
+    }
+
+    public DataCollection deserialize(String json) throws JsonProcessingException {
+        var tree = mapper.readTree(json);
+        var courseDb = deserializeCourseDb(tree.get("courses"));
+        var examDb = deserializeExamDb(tree.get("exams"));
+        var gradeDb = deserializeGradeDb(tree.get("grades"));
+        var managerDb = deserializeManagerDb(tree.get("managers"));
+        var questionDb = deserializeQuestionDb(tree.get("questions"));
+        var studentDb = deserializeStudentDb(tree.get("students"));
+        var teacherDb = deserializeTeacherDb(tree.get("teachers"));
+        return new DataCollection(courseDb, examDb, gradeDb, managerDb, questionDb, studentDb, teacherDb);
     }
 }
