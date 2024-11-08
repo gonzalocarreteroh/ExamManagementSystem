@@ -41,7 +41,12 @@ public class Exam {
         return published;
     }
 
+    public int[] getQuestionIds() {
+        return questionIds.clone();
+    }
+
     public Question[] getQuestions(QuestionDb db) {
+        var questionIds = getQuestionIds();
         Question[] questions = new Question[questionIds.length];
         for (int i = 0; i < questions.length; ++i) {
             questions[i] = db.get(questionIds[i]);
