@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="756.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comp3111.examsystem.controller.manager.CourseManagementController">
+   <top>
+      <HBox alignment="CENTER" prefHeight="80.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <Label text="Course ID"/>
+         <TextField fx:id="filterCode"/>
+         <Label text="Name"/>
+         <TextField fx:id="filterName"/>
+         <Label text="Department"/>
+         <TextField fx:id="filterDepartment"/>
+         <Button mnemonicParsing="false" onAction="#reset" text="Reset"/>
+         <Button mnemonicParsing="false" onAction="#query" text="Filter"/>
+      </HBox>
+   </top>
+   <right>
+      <VBox prefHeight="400.0" prefWidth="180.0" BorderPane.alignment="CENTER">
+         <Label text="Course ID"/>
+         <TextField fx:id="thisCode"/>
+         <Label text="Name"/>
+         <TextField fx:id="thisName"/>
+         <Label text="Department"/>
+         <TextField fx:id="thisDepartment"/>
+         <HBox prefHeight="100.0" prefWidth="200.0">
+            <Button onAction="#add" mnemonicParsing="false" text="Add"/>
+            <Button onAction="#update" mnemonicParsing="false" text="Update"/>
+         </HBox>
+      </VBox>
+   </right>
+   <center>
+      <TableView fx:id="courseTable" prefHeight="282.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
+        <columns>
+           <TableColumn fx:id="columnCode" text="Username" />
+           <TableColumn fx:id="columnName" text="Name" />
+           <TableColumn fx:id="columnDepartment" text="Department" />
+        </columns>
+      </TableView>
+   </center>
+   <bottom>
+      <HBox prefHeight="70.0" prefWidth="1000.0" BorderPane.alignment="CENTER_RIGHT">
+         <Button mnemonicParsing="false" text="Delete" onAction="#delete"/>
+         <Button mnemonicParsing="false" text="Refresh" onAction="#refresh"/>
+      </HBox>
+   </bottom>
+</BorderPane>

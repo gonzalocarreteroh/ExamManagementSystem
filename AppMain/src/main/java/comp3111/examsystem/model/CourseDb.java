@@ -26,9 +26,9 @@ public class CourseDb {
         courses.put(lastId, new Course(lastId, code, name, department));
     }
 
-    public void update(int id, String code, String name, String department) {
-        if (courses.containsKey(id)) {
-            courses.put(id, new Course(id, code, name, department));
+    public void update(Course course) {
+        if (courses.containsKey(course.getId())) {
+            courses.put(course.getId(), new Course(course.getId(), course.getCode(), course.getName(), course.getDepartment()));
         }
     }
 
