@@ -29,7 +29,7 @@ public class QuestionDbTest {
 
     @Test
     void initFromMapTest() {
-        QuestionDb qb = new QuestionDb(new Question[]{new Question(4, "1+1=", "1", "2", "11", "10", "B", 4)});
+        QuestionDb qb = new QuestionDb(new Question[]{new Question(4, "1+1=", "1", "2", "11", "10", "B","single",4)});
 
         Question q = qb.all()[0];
         assertEquals(4, q.getId());
@@ -61,14 +61,14 @@ public class QuestionDbTest {
     @Test
     void updateTest() {
         QuestionDb qb = new QuestionDb();
-        qb.update(new Question(77, "1+0=", "1", "2", "11", "10", "A", 4));
+        qb.update(new Question(77, "1+0=", "1", "2", "11", "10", "A", "single", 4));
 
         qb.add("1+1=", "1", "2", "11", "10", "B", 4);
         qb.add("1+1=", "1", "2", "11", "10", "B", 4);
         qb.add("1+1=", "1", "2", "11", "10", "B", 4);
 
         int first = qb.all()[0].getId();
-        qb.update(new Question(first, "1+0=", "1", "2", "11", "10", "A", 4));
+        qb.update(new Question(first, "1+0=", "1", "2", "11", "10", "A", "single", 4));
         assertEquals("1+0=", qb.get(first).getTitle());
         assertEquals("A", qb.get(first).getAnswer());
     }

@@ -9,6 +9,7 @@ public class Question {
     private final String title;
     private final String a, b, c, d;
     private final String answer;
+    private final Type type;
     private final int points;
 
     /**
@@ -21,9 +22,10 @@ public class Question {
      * @param c       the text of the third answer option
      * @param d       the text of the fourth answer option
      * @param answer  the correct answer option (can be a letter: 'a', 'b', 'c', or 'd')
+     * @param type    the type of the question (single or multiple)
      * @param points  the number of points this question is worth
      */
-    public Question(int id, String title, String a, String b, String c, String d, String answer, int points) {
+    public Question(int id, String title, String a, String b, String c, String d, String answer, Type type, int points) {
         this.id = id;
         this.title = title;
         this.a = a;
@@ -31,6 +33,7 @@ public class Question {
         this.c = c;
         this.d = d;
         this.answer = answer;
+        this.type = type;
         this.points = points;
     }
 
@@ -96,6 +99,13 @@ public class Question {
     public String getAnswer() {
         return answer;
     }
+
+    /**
+     * Returns the type of the question (either "Single" or "Multiple").
+     *
+     * @return the question type
+     */
+    public Type getType() { return type; }
 
     /**
      * Returns the number of points this question is worth.
