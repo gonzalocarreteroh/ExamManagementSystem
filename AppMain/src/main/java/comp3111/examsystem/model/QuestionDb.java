@@ -19,9 +19,9 @@ public class QuestionDb {
         this(new Question[0]);
     }
 
-    public void add(String title, String a, String b, String c, String d, String answer, int points) {
+    public void add(String title, String a, String b, String c, String d, String answer, Type type, int points) {
         lastId += 1;
-        questions.put(lastId, new Question(lastId, title, a, b, c, d, answer, points));
+        questions.put(lastId, new Question(lastId, title, a, b, c, d, answer, type, points));
     }
 
     public void update(Question question) {
@@ -38,16 +38,16 @@ public class QuestionDb {
         questions.remove(id);
     }
 
-    public Question[] all(String title, Boolean multiple, Integer points) {
+    public Question[] all(String title, Type multiple, Integer points) {
         return questions.values().stream().filter(q -> {
-            boolean titleMatch = q.getTitle().startsWith(title);
-            boolean typeMatch = multiple == null || multiple.equals(q.isMultiple());
-            boolean pointsMatch = points == null || points.equals(q.getPoints());
-            return titleMatch && typeMatch && pointsMatch;
+            boolean titleMatch = title.equals("") || q.getTitle().contains(title);
+            boolean multipleMatch = multiple == null || q.getType() == multiple;
+            boolean pointsMatch = points == -1 || q.getPoints() == points;
+            return titleMatch && multipleMatch && pointsMatch;
         }).toList().toArray(new Question[0]);
     }
 
-    public Question[] all(String title, Boolean multiple) {
+    public Question[] all(String title, Type multiple) {
         return all(title, multiple, null);
     }
 

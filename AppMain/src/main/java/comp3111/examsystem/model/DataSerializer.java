@@ -92,6 +92,7 @@ public class DataSerializer {
         n.put("c", question.getC());
         n.put("d", question.getD());
         n.put("answer", question.getAnswer());
+        n.put("type", question.getType() == Type.Single ? "Single" : "Multiple");
         n.put("points", question.getPoints());
         return n;
     }
@@ -232,6 +233,7 @@ public class DataSerializer {
                 n.get("c").asText(),
                 n.get("d").asText(),
                 n.get("answer").asText(),
+                n.get("type").asText().equals("single") ? Type.Single : Type.Multiple,
                 n.get("points").asInt()
         );
     }

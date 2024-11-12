@@ -21,6 +21,15 @@ public class MainController extends ControllerBase implements Initializable {
 
     @FXML
     public void openQuestionManageUI() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("teacher/QuestionManageUI.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Question Bank Management");
+            stage.setScene(new Scene(fxmlLoader.load()));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
