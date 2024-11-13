@@ -59,8 +59,9 @@
             <PasswordField fx:id="passwordConfirmTxtRegister" promptText="Please enter the password again" GridPane.columnIndex="1" GridPane.rowIndex="7"/>
         </GridPane>
         <Region prefHeight="20.0" prefWidth="1000.0" />
-        <HBox alignment="CENTER" prefHeight="80.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+        <HBox alignment="CENTER" prefHeight="80.0" prefWidth="600.0" BorderPane.alignment="CENTER" spacing="20.0">
             <children>
+                <Button mnemonicParsing="false" onAction="#close" text="Close" />
                 <Button mnemonicParsing="false" onAction="#storeRegister" text="Register" />
             </children>
         </HBox>

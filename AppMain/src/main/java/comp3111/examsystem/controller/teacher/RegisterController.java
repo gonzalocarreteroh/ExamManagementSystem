@@ -62,4 +62,9 @@ public class RegisterController extends ControllerBase implements Initializable 
             alert.showAndWait();
         }
     }
+
+    @FXML
+    public void close() {
+        ((Stage) usernameTxtRegister.getScene().getWindow()).close();
+    }
 }
