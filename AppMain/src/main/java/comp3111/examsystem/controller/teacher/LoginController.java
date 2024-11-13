@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -28,16 +29,29 @@ public class LoginController extends ControllerBase implements Initializable {
 
     @FXML
     public void login(ActionEvent e) {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("teacher/MainUI.fxml"));
-        Stage stage = new Stage();
-        stage.setTitle("Hi " + usernameTxt.getText() +", Welcome to HKUST Examination System");
-        try {
-            stage.setScene(new Scene(fxmlLoader.load()));
-        } catch (IOException e1) {
-            e1.printStackTrace();
+        if (loadData().getTeachers().login(usernameTxt.getText(), passwordTxt.getText())) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("Login successful");
+            alert.setContentText("Welcome to the system");
+            alert.showAndWait();
+
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("teacher/MainUI.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Hi " + usernameTxt.getText() + ", Welcome to HKUST Examination System");
+            try {
+                stage.setScene(new Scene(fxmlLoader.load()));
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+            stage.show();
+            ((Stage) ((Button) e.getSource()).getScene().getWindow()).close();
+
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("Login failed");
+            alert.setContentText("Password or username incorrect");
+            alert.showAndWait();
         }
-        stage.show();
-        ((Stage) ((Button) e.getSource()).getScene().getWindow()).close();
     }
 
     @FXML
