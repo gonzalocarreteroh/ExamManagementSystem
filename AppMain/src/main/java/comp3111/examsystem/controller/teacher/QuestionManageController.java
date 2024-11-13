@@ -105,9 +105,13 @@ public class QuestionManageController extends ControllerBase implements Initiali
 
     public void loadQuestions() {
         int s;
+
         try {
             s = Integer.parseInt(filterScore.getText());
         } catch (NumberFormatException e) {
+            s = -1;
+        }
+        if (filterScore.getText().isEmpty()) {
             s = -1;
         }
         Type t = filterType.getValue() == null ? null : filterType.getValue().equals("Single") ? Type.Single : Type.Multiple;

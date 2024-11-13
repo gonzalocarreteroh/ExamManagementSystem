@@ -40,9 +40,9 @@ public class QuestionDb {
 
     public Question[] all(String title, Type multiple, Integer points) {
         return questions.values().stream().filter(q -> {
-            boolean titleMatch = title.equals("") || q.getTitle().contains(title);
+            boolean titleMatch = title.isEmpty() || q.getTitle().contains(title);
             boolean multipleMatch = multiple == null || q.getType() == multiple;
-            boolean pointsMatch = points == -1 || q.getPoints() == points;
+            boolean pointsMatch = points == null || points.equals(-1) || q.getPoints() == points;
             return titleMatch && multipleMatch && pointsMatch;
         }).toList().toArray(new Question[0]);
     }
