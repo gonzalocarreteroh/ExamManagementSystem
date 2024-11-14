@@ -31,6 +31,7 @@ public class ExamManageController extends ControllerBase implements Initializabl
     */
 
     public Integer thisId = null;
+    public TextField thisQuestion;
     /*
     public TextField thisQuestion;
     public TextField thisOptionA;
@@ -54,10 +55,10 @@ public class ExamManageController extends ControllerBase implements Initializabl
             this.publish = publish;
         }
 
-        public String getexamName() { return examName; }
-        public String getcourseID() { return courseID; }
-        public String getexamTime() { return examTime; }
-        public String getpublish() { return publish; }
+        public String getExamName() { return examName; }
+        public String getCourseID() { return courseID; }
+        public String getExamTime() { return examTime; }
+        public String getPublish() { return publish; }
     }
 
     public TableColumn<Row, String> columnexamName;
@@ -105,6 +106,7 @@ public class ExamManageController extends ControllerBase implements Initializabl
 
         // questionTable.setItems(questionList);
         refresh();
+        // examTable.setItems(examList);
     }
 
     public void loadExams() {
