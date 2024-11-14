@@ -91,6 +91,11 @@ public class ExamManageController extends ControllerBase implements Initializabl
     public TableColumn<RowQuestions, String> columnquestionText;
     public TableColumn<RowQuestions, String> columntype;
     public TableColumn<RowQuestions, String> columnscore;
+    // For centre table
+    public TableColumn<RowQuestions, String> columnnewquestionText;
+    public TableColumn<RowQuestions, String> columnnewtype;
+    public TableColumn<RowQuestions, String> columnnewscore;
+
     // For left table
     @FXML
     private TableView<Row> examTable;
@@ -99,12 +104,17 @@ public class ExamManageController extends ControllerBase implements Initializabl
     @FXML
     private TableView<RowQuestions> questionTable;
     private final ObservableList<RowQuestions> questionList = FXCollections.observableArrayList();
+    // For centre table
+    @FXML
+    private TableView<RowQuestions> newQuestionTable;
+    private final ObservableList<RowQuestions> newQuestionList = FXCollections.observableArrayList();
 
     // @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         examTable.setItems(examList);
         // For right table
         questionTable.setItems(questionList);
+        newQuestionTable.setItems(newQuestionList);
 
         // Add all course codes to the filterCourseID choice box
         Course[] courses = loadData().getCourses().all();
@@ -148,6 +158,10 @@ public class ExamManageController extends ControllerBase implements Initializabl
         columnquestionText.setCellValueFactory(new PropertyValueFactory<>("questionText"));
         columntype.setCellValueFactory(new PropertyValueFactory<>("type"));
         columnscore.setCellValueFactory(new PropertyValueFactory<>("score"));
+
+        columnnewquestionText.setCellValueFactory(new PropertyValueFactory<>("questionText"));
+        columnnewtype.setCellValueFactory(new PropertyValueFactory<>("type"));
+        columnnewscore.setCellValueFactory(new PropertyValueFactory<>("score"));
 
         refresh();
     }
@@ -294,6 +308,13 @@ public class ExamManageController extends ControllerBase implements Initializabl
 
             // clearForm();
             loadExams();
+        }
+    }
+
+    @FXML
+    public void addLeft() {
+        if (thisIdQuestion != null) {
+            newQuestionList.add(new RowQuestions(thisIdQuestion, thisQuestionText, thisType, thisScore));
         }
     }
 

@@ -67,9 +67,9 @@
             <HBox>
                 <TableView fx:id="newQuestionTable" prefHeight="282.0" prefWidth="375.0" BorderPane.alignment="CENTER">
                     <columns>
-                        <TableColumn fx:id="columnNewQuestionText" text="Question in Exam" />
-                        <TableColumn fx:id="columnNewType" text="Type" />
-                        <TableColumn fx:id="columnNewScore" text="Score" />
+                        <TableColumn fx:id="columnnewquestionText" text="Question in Exam" />
+                        <TableColumn fx:id="columnnewtype" text="Type" />
+                        <TableColumn fx:id="columnnewscore" text="Score" />
                     </columns>
                 </TableView>
                 <TableView fx:id="questionTable" prefHeight="282.0" prefWidth="375.0" BorderPane.alignment="CENTER">
@@ -82,7 +82,7 @@
             </HBox>
             <HBox>
                 <Button mnemonicParsing="false" text="Delete from left" onAction="#delete"/>
-                <Button mnemonicParsing="false" text="Add to left" onAction="#delete"/>
+                <Button mnemonicParsing="false" text="Add to left" onAction="#addLeft"/>
             </HBox>
             <VBox>
                 <Label text="Exam Name:"/>
