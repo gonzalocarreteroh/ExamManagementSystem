@@ -12,6 +12,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.layout.Region?>
 <BorderPane prefHeight="756.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comp3111.examsystem.controller.teacher.ExamManageController">
     <top>
         <HBox alignment="CENTER" prefHeight="80.0" prefWidth="600.0" BorderPane.alignment="CENTER" spacing="5">
@@ -34,6 +35,8 @@
             <Button mnemonicParsing="false" onAction="#reset_exams" text="Reset"/>
             <Button mnemonicParsing="false" onAction="#query_exams" text="Filter"/>
 
+            <Region minWidth="40"/>
+
             <Label text="Question"/>
             <TextField fx:id="filterQuestion" maxWidth="80"/>
             <Label text="Type"/>
@@ -50,7 +53,7 @@
         </HBox>
     </top>
     <left>
-        <TableView fx:id="examTable" prefHeight="282.0" prefWidth="350.0" BorderPane.alignment="CENTER">
+        <TableView fx:id="examTable" minWidth="375.0" maxWidth="-Infinity" prefHeight="282.0" BorderPane.alignment="CENTER">
             <columns>
                 <TableColumn fx:id="columnexamName" text="Exam Name" />
                 <TableColumn fx:id="columncourseID" text="Course ID" />
@@ -60,7 +63,47 @@
         </TableView>
     </left>
     <right>
-        <VBox prefHeight="400.0" prefWidth="180.0" BorderPane.alignment="CENTER">
+        <VBox>
+            <HBox>
+                <TableView fx:id="newQuestionTable" prefHeight="282.0" prefWidth="375.0" BorderPane.alignment="CENTER">
+                    <columns>
+                        <TableColumn fx:id="columnNewQuestionText" text="Question in Exam" />
+                        <TableColumn fx:id="columnNewType" text="Type" />
+                        <TableColumn fx:id="columnNewScore" text="Score" />
+                    </columns>
+                </TableView>
+                <TableView fx:id="questionTable" prefHeight="282.0" prefWidth="375.0" BorderPane.alignment="CENTER">
+                    <columns>
+                        <TableColumn fx:id="columnquestionText" text="Question" />
+                        <TableColumn fx:id="columntype" text="Type" />
+                        <TableColumn fx:id="columnscore" text="Score" />
+                    </columns>
+                </TableView>
+            </HBox>
+            <HBox>
+                <Button mnemonicParsing="false" text="Delete from left" onAction="#delete"/>
+                <Button mnemonicParsing="false" text="Add to left" onAction="#delete"/>
+            </HBox>
+            <VBox>
+                <Label text="Exam Name:"/>
+                <TextField fx:id="parameterExamName" maxWidth="380"/>
+                <Label text="Exam Time:"/>
+                <TextField fx:id="parameterExamTime" maxWidth="380"/>
+            </VBox>
+            <HBox>
+                <VBox>
+                    <Label text="Course ID:"/>
+                    <TextField fx:id="parameterCourseID" maxWidth="80"/>
+                </VBox>
+                <VBox>
+                    <Label text="Publish:"/>
+                    <TextField fx:id="parameterPublish" maxWidth="80"/>
+                </VBox>
+            </HBox>
+            <HBox>
+                <Button mnemonicParsing="false" text="Add" onAction="#delete"/>
+                <Button mnemonicParsing="false" text="Update" onAction="#delete"/>
+            </HBox>
         </VBox>
     </right>
     <bottom>
