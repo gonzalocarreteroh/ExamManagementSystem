@@ -24,14 +24,8 @@ public class ExamManageController extends ControllerBase implements Initializabl
     public ChoiceBox<String> filterType;
     public TextField filterScore;
 
-    /*
-    public TextField filterQuestion;
-    public ChoiceBox<String> filterType;
-    public TextField filterScore;
-    */
-
+    // For left table
     public Integer thisId = null;
-    public TextField thisQuestion;
     /*
     public TextField thisQuestion;
     public TextField thisOptionA;
@@ -42,6 +36,18 @@ public class ExamManageController extends ControllerBase implements Initializabl
     public ChoiceBox<String> thisType;
     public TextField thisScore;
     */
+
+    // For right table
+    public Integer thisIdQuestion = null;
+    public String thisQuestionText;
+    public String thisType;
+    public String thisScore;
+    // For centre table
+    public Integer thisIdNewQuestion = null;
+    public String thisNewQuestionText;
+    public String thisNewType;
+    public String thisNewScore;
+
 
     public static class Row {
         public int id;
@@ -60,19 +66,45 @@ public class ExamManageController extends ControllerBase implements Initializabl
         public String getExamTime() { return examTime; }
         public String getPublish() { return publish; }
     }
+    // For right table
+    public static class RowQuestions {
+        public int idQuestion;
+        public String questionText, type, score;
 
+        public RowQuestions(int idQuestion, String questionText, String type, String score) {
+            this.idQuestion = idQuestion;
+            this.questionText = questionText;
+            this.type = type;
+            this.score = score;
+        }
+
+        public String getQuestionText() { return questionText; }
+        public String getType() { return type; }
+        public String getScore() { return score; }
+    }
+    // For left table
     public TableColumn<Row, String> columnexamName;
     public TableColumn<Row, String> columncourseID;
     public TableColumn<Row, String> columnexamTime;
     public TableColumn<Row, String> columnpublish;
-
+    // For right table
+    public TableColumn<RowQuestions, String> columnquestionText;
+    public TableColumn<RowQuestions, String> columntype;
+    public TableColumn<RowQuestions, String> columnscore;
+    // For left table
     @FXML
     private TableView<Row> examTable;
     private final ObservableList<Row> examList = FXCollections.observableArrayList();
+    // For right table
+    @FXML
+    private TableView<RowQuestions> questionTable;
+    private final ObservableList<RowQuestions> questionList = FXCollections.observableArrayList();
 
     // @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         examTable.setItems(examList);
+        // For right table
+        questionTable.setItems(questionList);
 
         // Add all course codes to the filterCourseID choice box
         Course[] courses = loadData().getCourses().all();
@@ -99,14 +131,25 @@ public class ExamManageController extends ControllerBase implements Initializabl
             }
         });
 
+        questionTable.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue != null) {
+                thisIdQuestion = newValue.idQuestion;
+                thisQuestionText = newValue.getQuestionText();
+                thisType = newValue.getType();
+                thisScore = newValue.getScore();
+            }
+        });
+
         columnexamName.setCellValueFactory(new PropertyValueFactory<>("examName"));
         columncourseID.setCellValueFactory(new PropertyValueFactory<>("courseID"));
         columnexamTime.setCellValueFactory(new PropertyValueFactory<>("examTime"));
         columnpublish.setCellValueFactory(new PropertyValueFactory<>("publish"));
 
-        // questionTable.setItems(questionList);
+        columnquestionText.setCellValueFactory(new PropertyValueFactory<>("questionText"));
+        columntype.setCellValueFactory(new PropertyValueFactory<>("type"));
+        columnscore.setCellValueFactory(new PropertyValueFactory<>("score"));
+
         refresh();
-        // examTable.setItems(examList);
     }
 
     public void loadExams() {
@@ -141,9 +184,35 @@ public class ExamManageController extends ControllerBase implements Initializabl
         }
     }
 
+    public void loadQuestions() {
+        int s;
+
+        try {
+            s = Integer.parseInt(filterScore.getText());
+        } catch (NumberFormatException e) {
+            s = -1;
+        }
+        if (filterScore.getText().isEmpty()) {
+            s = -1;
+        }
+        Type t = filterType.getValue() == null ? null : filterType.getValue().equals("Single") ? Type.Single : Type.Multiple;
+        Question[] questions = loadData().getQuestions().all(filterQuestion.getText(), t, s);
+        questionList.clear();
+
+        for (Question question : questions) {
+            questionList.add(new ExamManageController.RowQuestions(
+                    question.getId(),
+                    question.getTitle(),
+                    question.getType() == Type.Single ? "Single" : "Multiple",
+                    Integer.toString(question.getPoints())
+            ));
+        }
+    }
+
     @FXML
     public void refresh() {
         loadExams();
+        loadQuestions();
     }
 
     @FXML
