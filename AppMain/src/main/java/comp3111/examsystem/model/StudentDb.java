@@ -3,6 +3,7 @@ package comp3111.examsystem.model;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.*;
 
 public class StudentDb {
     private int lastId;
@@ -40,13 +41,17 @@ public class StudentDb {
         students.remove(id);
     }
 
+    public boolean login(String username, String password) {
+        return students.values().stream().anyMatch(s -> s.getUsername().equals(username) && s.getPassword().equals(password));
+    }
+
     public Student[] all(String username, String name, String department) {
         return students.values().stream().filter(s -> {
             boolean usernameMatch = username.equals("") || s.getUsername().equals(username);
             boolean nameMatch = name.equals("") || s.getName().equals(name);
             boolean departmentMatch = department.equals("") || s.getDepartment().equals(department);
             return usernameMatch && nameMatch && departmentMatch;
-        }).toList().toArray(new Student[0]);
+        }).toArray(Student[]::new);
     }
 
     public Student[] all(String username, String name) {
