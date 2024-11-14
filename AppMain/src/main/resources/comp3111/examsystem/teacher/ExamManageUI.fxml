@@ -81,7 +81,7 @@
                 </TableView>
             </HBox>
             <HBox>
-                <Button mnemonicParsing="false" text="Delete from left" onAction="#delete"/>
+                <Button mnemonicParsing="false" text="Delete from left" onAction="#deleteLeft"/>
                 <Button mnemonicParsing="false" text="Add to left" onAction="#addLeft"/>
             </HBox>
             <VBox>
