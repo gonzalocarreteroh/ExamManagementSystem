@@ -150,6 +150,15 @@ public class ExamManageController extends ControllerBase implements Initializabl
             }
         });
 
+        newQuestionTable.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue != null) {
+                thisIdNewQuestion = newValue.idQuestion;
+                thisNewQuestionText = newValue.getQuestionText();
+                thisNewType = newValue.getType();
+                thisNewScore = newValue.getScore();
+            }
+        });
+
         columnexamName.setCellValueFactory(new PropertyValueFactory<>("examName"));
         columncourseID.setCellValueFactory(new PropertyValueFactory<>("courseID"));
         columnexamTime.setCellValueFactory(new PropertyValueFactory<>("examTime"));
@@ -315,6 +324,26 @@ public class ExamManageController extends ControllerBase implements Initializabl
     public void addLeft() {
         if (thisIdQuestion != null) {
             newQuestionList.add(new RowQuestions(thisIdQuestion, thisQuestionText, thisType, thisScore));
+        }
+    }
+
+    @FXML
+    public void deleteLeft() {
+        for (RowQuestions row : newQuestionList) {
+            System.out.println(row.idQuestion + " " + row.questionText);
+        }
+        if (thisIdNewQuestion != null) {
+            RowQuestions rowToDelete = null;
+            for (RowQuestions row : newQuestionList) {
+                if (row.idQuestion == thisIdNewQuestion) {
+                    rowToDelete = row;
+                    break;
+                }
+            }
+
+            if (rowToDelete != null) {
+                newQuestionList.remove(rowToDelete);
+            }
         }
     }
 
