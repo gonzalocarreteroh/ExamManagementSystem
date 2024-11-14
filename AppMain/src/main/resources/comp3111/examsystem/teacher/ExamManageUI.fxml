@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="756.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comp3111.examsystem.controller.teacher.ExamManageController">
+    <top>
+        <HBox alignment="CENTER" prefHeight="80.0" prefWidth="600.0" BorderPane.alignment="CENTER" spacing="5">
+            <Label text="Exam Name:"/>
+            <TextField fx:id="filterExamName" maxWidth="80"/>
+
+            <Label text="Course ID:"/>
+            <ChoiceBox fx:id="filterCourseID" />
+
+            <Label text="Publish"/>
+            <ChoiceBox fx:id="filterPublish">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="yes"/>
+                        <String fx:value="no"/>
+                    </FXCollections>
+                </items>
+            </ChoiceBox>
+
+            <Button mnemonicParsing="false" onAction="#reset_exams" text="Reset"/>
+            <Button mnemonicParsing="false" onAction="#query_exams" text="Filter"/>
+
+            <Label text="Question"/>
+            <TextField fx:id="filterQuestion" maxWidth="80"/>
+            <Label text="Type"/>
+            <ChoiceBox fx:id="filterType">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Multiple"/>
+                        <String fx:value="Single"/>
+                    </FXCollections>
+                </items>
+            </ChoiceBox>
+            <Label text="Score"/>
+            <TextField fx:id="filterScore" maxWidth="45"/>
+        </HBox>
+    </top>
+    <left>
+        <TableView fx:id="examTable" prefHeight="282.0" prefWidth="350.0" BorderPane.alignment="CENTER">
+            <columns>
+                <TableColumn fx:id="columnexamName" text="Exam Name" />
+                <TableColumn fx:id="columncourseID" text="Course ID" />
+                <TableColumn fx:id="columnexamTime" text="Exam Time" />
+                <TableColumn fx:id="columnpublish" text="Publish" />
+            </columns>
+        </TableView>
+    </left>
+    <right>
+        <VBox prefHeight="400.0" prefWidth="180.0" BorderPane.alignment="CENTER">
+        </VBox>
+    </right>
+    <bottom>
+        <HBox prefHeight="70.0" prefWidth="1000.0" BorderPane.alignment="CENTER_RIGHT">
+            <Button mnemonicParsing="false" text="Delete" onAction="#delete"/>
+            <Button mnemonicParsing="false" text="Refresh" onAction="#refresh"/>
+        </HBox>
+    </bottom>
+</BorderPane>
