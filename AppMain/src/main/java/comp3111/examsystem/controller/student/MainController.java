@@ -70,8 +70,20 @@ public class MainController extends ControllerBase implements Initializable {
 
     @FXML
     public void openGradeStatistic() {
-        // Placeholder functionality for opening grade statistics
-        showAlert(Alert.AlertType.INFORMATION, "Grade Statistics", "This feature is under development.");
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("student/GradeStatisticsUI.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+
+            Stage stage = new Stage();
+            stage.setTitle("Grade Statistics");
+            stage.setScene(scene);
+            stage.show();
+
+            ((Stage) examComboBox.getScene().getWindow()).close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error", "Failed to load Grade Statistics.");
+        }
     }
 
     @FXML

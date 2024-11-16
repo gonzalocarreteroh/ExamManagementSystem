@@ -6,7 +6,6 @@ import comp3111.examsystem.model.DataCollection;
 import comp3111.examsystem.model.Exam;
 import comp3111.examsystem.model.Question;
 import comp3111.examsystem.model.GradeDb;
-import comp3111.examsystem.model.Grade;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -21,7 +20,6 @@ import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class QuizController extends ControllerBase implements Initializable {
     @FXML
@@ -47,12 +45,12 @@ public class QuizController extends ControllerBase implements Initializable {
 
     private List<Question> questions;
     private int currentQuestionIndex;
-    private Map<Integer, Set<String>> studentAnswers; // Stores question ID and selected answers
+    private Map<Integer, Set<String>> studentAnswers;
     private GradeDb gradeDb;
     private Timeline quizTimer;
-    private int remainingTime; // Time in seconds
-    private int studentId; // Placeholder for the logged-in student's ID
-    private int examId; // The ID of the current exam
+    private int remainingTime;
+    private int studentId;
+    private int examId;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -68,7 +66,7 @@ public class QuizController extends ControllerBase implements Initializable {
         DataCollection data = loadData();
 
         examId = exam.getId();
-        studentId = 3; // Placeholder for the logged-in student ID; replace with actual logic to retrieve logged-in user ID.
+        studentId = 3;
 
         quizNameLabel.setText(exam.getName());
         questions = Arrays.asList(exam.getQuestions(data.getQuestions()));
@@ -77,7 +75,7 @@ public class QuizController extends ControllerBase implements Initializable {
         // Populate question list
         questionListView.getItems().clear();
         questionListView.getItems().addAll(
-                questions.stream().map(Question::getTitle).collect(Collectors.toList())
+                questions.stream().map(Question::getTitle).toList()
         );
         questionListView.getSelectionModel().selectedIndexProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
@@ -88,7 +86,8 @@ public class QuizController extends ControllerBase implements Initializable {
         });
 
         // Initialize timer: 15 seconds per question
-        remainingTime = questions.size() * 15; // 15 seconds per question
+        remainingTime = questions.size() * 15;
+        timerLabel.setText("Time Remaining: " + remainingTime + "s");
         startTimer();
 
         currentQuestionIndex = 0;
@@ -98,10 +97,10 @@ public class QuizController extends ControllerBase implements Initializable {
 
     private void startTimer() {
         quizTimer = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
-            remainingTime--;
-            timerLabel.setText("Time Remaining: " + remainingTime + "s");
-
-            if (remainingTime <= 0) {
+            if (remainingTime > 0) {
+                remainingTime--;
+                timerLabel.setText("Time Remaining: " + remainingTime + "s");
+            } else {
                 quizTimer.stop();
                 submitQuiz();
             }
@@ -115,10 +114,9 @@ public class QuizController extends ControllerBase implements Initializable {
         questionLabel.setText(question.getTitle());
         questionNumberLabel.setText("Question " + (currentQuestionIndex + 1) + " of " + questions.size());
 
-        answerOptionsBox.getChildren().clear(); // Clear previous options
+        answerOptionsBox.getChildren().clear();
 
         if (question.isSingle()) {
-            // Single-choice question: Use RadioButtons
             ToggleGroup group = new ToggleGroup();
 
             RadioButton optionA = new RadioButton(question.getA());
@@ -131,16 +129,14 @@ public class QuizController extends ControllerBase implements Initializable {
             optionC.setToggleGroup(group);
             optionD.setToggleGroup(group);
 
-            // Restore previously selected answer if available
             Set<String> selectedAnswers = studentAnswers.getOrDefault(question.getId(), new HashSet<>());
             if (selectedAnswers.contains("a")) optionA.setSelected(true);
             if (selectedAnswers.contains("b")) optionB.setSelected(true);
             if (selectedAnswers.contains("c")) optionC.setSelected(true);
             if (selectedAnswers.contains("d")) optionD.setSelected(true);
 
-            // Store answer on selection
             group.selectedToggleProperty().addListener((obs, oldVal, newVal) -> {
-                studentAnswers.put(question.getId(), new HashSet<>()); // Clear previous answers
+                studentAnswers.put(question.getId(), new HashSet<>());
                 if (newVal == optionA) studentAnswers.get(question.getId()).add("a");
                 if (newVal == optionB) studentAnswers.get(question.getId()).add("b");
                 if (newVal == optionC) studentAnswers.get(question.getId()).add("c");
@@ -150,20 +146,17 @@ public class QuizController extends ControllerBase implements Initializable {
             answerOptionsBox.getChildren().addAll(optionA, optionB, optionC, optionD);
 
         } else {
-            // Multiple-choice question: Use CheckBoxes
             CheckBox optionA = new CheckBox(question.getA());
             CheckBox optionB = new CheckBox(question.getB());
             CheckBox optionC = new CheckBox(question.getC());
             CheckBox optionD = new CheckBox(question.getD());
 
-            // Restore previously selected answers if available
             Set<String> selectedAnswers = studentAnswers.getOrDefault(question.getId(), new HashSet<>());
             optionA.setSelected(selectedAnswers.contains("a"));
             optionB.setSelected(selectedAnswers.contains("b"));
             optionC.setSelected(selectedAnswers.contains("c"));
             optionD.setSelected(selectedAnswers.contains("d"));
 
-            // Store answers on selection
             optionA.selectedProperty().addListener((obs, oldVal, newVal) -> {
                 if (newVal) studentAnswers.computeIfAbsent(question.getId(), k -> new HashSet<>()).add("a");
                 else studentAnswers.getOrDefault(question.getId(), new HashSet<>()).remove("a");
@@ -221,7 +214,6 @@ public class QuizController extends ControllerBase implements Initializable {
             }
         }
 
-        // Save the grade in the JSON file
         DataCollection data = loadData();
         data.getGrades().add(studentId, examId, totalScore);
         storeData(data);
@@ -234,7 +226,6 @@ public class QuizController extends ControllerBase implements Initializable {
                 correctAnswers, questions.size(), precision, totalScore, maxScore));
         resultAlert.showAndWait();
 
-        // Close the quiz window and return to the quiz selection screen
         ((Stage) submitButton.getScene().getWindow()).close();
         openQuizSelectionScreen();
     }
