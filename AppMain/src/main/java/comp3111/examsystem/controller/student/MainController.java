@@ -80,6 +80,10 @@ public class MainController extends ControllerBase implements Initializable {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("student/GradeStatisticsUI.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
 
+            // Pass the username to GradeStatisticsController
+            GradeStatisticsController controller = fxmlLoader.getController();
+            controller.setUsername(username);
+
             Stage stage = new Stage();
             stage.setTitle("Grade Statistics");
             stage.setScene(scene);
