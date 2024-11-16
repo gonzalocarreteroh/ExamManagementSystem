@@ -11,8 +11,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class ExamManageController extends ControllerBase implements Initializable {
@@ -23,6 +23,11 @@ public class ExamManageController extends ControllerBase implements Initializabl
     public TextField filterQuestion;
     public ChoiceBox<String> filterType;
     public TextField filterScore;
+
+    public TextField parameterExamName;
+    public TextField parameterExamTime;
+    public ChoiceBox<String> parameterCourseID;
+    public ChoiceBox<String> parameterPublish;
 
     // For left table
     public Integer thisId = null;
@@ -66,7 +71,7 @@ public class ExamManageController extends ControllerBase implements Initializabl
         public String getExamTime() { return examTime; }
         public String getPublish() { return publish; }
     }
-    // For right table
+    // For right and centre tables
     public static class RowQuestions {
         public int idQuestion;
         public String questionText, type, score;
@@ -82,6 +87,7 @@ public class ExamManageController extends ControllerBase implements Initializabl
         public String getType() { return type; }
         public String getScore() { return score; }
     }
+
     // For left table
     public TableColumn<Row, String> columnexamName;
     public TableColumn<Row, String> columncourseID;
@@ -109,35 +115,33 @@ public class ExamManageController extends ControllerBase implements Initializabl
     private TableView<RowQuestions> newQuestionTable;
     private final ObservableList<RowQuestions> newQuestionList = FXCollections.observableArrayList();
 
+
     // @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         examTable.setItems(examList);
         // For right table
         questionTable.setItems(questionList);
+        // For centre table
         newQuestionTable.setItems(newQuestionList);
 
-        // Add all course codes to the filterCourseID choice box
+        // Add all course codes to the filterCourseID and parameterCourseID choice boxes
         Course[] courses = loadData().getCourses().all();
         ObservableList<String> courseCodes = FXCollections.observableArrayList();
         for (Course course : courses) {
             courseCodes.add(course.getCode());
         }
         filterCourseID.setItems(courseCodes);
+        parameterCourseID.setItems(courseCodes);
 
 
         examTable.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
             if (newValue != null) {
                 thisId = newValue.id;
-                /*
-                thisQuestion.setText(newValue.getQuestion());
-                thisOptionA.setText(newValue.getOptionA());
-                thisOptionB.setText(newValue.getOptionB());
-                thisOptionC.setText(newValue.getOptionC());
-                thisOptionD.setText(newValue.getOptionD());
-                thisAnswer.setText(newValue.getAnswer());
-                thisType.setValue(newValue.getType());
-                thisScore.setText(newValue.getScore());
-                */
+                parameterExamName.setText(newValue.getExamName());
+                parameterCourseID.setValue(newValue.getCourseID());
+                parameterExamTime.setText(newValue.getExamTime());
+                parameterPublish.setValue(newValue.getPublish());
+                loadNewQuestions();
             }
         });
 
@@ -196,7 +200,7 @@ public class ExamManageController extends ControllerBase implements Initializabl
         examList.clear();
 
         for (Exam exam : exams) {
-            String course_name = loadData().getCourses().get(exam.getCourseId()).getName();
+            String course_name = loadData().getCourses().get(exam.getCourseId()).getCode();
             examList.add(new Row(
                     exam.getId(),
                     exam.getName(),
@@ -232,6 +236,27 @@ public class ExamManageController extends ControllerBase implements Initializabl
         }
     }
 
+    public void loadNewQuestions() {
+        if (thisId != null) {
+            Exam exam = loadData().getExams().get(thisId);
+            int[] questionIds = exam.getQuestionIds();
+            Question[] questions = new Question[questionIds.length];
+            for (int i = 0; i < questions.length; ++i) {
+                questions[i] = loadData().getQuestions().get(questionIds[i]);
+            }
+            newQuestionList.clear();
+
+            for (Question question : questions) {
+                newQuestionList.add(new ExamManageController.RowQuestions(
+                        question.getId(),
+                        question.getTitle(),
+                        question.getType() == Type.Single ? "Single" : "Multiple",
+                        Integer.toString(question.getPoints())
+                ));
+            }
+        }
+    }
+
     @FXML
     public void refresh() {
         loadExams();
@@ -249,65 +274,17 @@ public class ExamManageController extends ControllerBase implements Initializabl
     @FXML
     public void query_exams() { loadExams(); }
 
-    /*
-    private void clearForm() {
-        thisId = null;
-        thisQuestion.clear();
-        thisOptionA.clear();
-        thisOptionB.clear();
-        thisOptionC.clear();
-        thisOptionD.clear();
-        thisAnswer.clear();
-        thisType.setValue(null);
-        thisScore.clear();
-    }
-
     @FXML
-    public void add() {
-        DataCollection data = loadData();
-        data.getQuestions().add(
-                thisQuestion.getText(),
-                thisOptionA.getText(),
-                thisOptionB.getText(),
-                thisOptionC.getText(),
-                thisOptionD.getText(),
-                thisAnswer.getText(),
-                thisType.getValue().equals("Single") ? Type.Single : Type.Multiple,
-                Integer.parseInt(thisScore.getText())
-        );
-        storeData(data);
-
-        clearForm();
+    public void reset_questions() {
+        filterQuestion.clear();
+        filterType.setValue(null);
+        filterScore.clear();
         loadQuestions();
     }
 
     @FXML
-    public void update() {
-        if (thisId == null) {
-            return;
-        }
+    public void query_questions() { loadQuestions(); }
 
-        DataCollection data = loadData();
-        data.getQuestions().update(
-                new Question(
-                        thisId,
-                        thisQuestion.getText(),
-                        thisOptionA.getText(),
-                        thisOptionB.getText(),
-                        thisOptionC.getText(),
-                        thisOptionD.getText(),
-                        thisAnswer.getText(),
-                        thisType.getValue().equals("Single") ? Type.Single : Type.Multiple,
-                        Integer.parseInt(thisScore.getText())
-                )
-        );
-        storeData(data);
-
-        clearForm();
-        loadQuestions();
-    }
-
-    */
     @FXML
     public void delete() {
         if (thisId != null) {
@@ -329,9 +306,6 @@ public class ExamManageController extends ControllerBase implements Initializabl
 
     @FXML
     public void deleteLeft() {
-        for (RowQuestions row : newQuestionList) {
-            System.out.println(row.idQuestion + " " + row.questionText);
-        }
         if (thisIdNewQuestion != null) {
             RowQuestions rowToDelete = null;
             for (RowQuestions row : newQuestionList) {
@@ -345,6 +319,36 @@ public class ExamManageController extends ControllerBase implements Initializabl
                 newQuestionList.remove(rowToDelete);
             }
         }
+    }
+
+    @FXML
+    public void add_exam() {
+        DataCollection data = loadData();
+        // Add all the questions in the newQuestionList to the exam
+        data.getExams().add(
+                parameterExamName.getText(),
+                Integer.parseInt(parameterExamTime.getText()),
+                Arrays.stream(data.getCourses().all()).filter(c -> c.getCode().equals(parameterCourseID.getValue())).findFirst().get().getId(),
+                parameterPublish.getValue().equals("yes"),
+                newQuestionList.stream().mapToInt(r -> r.idQuestion).toArray()
+        );
+        storeData(data);
+        loadExams();
+    }
+
+    @FXML
+    public void update_exam() {
+        ExamDb db = loadData().getExams();
+        db.update(new Exam(
+                thisId,
+                parameterExamName.getText(),
+                Integer.parseInt(parameterExamTime.getText()),
+                Arrays.stream(loadData().getCourses().all()).filter(c -> c.getCode().equals(parameterCourseID.getValue())).findFirst().get().getId(),
+                parameterPublish.getValue().equals("yes"),
+                newQuestionList.stream().mapToInt(r -> r.idQuestion).toArray()
+        ));
+        storeData(loadData());
+        loadExams();
     }
 
 }

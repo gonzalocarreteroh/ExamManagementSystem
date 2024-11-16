@@ -6,11 +6,11 @@ package comp3111.examsystem.model;
  */
 public class Exam {
     private final int id;
-    private final String name;
-    private final int duration;
-    private final int courseId;
-    private final boolean published;
-    private final int[] questionIds;
+    private String name;
+    private int duration;
+    private int courseId;
+    private boolean published;
+    private int[] questionIds;
 
     /**
      * Constructs an Exam instance with the specified details.
@@ -50,6 +50,15 @@ public class Exam {
     }
 
     /**
+     * Sets the name of the exam.
+     *
+     * @param name the new exam name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
      * Returns the duration of the exam in minutes.
      *
      * @return the duration of the exam
@@ -59,12 +68,30 @@ public class Exam {
     }
 
     /**
+     * Sets the duration of the exam in minutes.
+     *
+     * @param duration the new duration of the exam
+     */
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    /**
      * Returns the ID of the course associated with this exam.
      *
      * @return the course ID
      */
     public int getCourseId() {
         return courseId;
+    }
+
+    /**
+     * Sets the ID of the course associated with this exam.
+     *
+     * @param courseId the new course ID
+     */
+    public void setCourseId(int courseId) {
+        this.courseId = courseId;
     }
 
     /**
@@ -87,12 +114,31 @@ public class Exam {
     }
 
     /**
+     * Sets the publication status of the exam.
+     *
+     * @param published the new publication status of the exam
+     */
+    public void setPublished(boolean published) {
+        this.published = published;
+    }
+
+    /**
      * Returns a copy of the array of question IDs associated with this exam.
      *
      * @return an array of question IDs
      */
     public int[] getQuestionIds() {
         return questionIds.clone();
+    }
+
+    // Set questionIds to the given array
+    /**
+     * Sets the array of question IDs associated with this exam.
+     *
+     * @param questionIds the new array of question IDs
+     */
+    public void setQuestionIds(int[] questionIds) {
+        this.questionIds = questionIds.clone();
     }
 
     /**
