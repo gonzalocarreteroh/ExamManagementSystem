@@ -84,6 +84,7 @@ public class DataSerializer {
     }
 
     private JsonNode serialize(Question question) {
+        System.out.println(question.getType());
         var n = mapper.createObjectNode();
         n.put("id", question.getId());
         n.put("title", question.getTitle());
@@ -233,7 +234,7 @@ public class DataSerializer {
                 n.get("c").asText(),
                 n.get("d").asText(),
                 n.get("answer").asText(),
-                n.get("type").asText().equals("single") ? Type.Single : Type.Multiple,
+                n.get("type").asText().equals("Single") ? Type.Single : Type.Multiple,
                 n.get("points").asInt()
         );
     }

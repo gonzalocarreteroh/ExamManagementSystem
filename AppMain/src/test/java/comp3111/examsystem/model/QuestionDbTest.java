@@ -22,8 +22,9 @@ public class QuestionDbTest {
             assertEquals("10", q.getD());
             assertEquals("B", q.getAnswer());
             assertEquals(4, q.getPoints());
-            assertTrue(q.isSingle());
-            assertFalse(q.isMultiple());
+            // assertTrue(q.isSingle());
+            assertEquals(q.getType(), Type.Single);
+            // assertFalse(q.isMultiple());
         }
     }
 
@@ -40,8 +41,9 @@ public class QuestionDbTest {
         assertEquals("10", q.getD());
         assertEquals("B", q.getAnswer());
         assertEquals(4, q.getPoints());
-        assertTrue(q.isSingle());
-        assertFalse(q.isMultiple());
+        // assertTrue(q.isSingle());
+        // assertFalse(q.isMultiple());
+        assertEquals(q.getType(), Type.Single);
     }
 
     @Test

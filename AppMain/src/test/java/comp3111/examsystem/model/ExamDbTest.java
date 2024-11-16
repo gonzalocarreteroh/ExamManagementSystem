@@ -12,8 +12,8 @@ public class ExamDbTest {
 
     ExamDbTest() {
         cb.add("COMP3111", "SwEng", "CS");
-        qb.add("1+1=", "1", "2", "11", "10", "B", 4);
-        qb.add("1+1=", "1", "2", "11", "10", "B", 4);
+        qb.add("1+1=", "1", "2", "11", "10", "B", Type.Single,4);
+        qb.add("1+1=", "1", "2", "11", "10", "B", Type.Single,4);
         courseId = cb.all()[0].getId();
         qId1 = qb.all()[0].getId();
         qId2 = qb.all()[1].getId();

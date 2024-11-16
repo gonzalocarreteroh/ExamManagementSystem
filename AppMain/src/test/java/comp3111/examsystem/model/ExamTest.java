@@ -13,8 +13,8 @@ public class ExamTest {
         int courseId = db.all()[0].getId();
 
         QuestionDb qb = new QuestionDb();
-        qb.add("1+1=", "1", "2", "11", "10", "B", 4);
-        qb.add("1+1=", "1", "2", "11", "10", "B", 4);
+        qb.add("1+1=", "1", "2", "11", "10", "B", Type.Single, 4);
+        qb.add("1+1=", "1", "2", "11", "10", "B",Type.Single, 4);
         int qId1 = qb.all()[0].getId(), qId2 = qb.all()[1].getId();
 
         Exam x = new Exam(3, "Midterm", 60, courseId, false, new int[]{qId1, qId2});

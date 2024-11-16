@@ -13,8 +13,8 @@ public class GradeTest {
         ExamDb eb = new ExamDb();
 
         cb.add("COMP3111", "SwEng", "CS");
-        qb.add("1+1=", "1", "2", "11", "10", "B", 4);
-        qb.add("1+1=", "1", "2", "11", "10", "B", 4);
+        qb.add("1+1=", "1", "2", "11", "10", "B", Type.Single,4);
+        qb.add("1+1=", "1", "2", "11", "10", "B", Type.Single,4);
         sb.add("john.smith", "123456", "John", 20, "CS", Gender.Male);
 
         int courseId = cb.all()[0].getId();
