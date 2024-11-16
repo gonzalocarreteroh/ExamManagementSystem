@@ -9,6 +9,7 @@ import comp3111.examsystem.model.GradeDb;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -43,6 +44,7 @@ public class QuizController extends ControllerBase implements Initializable {
     @FXML
     private Button submitButton;
 
+    private String username;
     private List<Question> questions;
     private int currentQuestionIndex;
     private Map<Integer, Set<String>> studentAnswers;
@@ -51,22 +53,39 @@ public class QuizController extends ControllerBase implements Initializable {
     private int remainingTime;
     private int studentId;
     private int examId;
+    private boolean quizSubmitted; // Tracks if the quiz has already been submitted
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         studentAnswers = new HashMap<>();
         gradeDb = loadData().getGrades();
+        quizSubmitted = false; // Initialize the flag
 
         nextButton.setDisable(true);
         prevButton.setDisable(true);
         submitButton.setDisable(true);
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+
+        // Get the student ID associated with the username
+        DataCollection data = loadData();
+        studentId = Arrays.stream(data.getStudents().all())
+                .filter(student -> student.getUsername().equals(username))
+                .findFirst()
+                .map(student -> student.getId())
+                .orElse(-1);
+
+        if (studentId == -1) {
+            throw new IllegalStateException("Unable to find student with username: " + username);
+        }
+    }
+
     public void loadExam(Exam exam) {
         DataCollection data = loadData();
 
         examId = exam.getId();
-        studentId = 3;
 
         quizNameLabel.setText(exam.getName());
         questions = Arrays.asList(exam.getQuestions(data.getQuestions()));
@@ -102,7 +121,7 @@ public class QuizController extends ControllerBase implements Initializable {
                 timerLabel.setText("Time Remaining: " + remainingTime + "s");
             } else {
                 quizTimer.stop();
-                submitQuiz();
+                submitQuiz(); // Trigger quiz submission when the timer ends
             }
         }));
         quizTimer.setCycleCount(Animation.INDEFINITE);
@@ -198,6 +217,9 @@ public class QuizController extends ControllerBase implements Initializable {
 
     @FXML
     public void submitQuiz() {
+        if (quizSubmitted) return; // Prevent duplicate submissions
+        quizSubmitted = true;
+
         int correctAnswers = 0;
         int totalScore = 0;
         int maxScore = 0;
@@ -214,20 +236,24 @@ public class QuizController extends ControllerBase implements Initializable {
             }
         }
 
+        final int finalCorrectAnswers = correctAnswers;
+        final int finalTotalScore = totalScore;
+        final int finalMaxScore = maxScore;
+        final double precision = (double) finalCorrectAnswers / questions.size() * 100;
+
         DataCollection data = loadData();
-        data.getGrades().add(studentId, examId, totalScore);
+        data.getGrades().add(studentId, examId, finalTotalScore);
         storeData(data);
 
-        double precision = (double) correctAnswers / questions.size() * 100;
-
-        Alert resultAlert = new Alert(Alert.AlertType.INFORMATION);
-        resultAlert.setHeaderText("Quiz Results");
-        resultAlert.setContentText(String.format("%d/%d Correct, the precision is %.2f%%, the score is %d/%d",
-                correctAnswers, questions.size(), precision, totalScore, maxScore));
-        resultAlert.showAndWait();
-
-        ((Stage) submitButton.getScene().getWindow()).close();
-        openQuizSelectionScreen();
+        Platform.runLater(() -> {
+            Alert resultAlert = new Alert(Alert.AlertType.INFORMATION);
+            resultAlert.setHeaderText("Quiz Results");
+            resultAlert.setContentText(String.format("%d/%d Correct, the precision is %.2f%%, the score is %d/%d",
+                    finalCorrectAnswers, questions.size(), precision, finalTotalScore, finalMaxScore));
+            resultAlert.showAndWait();
+            ((Stage) submitButton.getScene().getWindow()).close();
+            openQuizSelectionScreen();
+        });
     }
 
     private void updateNavigationButtons() {

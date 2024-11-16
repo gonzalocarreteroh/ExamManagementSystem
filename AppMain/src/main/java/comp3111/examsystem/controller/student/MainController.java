@@ -22,14 +22,17 @@ public class MainController extends ControllerBase implements Initializable {
     private ComboBox<String> examComboBox;
 
     private ExamDb examDb;
+    private String username; // Store the logged-in username
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // Load data from storage and initialize the exam database
         DataCollection data = loadData();
         examDb = data.getExams();
 
-        // Populate ComboBox with available exams
         Arrays.stream(examDb.all()).forEach(exam -> examComboBox.getItems().add(exam.getName()));
     }
 
@@ -54,7 +57,10 @@ public class MainController extends ControllerBase implements Initializable {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("student/QuizUI.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
+
+            // Pass the username to the QuizController
             QuizController quizController = fxmlLoader.getController();
+            quizController.setUsername(username);
             quizController.loadExam(selectedExam);
 
             Stage stage = new Stage();
@@ -88,7 +94,6 @@ public class MainController extends ControllerBase implements Initializable {
 
     @FXML
     public void exit() {
-        // Save data to storage before exiting
         storeData(loadData());
         System.exit(0);
     }

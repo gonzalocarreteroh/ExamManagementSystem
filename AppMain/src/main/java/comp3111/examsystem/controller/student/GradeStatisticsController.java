@@ -42,10 +42,12 @@ public class GradeStatisticsController extends ControllerBase {
     private BarChart<String, Number> scoreChart;
 
     private ObservableList<GradeRow> gradeData;
+    private List<GradeRow> allGradeData; // A copy of all grade data
 
     @FXML
     public void initialize() {
         gradeData = FXCollections.observableArrayList();
+        allGradeData = new ArrayList<>(); // Initialize empty list to store all grades
         gradesTable.setItems(gradeData);
 
         // Set up table columns
@@ -53,6 +55,9 @@ public class GradeStatisticsController extends ControllerBase {
         examColumn.setCellValueFactory(new PropertyValueFactory<>("exam"));
         scoreColumn.setCellValueFactory(new PropertyValueFactory<>("score"));
         fullScoreColumn.setCellValueFactory(new PropertyValueFactory<>("fullScore"));
+
+        // Set prompt text for the ComboBox
+        courseComboBox.setPromptText("Pick Course");
 
         // Load course data into ComboBox
         loadCourses();
@@ -64,18 +69,21 @@ public class GradeStatisticsController extends ControllerBase {
     @FXML
     private void refreshStatistics() {
         gradeData.clear();
+        allGradeData.clear(); // Clear the allGradeData to reload everything
         scoreChart.getData().clear();
 
         DataCollection data = loadData();
 
-        // Populate grades table
+        // Populate grades table and allGradeData list
         for (Grade grade : data.getGrades().all()) {
             String courseName = data.getCourses().get(grade.getExam(data.getExams()).getCourseId()).getName();
             String examName = grade.getExam(data.getExams()).getName();
             int score = grade.getPoints();
             int fullScore = calculateFullScore(grade.getExam(data.getExams()).getQuestionIds(), data);
 
-            gradeData.add(new GradeRow(courseName, examName, score, fullScore));
+            GradeRow gradeRow = new GradeRow(courseName, examName, score, fullScore);
+            gradeData.add(gradeRow);
+            allGradeData.add(gradeRow); // Maintain a full copy of the data
         }
 
         // Populate chart
@@ -96,7 +104,7 @@ public class GradeStatisticsController extends ControllerBase {
 
         // Filter grade data by course
         List<GradeRow> filtered = new ArrayList<>();
-        for (GradeRow row : gradeData) {
+        for (GradeRow row : allGradeData) { // Use allGradeData for filtering
             if (row.getCourse().equals(selectedCourse)) {
                 filtered.add(row);
             }
@@ -116,7 +124,8 @@ public class GradeStatisticsController extends ControllerBase {
     @FXML
     private void resetFilters() {
         courseComboBox.getSelectionModel().clearSelection();
-        refreshStatistics();
+        gradesTable.setItems(FXCollections.observableArrayList(allGradeData)); // Reset the table
+        refreshStatistics(); // Refresh the chart
     }
 
     private void loadCourses() {
