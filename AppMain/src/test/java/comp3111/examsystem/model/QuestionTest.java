@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class QuestionTest {
     @Test
     void singleTest() {
-        Question q = new Question(1, "1+1=", "1", "2", "11", "10", "B", "single", 4);
+        Question q = new Question(1, "1+1=", "1", "2", "11", "10", "B", Type.Single, 4);
         assertEquals(1, q.getId());
         assertEquals("1+1=", q.getTitle());
         assertEquals("1", q.getA());
@@ -16,13 +16,14 @@ public class QuestionTest {
         assertEquals("10", q.getD());
         assertEquals("B", q.getAnswer());
         assertEquals(4, q.getPoints());
-        assertTrue(q.isSingle());
-        assertFalse(q.isMultiple());
+        // assertTrue(q.isSingle());
+        // assertFalse(q.isMultiple());
+        assertEquals(q.getType(), Type.Single);
     }
 
     @Test
     void multipleTest() {
-        Question q = new Question(1, "1+1 <", "1", "2", "11", "10", "CD", "multiple", 4);
+        Question q = new Question(1, "1+1 <", "1", "2", "11", "10", "CD", Type.Multiple, 4);
         assertEquals(1, q.getId());
         assertEquals("1+1 <", q.getTitle());
         assertEquals("1", q.getA());
@@ -31,7 +32,8 @@ public class QuestionTest {
         assertEquals("10", q.getD());
         assertEquals("CD", q.getAnswer());
         assertEquals(4, q.getPoints());
-        assertFalse(q.isSingle());
-        assertTrue(q.isMultiple());
+        // assertFalse(q.isSingle());
+        // assertTrue(q.isMultiple());
+        assertEquals(q.getType(), Type.Multiple);
     }
 }

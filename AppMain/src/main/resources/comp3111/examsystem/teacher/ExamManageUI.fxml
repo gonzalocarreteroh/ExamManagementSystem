@@ -50,10 +50,12 @@
             </ChoiceBox>
             <Label text="Score"/>
             <TextField fx:id="filterScore" maxWidth="45"/>
+            <Button mnemonicParsing="false" onAction="#reset_questions" text="Reset"/>
+            <Button mnemonicParsing="false" onAction="#query_questions" text="Filter"/>
         </HBox>
     </top>
     <left>
-        <TableView fx:id="examTable" minWidth="375.0" maxWidth="-Infinity" prefHeight="282.0" BorderPane.alignment="CENTER">
+        <TableView fx:id="examTable" minWidth="360.0" maxWidth="-Infinity" prefHeight="282.0" BorderPane.alignment="CENTER">
             <columns>
                 <TableColumn fx:id="columnexamName" text="Exam Name" />
                 <TableColumn fx:id="columncourseID" text="Course ID" />
@@ -67,21 +69,24 @@
             <HBox>
                 <TableView fx:id="newQuestionTable" prefHeight="282.0" prefWidth="375.0" BorderPane.alignment="CENTER">
                     <columns>
-                        <TableColumn fx:id="columnnewquestionText" text="Question in Exam" />
+                        <TableColumn fx:id="columnnewquestionText" text="Question in Exam" minWidth="150"/>
                         <TableColumn fx:id="columnnewtype" text="Type" />
                         <TableColumn fx:id="columnnewscore" text="Score" />
                     </columns>
                 </TableView>
                 <TableView fx:id="questionTable" prefHeight="282.0" prefWidth="375.0" BorderPane.alignment="CENTER">
                     <columns>
-                        <TableColumn fx:id="columnquestionText" text="Question" />
+                        <TableColumn fx:id="columnquestionText" text="Question" minWidth="150"/>
                         <TableColumn fx:id="columntype" text="Type" />
                         <TableColumn fx:id="columnscore" text="Score" />
                     </columns>
                 </TableView>
             </HBox>
+            <Region minHeight="10"/>
             <HBox>
+                <Region minWidth="270"/>
                 <Button mnemonicParsing="false" text="Delete from left" onAction="#deleteLeft"/>
+                <Region minWidth="10"/>
                 <Button mnemonicParsing="false" text="Add to left" onAction="#addLeft"/>
             </HBox>
             <VBox>
@@ -93,16 +98,23 @@
             <HBox>
                 <VBox>
                     <Label text="Course ID:"/>
-                    <TextField fx:id="parameterCourseID" maxWidth="80"/>
+                    <ChoiceBox fx:id="parameterCourseID" />
                 </VBox>
                 <VBox>
                     <Label text="Publish:"/>
-                    <TextField fx:id="parameterPublish" maxWidth="80"/>
+                    <ChoiceBox fx:id="parameterPublish">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="yes"/>
+                                <String fx:value="no"/>
+                            </FXCollections>
+                        </items>
+                    </ChoiceBox>
                 </VBox>
             </HBox>
             <HBox>
-                <Button mnemonicParsing="false" text="Add" onAction="#delete"/>
-                <Button mnemonicParsing="false" text="Update" onAction="#delete"/>
+                <Button mnemonicParsing="false" text="Add" onAction="#add_exam"/>
+                <Button mnemonicParsing="false" text="Update" onAction="#update_exam"/>
             </HBox>
         </VBox>
     </right>

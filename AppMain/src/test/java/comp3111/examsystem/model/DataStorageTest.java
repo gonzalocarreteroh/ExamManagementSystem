@@ -14,7 +14,7 @@ class DataStorageTest {
         var exams = new ExamDb(new Exam[]{new Exam(3, "Midterm", 60, 4, false, new int[]{1})});
         var grades = new GradeDb(new Grade[]{new Grade(1, 3, 95)});
         var managers = new ManagerDb(new Manager[]{new Manager("john.smith", "123456")});
-        var questions = new QuestionDb(new Question[]{new Question(1, "1+1=", "1", "2", "11", "10", "B", "single", 4)});
+        var questions = new QuestionDb(new Question[]{new Question(1, "1+1=", "1", "2", "11", "10", "B", Type.Single, 4)});
         var students = new StudentDb(new Student[]{new Student(1, "john@ust.hk", "123456", "John", 20, "CS", Gender.Male), new Student(2, "jane@ust.hk", "123456", "Jane", 22, "CS", Gender.Female)});
         var teachers = new TeacherDb(new Teacher[]{new Teacher(1, "john@ust.hk", "123456", "John", 20, "CS", "Assistant Professor")});
 
@@ -33,7 +33,7 @@ class DataStorageTest {
         var exams = new ExamDb(new Exam[]{new Exam(3, "Midterm", 60, 4, false, new int[]{1})});
         var grades = new GradeDb(new Grade[]{new Grade(1, 3, 95)});
         var managers = new ManagerDb(new Manager[]{new Manager("john.smith", "123456")});
-        var questions = new QuestionDb(new Question[]{new Question(1, "1+1=", "1", "2", "11", "10", "B", "single", 4)});
+        var questions = new QuestionDb(new Question[]{new Question(1, "1+1=", "1", "2", "11", "10", "B", Type.Single, 4)});
         var students = new StudentDb(new Student[]{new Student(1, "john@ust.hk", "123456", "John", 20, "CS", Gender.Male), new Student(2, "jane@ust.hk", "123456", "Jane", 22, "CS", Gender.Female)});
         var teachers = new TeacherDb(new Teacher[]{new Teacher(1, "john@ust.hk", "123456", "John", 20, "CS", "Assistant Professor")});
         var collection = new DataCollection(courses, exams, grades, managers, questions, students, teachers);

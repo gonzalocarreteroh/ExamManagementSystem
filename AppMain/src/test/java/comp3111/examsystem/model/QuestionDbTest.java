@@ -8,11 +8,11 @@ public class QuestionDbTest {
     @Test
     void creationTest() {
         QuestionDb qb = new QuestionDb();
-        qb.add("1+1=", "1", "2", "11", "10", "B", 4);
-        qb.add("1+1=", "1", "2", "11", "10", "B", 4);
-        qb.add("1+1=", "1", "2", "11", "10", "B", 4);
-        qb.add("1+1=", "1", "2", "11", "10", "B", 4);
-        qb.add("1+1=", "1", "2", "11", "10", "B", 4);
+        qb.add("1+1=", "1", "2", "11", "10", "B", Type.Single, 4);
+        qb.add("1+1=", "1", "2", "11", "10", "B", Type.Single,4);
+        qb.add("1+1=", "1", "2", "11", "10", "B", Type.Single,4);
+        qb.add("1+1=", "1", "2", "11", "10", "B", Type.Single, 4);
+        qb.add("1+1=", "1", "2", "11", "10", "B", Type.Single, 4);
 
         for (Question q : qb.all()) {
             assertEquals("1+1=", q.getTitle());
@@ -22,14 +22,15 @@ public class QuestionDbTest {
             assertEquals("10", q.getD());
             assertEquals("B", q.getAnswer());
             assertEquals(4, q.getPoints());
-            assertTrue(q.isSingle());
-            assertFalse(q.isMultiple());
+            // assertTrue(q.isSingle());
+            assertEquals(q.getType(), Type.Single);
+            // assertFalse(q.isMultiple());
         }
     }
 
     @Test
     void initFromMapTest() {
-        QuestionDb qb = new QuestionDb(new Question[]{new Question(4, "1+1=", "1", "2", "11", "10", "B","single",4)});
+        QuestionDb qb = new QuestionDb(new Question[]{new Question(4, "1+1=", "1", "2", "11", "10", "B",Type.Single,4)});
 
         Question q = qb.all()[0];
         assertEquals(4, q.getId());
@@ -40,16 +41,17 @@ public class QuestionDbTest {
         assertEquals("10", q.getD());
         assertEquals("B", q.getAnswer());
         assertEquals(4, q.getPoints());
-        assertTrue(q.isSingle());
-        assertFalse(q.isMultiple());
+        // assertTrue(q.isSingle());
+        // assertFalse(q.isMultiple());
+        assertEquals(q.getType(), Type.Single);
     }
 
     @Test
     void deletionTest() {
         QuestionDb qb = new QuestionDb();
-        qb.add("1+1=", "1", "2", "11", "10", "B", 4);
-        qb.add("1+1=", "1", "2", "11", "10", "B", 4);
-        qb.add("1+1=", "1", "2", "11", "10", "B", 4);
+        qb.add("1+1=", "1", "2", "11", "10", "B", Type.Single,4);
+        qb.add("1+1=", "1", "2", "11", "10", "B",Type.Single, 4);
+        qb.add("1+1=", "1", "2", "11", "10", "B",Type.Single, 4);
 
         assertEquals(3, qb.all().length);
         qb.remove(qb.all("", null, null)[0].getId());
@@ -61,14 +63,14 @@ public class QuestionDbTest {
     @Test
     void updateTest() {
         QuestionDb qb = new QuestionDb();
-        qb.update(new Question(77, "1+0=", "1", "2", "11", "10", "A", "single", 4));
+        qb.update(new Question(77, "1+0=", "1", "2", "11", "10", "A", Type.Single, 4));
 
-        qb.add("1+1=", "1", "2", "11", "10", "B", 4);
-        qb.add("1+1=", "1", "2", "11", "10", "B", 4);
-        qb.add("1+1=", "1", "2", "11", "10", "B", 4);
+        qb.add("1+1=", "1", "2", "11", "10", "B", Type.Single,4);
+        qb.add("1+1=", "1", "2", "11", "10", "B", Type.Single,4);
+        qb.add("1+1=", "1", "2", "11", "10", "B", Type.Single,4);
 
         int first = qb.all()[0].getId();
-        qb.update(new Question(first, "1+0=", "1", "2", "11", "10", "A", "single", 4));
+        qb.update(new Question(first, "1+0=", "1", "2", "11", "10", "A", Type.Single, 4));
         assertEquals("1+0=", qb.get(first).getTitle());
         assertEquals("A", qb.get(first).getAnswer());
     }
@@ -76,13 +78,13 @@ public class QuestionDbTest {
     @Test
     void filteringTest() {
         QuestionDb qb = new QuestionDb();
-        qb.add("1+0=", "1", "2", "11", "10", "A", 4);
-        qb.add("1+1=", "1", "2", "11", "10", "B", 6);
-        qb.add("1+9=", "1", "2", "11", "10", "D", 8);
-        qb.add("2+9=", "1", "2", "11", "10", "C", 2);
+        qb.add("1+0=", "1", "2", "11", "10", "A", Type.Single,4);
+        qb.add("1+1=", "1", "2", "11", "10", "B", Type.Single,6);
+        qb.add("1+9=", "1", "2", "11", "10", "D", Type.Single,8);
+        qb.add("2+9=", "1", "2", "11", "10", "C", Type.Single,2);
 
         assertEquals(3, qb.all("1+", null, null).length);
         assertEquals(1, qb.all("1+", null, 4).length);
-        assertEquals(0, qb.all("1+", true, null).length);
+        assertEquals(0, qb.all("1+", Type.Multiple, null).length);
     }
 }
