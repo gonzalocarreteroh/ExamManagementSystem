@@ -36,6 +36,12 @@ public class LoginController extends ControllerBase implements Initializable {
         boolean isAuthenticated = data.getStudents().login(usernameTxt.getText(), passwordTxt.getText());
 
         if (isAuthenticated) {
+            // Show a success alert with an OK button
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("Login Successful");
+            alert.setContentText("Click OK to proceed.");
+            alert.showAndWait();
+
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("student/MainUI.fxml"));
                 Scene scene = new Scene(fxmlLoader.load());
@@ -49,6 +55,7 @@ public class LoginController extends ControllerBase implements Initializable {
                 stage.setScene(scene);
                 stage.show();
 
+                // Close the login window
                 ((Stage) ((Button) e.getSource()).getScene().getWindow()).close();
             } catch (IOException e1) {
                 e1.printStackTrace();

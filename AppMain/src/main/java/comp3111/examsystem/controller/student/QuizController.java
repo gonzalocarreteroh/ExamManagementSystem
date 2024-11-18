@@ -268,6 +268,11 @@ public class QuizController extends ControllerBase implements Initializable {
             Stage stage = new Stage();
             stage.setTitle("Quiz Selection");
             stage.setScene(new Scene(fxmlLoader.load()));
+
+            // Pass the username to MainController
+            MainController mainController = fxmlLoader.getController();
+            mainController.setUsername(username);
+
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
