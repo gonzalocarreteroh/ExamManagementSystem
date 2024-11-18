@@ -14,8 +14,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class MainController extends ControllerBase implements Initializable {
     @FXML
@@ -26,14 +26,45 @@ public class MainController extends ControllerBase implements Initializable {
 
     public void setUsername(String username) {
         this.username = username;
+        loadAvailableExams();
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        // Initialization moved to loadAvailableExams()
+    }
+
+    private void loadAvailableExams() {
         DataCollection data = loadData();
         examDb = data.getExams();
 
-        Arrays.stream(examDb.all()).forEach(exam -> examComboBox.getItems().add(exam.getName()));
+        // Get the student ID associated with the username
+        int studentId = Arrays.stream(data.getStudents().all())
+                .filter(student -> student.getUsername().equals(username))
+                .findFirst()
+                .map(Student::getId)
+                .orElse(-1);
+
+        if (studentId == -1) {
+            throw new IllegalStateException("Unable to find student with username: " + username);
+        }
+
+        // Get the exams that the student has already taken
+        Set<Integer> takenExamIds = Arrays.stream(data.getGrades().all())
+                .filter(grade -> grade.getStudentId() == studentId)
+                .map(Grade::getExamId)
+                .collect(Collectors.toSet());
+
+        // Now, only include exams that are not in takenExamIds
+        examComboBox.getItems().clear();
+        Arrays.stream(examDb.all())
+                .filter(exam -> !takenExamIds.contains(exam.getId()))
+                .forEach(exam -> examComboBox.getItems().add(exam.getName()));
+
+        if (examComboBox.getItems().isEmpty()) {
+            // Optionally, show a message that the student has completed all exams
+            showAlert(Alert.AlertType.INFORMATION, "No Available Exams", "You have completed all available exams.");
+        }
     }
 
     @FXML
@@ -68,6 +99,7 @@ public class MainController extends ControllerBase implements Initializable {
             stage.setScene(scene);
             stage.show();
 
+            // Close the current window
             ((Stage) examComboBox.getScene().getWindow()).close();
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -89,7 +121,9 @@ public class MainController extends ControllerBase implements Initializable {
             stage.setScene(scene);
             stage.show();
 
-            ((Stage) examComboBox.getScene().getWindow()).close();
+            // Removed the line that closes the current window
+            // ((Stage) examComboBox.getScene().getWindow()).close();
+
         } catch (IOException ex) {
             ex.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Error", "Failed to load Grade Statistics.");

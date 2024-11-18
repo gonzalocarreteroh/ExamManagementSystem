@@ -3,6 +3,7 @@ package comp3111.examsystem.controller.student;
 import comp3111.examsystem.controller.ControllerBase;
 import comp3111.examsystem.model.Course;
 import comp3111.examsystem.model.DataCollection;
+import comp3111.examsystem.model.Exam;
 import comp3111.examsystem.model.Grade;
 import comp3111.examsystem.model.Question;
 import javafx.collections.FXCollections;
@@ -10,7 +11,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis; // Import NumberAxis
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
@@ -40,15 +40,18 @@ public class GradeStatisticsController extends ControllerBase {
     private TableColumn<GradeRow, Integer> fullScoreColumn;
 
     @FXML
+    private TableColumn<GradeRow, Integer> timeColumn;
+
+    @FXML
     private BarChart<String, Number> scoreChart;
 
     private ObservableList<GradeRow> allGradeData;
     private ObservableList<GradeRow> gradeData;
-    private String username; // Store the logged-in username
+    private String username;
 
     public void setUsername(String username) {
         this.username = username;
-        autoReset(); // Automatically refresh data when username is set
+        autoReset();
     }
 
     @FXML
@@ -57,13 +60,11 @@ public class GradeStatisticsController extends ControllerBase {
         gradeData = FXCollections.observableArrayList();
         gradesTable.setItems(gradeData);
 
-        // Set up table columns
         courseColumn.setCellValueFactory(new PropertyValueFactory<>("course"));
         examColumn.setCellValueFactory(new PropertyValueFactory<>("exam"));
         scoreColumn.setCellValueFactory(new PropertyValueFactory<>("score"));
         fullScoreColumn.setCellValueFactory(new PropertyValueFactory<>("fullScore"));
-
-        // Courses will be loaded in refreshStatistics()
+        timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
     }
 
     @FXML
@@ -74,27 +75,24 @@ public class GradeStatisticsController extends ControllerBase {
         DataCollection data = loadData();
         int studentId = getStudentIdFromUsername(data);
 
-        if (studentId == -1) return; // No matching user, do nothing
+        if (studentId == -1) return;
 
-        // Populate grades
         for (Grade grade : data.getGrades().all()) {
             if (grade.getStudentId() == studentId) {
-                String courseName = data.getCourses().get(grade.getExam(data.getExams()).getCourseId()).getName();
-                String examName = grade.getExam(data.getExams()).getName();
+                Exam exam = grade.getExam(data.getExams());
+                String courseName = data.getCourses().get(exam.getCourseId()).getName();
+                String examName = exam.getName();
                 int score = grade.getPoints();
-                int fullScore = calculateFullScore(grade.getExam(data.getExams()).getQuestionIds(), data);
+                int fullScore = calculateFullScore(exam.getQuestionIds(), data);
+                int time = exam.getDuration();
 
-                GradeRow row = new GradeRow(courseName, examName, score, fullScore);
+                GradeRow row = new GradeRow(courseName, examName, score, fullScore, time);
                 allGradeData.add(row);
             }
         }
 
         gradeData.setAll(allGradeData);
-
-        // Reload courses into ComboBox
         loadCourses();
-
-        // Update the chart
         updateChart(gradeData);
     }
 
@@ -106,7 +104,6 @@ public class GradeStatisticsController extends ControllerBase {
             return;
         }
 
-        // Filter grade data by course
         List<GradeRow> filtered = new ArrayList<>();
         for (GradeRow row : allGradeData) {
             if (row.getCourse().equals(selectedCourse)) {
@@ -115,17 +112,15 @@ public class GradeStatisticsController extends ControllerBase {
         }
 
         gradeData.setAll(filtered);
-
-        // Update the chart
         updateChart(gradeData);
     }
 
     @FXML
     private void resetFilters() {
         courseComboBox.getSelectionModel().clearSelection();
-        courseComboBox.setPromptText("Pick Course"); // Reset the ComboBox prompt text
-        gradeData.setAll(allGradeData); // Reset table to show all grades
-        updateChart(gradeData); // Update the chart
+        courseComboBox.setPromptText("Pick Course");
+        gradeData.setAll(allGradeData);
+        updateChart(gradeData);
     }
 
     private void loadCourses() {
@@ -135,37 +130,79 @@ public class GradeStatisticsController extends ControllerBase {
         }
         List<String> courseList = new ArrayList<>(courseNames);
         courseComboBox.setItems(FXCollections.observableArrayList(courseList));
-        courseComboBox.setPromptText("Pick Course"); // Set default prompt text
+        courseComboBox.setPromptText("Pick Course");
     }
 
     private void updateChart(List<GradeRow> dataToDisplay) {
         scoreChart.getData().clear();
 
-        // Prepare categories
+        // Disable legend
+        scoreChart.setLegendVisible(false);
+
         Set<String> categoriesSet = new LinkedHashSet<>();
         for (GradeRow row : dataToDisplay) {
-            categoriesSet.add(row.getExam());
+            String modifiedLabel = insertLineBreaks(row.getExam());
+            categoriesSet.add(modifiedLabel);
         }
         List<String> categories = new ArrayList<>(categoriesSet);
 
-        // Update x-axis categories
         CategoryAxis xAxis = (CategoryAxis) scoreChart.getXAxis();
         xAxis.setAutoRanging(false);
         xAxis.getCategories().clear();
         xAxis.getCategories().addAll(categories);
 
-        // Populate chart
-        XYChart.Series<String, Number> series = new XYChart.Series<>();
-        for (GradeRow row : dataToDisplay) {
-            series.getData().add(new XYChart.Data<>(row.getExam(), row.getScore()));
-        }
-        scoreChart.getData().add(series);
+        Map<String, String> courseColorMap = new HashMap<>();
+        String[] colors = {"#FF0000", "#00FF00", "#0000FF", "#FFA500", "#800080", "#FFFF00", "#00FFFF"};
+        int colorIndex = 0;
 
-        // Adjust chart properties to center labels
+        for (GradeRow row : dataToDisplay) {
+            String courseName = row.getCourse();
+            if (!courseColorMap.containsKey(courseName)) {
+                courseColorMap.put(courseName, colors[colorIndex % colors.length]);
+                colorIndex++;
+            }
+        }
+
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+
+        for (GradeRow row : dataToDisplay) {
+            String modifiedLabel = insertLineBreaks(row.getExam());
+            XYChart.Data<String, Number> dataPoint = new XYChart.Data<>(modifiedLabel, row.getScore());
+            series.getData().add(dataPoint);
+
+            String courseColor = courseColorMap.get(row.getCourse());
+            dataPoint.nodeProperty().addListener((obs, oldNode, newNode) -> {
+                if (newNode != null) {
+                    newNode.setStyle("-fx-bar-fill: " + courseColor + ";");
+                }
+            });
+        }
+
+        scoreChart.getData().add(series);
         xAxis.setTickLabelRotation(0);
-        xAxis.setTickLabelGap(10); // Adjust as needed
-        scoreChart.setCategoryGap(20); // Adjust as needed
-        scoreChart.setBarGap(5);       // Adjust as needed
+        xAxis.setTickLabelGap(10);
+        scoreChart.setCategoryGap(50);
+        scoreChart.setBarGap(0);
+    }
+
+    private String insertLineBreaks(String label) {
+        String[] words = label.split("\\s+");
+        StringBuilder modifiedLabel = new StringBuilder();
+        int maxCharsPerLine = 10;
+        int currentLineLength = 0;
+
+        for (String word : words) {
+            if (currentLineLength + word.length() > maxCharsPerLine) {
+                modifiedLabel.append("\n");
+                currentLineLength = 0;
+            } else if (modifiedLabel.length() > 0) {
+                modifiedLabel.append(" ");
+            }
+            modifiedLabel.append(word);
+            currentLineLength += word.length() + 1;
+        }
+
+        return modifiedLabel.toString();
     }
 
     private int calculateFullScore(int[] questionIds, DataCollection data) {
@@ -185,7 +222,7 @@ public class GradeStatisticsController extends ControllerBase {
                 return student.getId();
             }
         }
-        return -1; // Return -1 if no matching username
+        return -1;
     }
 
     private void autoReset() {
@@ -198,12 +235,14 @@ public class GradeStatisticsController extends ControllerBase {
         private final String exam;
         private final int score;
         private final int fullScore;
+        private final int time;
 
-        public GradeRow(String course, String exam, int score, int fullScore) {
+        public GradeRow(String course, String exam, int score, int fullScore, int time) {
             this.course = course;
             this.exam = exam;
             this.score = score;
             this.fullScore = fullScore;
+            this.time = time;
         }
 
         public String getCourse() {
@@ -220,6 +259,10 @@ public class GradeStatisticsController extends ControllerBase {
 
         public int getFullScore() {
             return fullScore;
+        }
+
+        public int getTime() {
+            return time;
         }
     }
 }
