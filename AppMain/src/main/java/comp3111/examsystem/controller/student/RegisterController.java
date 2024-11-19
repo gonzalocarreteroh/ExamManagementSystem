@@ -2,8 +2,7 @@ package comp3111.examsystem.controller.student;
 
 import comp3111.examsystem.Main;
 import comp3111.examsystem.controller.ControllerBase;
-import comp3111.examsystem.model.DataCollection;
-import comp3111.examsystem.model.Gender;
+import comp3111.examsystem.model.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -32,8 +31,9 @@ public class RegisterController extends ControllerBase implements Initializable 
     @FXML
     private PasswordField passwordConfirmTxtRegister;
 
+    @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // Match ChoiceBox values exactly with the Gender enum values to avoid case sensitivity issues
+        // Populate gender choices
         if (genderRegister.getItems().isEmpty()) {
             genderRegister.getItems().addAll("FEMALE", "MALE", "OTHER");
         }
@@ -41,41 +41,42 @@ public class RegisterController extends ControllerBase implements Initializable 
 
     @FXML
     public void storeRegister() {
-        if (passwordTxtRegister.getText().equals(passwordConfirmTxtRegister.getText())) {
-            try {
-                DataCollection data = loadData();
-                // No need to convert case as ChoiceBox values now match enum values
-                Gender genderEnum = Gender.valueOf(genderRegister.getValue());
-
-                data.getStudents().add(
-                        usernameTxtRegister.getText(),
-                        passwordTxtRegister.getText(),
-                        nameTxtRegister.getText(),
-                        Integer.parseInt(ageTxtRegister.getText()),
-                        departmentTxtRegister.getText(),
-                        genderEnum
-                );
-
-                storeData(data);
-
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setHeaderText("Registration successful");
-                alert.setContentText("Welcome to the system");
-                alert.showAndWait();
-                ((Stage) usernameTxtRegister.getScene().getWindow()).close();
-
-            } catch (IllegalArgumentException e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText("Registration failed");
-                alert.setContentText("Invalid gender selection. Please select a valid option.");
-                alert.showAndWait();
-            }
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Registration failed");
-            alert.setContentText("Passwords do not match. Please try again.");
-            alert.showAndWait();
+        if (!passwordTxtRegister.getText().equals(passwordConfirmTxtRegister.getText())) {
+            showAlert(Alert.AlertType.ERROR, "Registration Failed", "Passwords do not match. Please try again.");
+            return;
         }
+
+        try {
+            DataCollection data = loadData();
+            Gender genderEnum = Gender.valueOf(genderRegister.getValue());
+
+            // Add student to database
+            data.getStudents().add(
+                    usernameTxtRegister.getText(),
+                    passwordTxtRegister.getText(),
+                    nameTxtRegister.getText(),
+                    Integer.parseInt(ageTxtRegister.getText()),
+                    departmentTxtRegister.getText(),
+                    genderEnum
+            );
+
+            // Save data back to storage
+            storeData(data);
+
+            showAlert(Alert.AlertType.INFORMATION, "Registration Successful", "Welcome to the system.");
+            ((Stage) usernameTxtRegister.getScene().getWindow()).close();
+        } catch (IllegalArgumentException e) {
+            showAlert(Alert.AlertType.ERROR, "Registration Failed", "Invalid gender selection.");
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Registration Failed", "An error occurred. Please try again.");
+        }
+    }
+
+    private void showAlert(Alert.AlertType type, String header, String content) {
+        Alert alert = new Alert(type);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
     @FXML

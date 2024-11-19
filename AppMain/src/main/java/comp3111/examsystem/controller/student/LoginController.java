@@ -24,10 +24,11 @@ public class LoginController extends ControllerBase implements Initializable {
     @FXML
     private PasswordField passwordTxt;
 
-    private DataCollection data;  // Store a reference to DataCollection for shared access
+    private DataCollection data; // Store a reference to DataCollection for shared access
 
+    @Override
     public void initialize(URL location, ResourceBundle resources) {
-        data = loadData();  // Load existing data, including StudentDb
+        data = loadData(); // Load existing data, including StudentDb
     }
 
     @FXML
@@ -35,16 +36,30 @@ public class LoginController extends ControllerBase implements Initializable {
         boolean isAuthenticated = data.getStudents().login(usernameTxt.getText(), passwordTxt.getText());
 
         if (isAuthenticated) {
-            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("student/MainUI.fxml"));
-            Stage stage = new Stage();
-            stage.setTitle("Hi " + usernameTxt.getText() + ", Welcome to HKUST Examination System");
+            // Show a success alert with an OK button
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("Login Successful");
+            alert.setContentText("Click OK to proceed.");
+            alert.showAndWait();
+
             try {
-                stage.setScene(new Scene(fxmlLoader.load()));
+                FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("student/MainUI.fxml"));
+                Scene scene = new Scene(fxmlLoader.load());
+
+                // Pass the username to the MainController
+                MainController mainController = fxmlLoader.getController();
+                mainController.setUsername(usernameTxt.getText());
+
+                Stage stage = new Stage();
+                stage.setTitle("Hi " + usernameTxt.getText() + ", Welcome to HKUST Examination System");
+                stage.setScene(scene);
+                stage.show();
+
+                // Close the login window
+                ((Stage) ((Button) e.getSource()).getScene().getWindow()).close();
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
-            stage.show();
-            ((Stage) ((Button) e.getSource()).getScene().getWindow()).close();
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Login failed");
@@ -55,16 +70,14 @@ public class LoginController extends ControllerBase implements Initializable {
 
     @FXML
     public void register() {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("student/RegisterUI.fxml"));
-        Stage stage = new Stage();
-        stage.setTitle("Student Register");
         try {
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("student/RegisterUI.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Student Register");
             stage.setScene(new Scene(fxmlLoader.load()));
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        stage.show();
-
-        // ((Stage) usernameTxt.getScene().getWindow()).close();
     }
 }

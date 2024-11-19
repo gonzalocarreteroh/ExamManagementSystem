@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comp3111.examsystem.controller.student.GradeStatisticsController" spacing="10" alignment="CENTER">
+    <children>
+        <HBox alignment="CENTER" spacing="10">
+            <children>
+                <ComboBox fx:id="courseComboBox" prefWidth="200" />
+                <Button fx:id="resetButton" text="Reset" onAction="#resetFilters" />
+                <Button fx:id="filterButton" text="Filter" onAction="#filterResults" />
+            </children>
+            <padding>
+                <Insets top="10" bottom="10" left="10" right="10" />
+            </padding>
+        </HBox>
+        <TableView fx:id="gradesTable" prefHeight="200" prefWidth="700">
+            <columns>
+                <TableColumn fx:id="courseColumn" text="Course" />
+                <TableColumn fx:id="examColumn" text="Exam" />
+                <TableColumn fx:id="scoreColumn" text="Score" />
+                <TableColumn fx:id="fullScoreColumn" text="Full Score" />
+                <TableColumn fx:id="timeColumn" text="Time" />
+            </columns>
+        </TableView>
+        <BarChart fx:id="scoreChart" title="Grade Statistics" prefHeight="300" prefWidth="700">
+            <xAxis>
+                <CategoryAxis fx:id="xAxis" label="Exam Overview" />
+            </xAxis>
+            <yAxis>
+                <NumberAxis fx:id="yAxis" label="Score" />
+            </yAxis>
+        </BarChart>
+        <Button fx:id="refreshButton" text="Refresh" onAction="#refreshStatistics" />
+    </children>
+</VBox>
