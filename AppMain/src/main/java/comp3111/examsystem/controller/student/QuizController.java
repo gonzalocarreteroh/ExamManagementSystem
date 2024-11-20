@@ -53,13 +53,13 @@ public class QuizController extends ControllerBase implements Initializable {
     private int remainingTime;
     private int studentId;
     private int examId;
-    private boolean quizSubmitted; // Tracks if the quiz has already been submitted
+    private boolean quizSubmitted;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         studentAnswers = new HashMap<>();
         gradeDb = loadData().getGrades();
-        quizSubmitted = false; // Initialize the flag
+        quizSubmitted = false;
 
         nextButton.setDisable(true);
         prevButton.setDisable(true);
@@ -104,8 +104,8 @@ public class QuizController extends ControllerBase implements Initializable {
             }
         });
 
-        // Initialize timer: 15 seconds per question
-        remainingTime = questions.size() * 15;
+        // Set remaining time based on the duration value in storage.json
+        remainingTime = exam.getDuration();
         timerLabel.setText("Time Remaining: " + remainingTime + "s");
         startTimer();
 
@@ -217,7 +217,8 @@ public class QuizController extends ControllerBase implements Initializable {
 
     @FXML
     public void submitQuiz() {
-        if (quizSubmitted) return; // Prevent duplicate submissions
+        if (quizSubmitted) return;
+
         quizSubmitted = true;
 
         int correctAnswers = 0;
@@ -225,7 +226,12 @@ public class QuizController extends ControllerBase implements Initializable {
         int maxScore = 0;
 
         for (Question question : questions) {
-            Set<String> correctAnswersSet = new HashSet<>(Arrays.asList(question.getAnswer().split(",")));
+            // Convert new "answer":"ABD" format into lowercase set: ["a", "b", "d"]
+            Set<String> correctAnswersSet = new HashSet<>();
+            for (char c : question.getAnswer().toCharArray()) {
+                correctAnswersSet.add(String.valueOf(c).toLowerCase());
+            }
+
             Set<String> studentAnswerSet = studentAnswers.getOrDefault(question.getId(), new HashSet<>());
 
             maxScore += question.getPoints();
@@ -269,7 +275,6 @@ public class QuizController extends ControllerBase implements Initializable {
             stage.setTitle("Quiz Selection");
             stage.setScene(new Scene(fxmlLoader.load()));
 
-            // Pass the username to MainController
             MainController mainController = fxmlLoader.getController();
             mainController.setUsername(username);
 

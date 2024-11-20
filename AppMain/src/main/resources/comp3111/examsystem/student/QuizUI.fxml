@@ -4,25 +4,37 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" prefHeight="600.0" prefWidth="800.0" spacing="20.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comp3111.examsystem.controller.student.QuizController">
+<VBox alignment="CENTER" prefHeight="600.0" prefWidth="800.0" spacing="20.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comp3111.examsystem.controller.student.QuizController"
+      style="-fx-background-color: linear-gradient(to bottom, #ffffff, #e0e0ff); -fx-padding: 20;">
     <children>
-        <Label fx:id="quizNameLabel" text="Quiz Name" style="-fx-font-size: 20px;" />
-        <HBox alignment="CENTER" spacing="50.0">
-            <Label fx:id="totalQuestionsLabel" text="Total Questions: 0" />
-            <Label fx:id="timerLabel" text="Time Remaining: 0s" />
+        <!-- Header Section -->
+        <Label fx:id="quizNameLabel" text="Quiz Name" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #4a4a4a;" />
+        <HBox alignment="CENTER" spacing="50.0" style="-fx-background-color: #f0f0ff; -fx-padding: 10; -fx-border-color: #d4d4d4; -fx-border-width: 2; -fx-border-radius: 10; -fx-background-radius: 10;">
+            <Label fx:id="totalQuestionsLabel" text="Total Questions: 0" style="-fx-font-size: 16px; -fx-text-fill: #333;" />
+            <Label fx:id="timerLabel" text="Time Remaining: 0s" style="-fx-font-size: 16px; -fx-text-fill: #ff5555;" />
         </HBox>
-        <HBox>
-            <ListView fx:id="questionListView" prefHeight="200.0" prefWidth="200.0" />
-            <VBox alignment="CENTER" spacing="20.0">
-                <Label fx:id="questionNumberLabel" text="Question Number" />
-                <Label fx:id="questionLabel" text="Question Text" wrapText="true" prefWidth="400.0" />
-                <VBox fx:id="answerOptionsBox" spacing="10.0" />
+
+        <!-- Main Content Section -->
+        <HBox spacing="20.0" style="-fx-padding: 20;">
+            <!-- Question List -->
+            <VBox spacing="10.0" style="-fx-background-color: #f8f9fa; -fx-padding: 10; -fx-border-color: #ccc; -fx-border-width: 1; -fx-border-radius: 5; -fx-background-radius: 5;">
+                <Label text="Questions" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #555;" />
+                <ListView fx:id="questionListView" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: #ddd; -fx-border-width: 1;" />
+            </VBox>
+
+            <!-- Question and Answer Section -->
+            <VBox alignment="CENTER" spacing="15.0" style="-fx-background-color: #ffffff; -fx-padding: 20; -fx-border-color: #dcdcdc; -fx-border-width: 1; -fx-border-radius: 10; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, #d0d0d0, 10, 0.3, 0, 0);">
+                <Label fx:id="questionNumberLabel" text="Question Number" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #4a4a4a;" />
+                <Label fx:id="questionLabel" text="Question Text" wrapText="true" prefWidth="400.0" style="-fx-font-size: 16px; -fx-text-fill: #333;" />
+                <VBox fx:id="answerOptionsBox" spacing="10.0" style="-fx-padding: 10; -fx-background-color: #f8f9fa; -fx-border-color: #ddd; -fx-border-width: 1; -fx-border-radius: 5; -fx-background-radius: 5;" />
             </VBox>
         </HBox>
-        <HBox alignment="CENTER" spacing="20.0">
-            <Button fx:id="prevButton" text="Previous" onAction="#prevQuestion" />
-            <Button fx:id="nextButton" text="Next" onAction="#nextQuestion" />
-            <Button fx:id="submitButton" text="Submit" onAction="#submitQuiz" />
+
+        <!-- Footer Section -->
+        <HBox alignment="CENTER" spacing="20.0" style="-fx-padding: 10;">
+            <Button fx:id="prevButton" text="Previous" onAction="#prevQuestion" style="-fx-font-size: 14px; -fx-background-color: #87ceeb; -fx-text-fill: white; -fx-background-radius: 15; -fx-padding: 10; -fx-effect: dropshadow(gaussian, #d0d0d0, 10, 0.3, 0, 0);" />
+            <Button fx:id="nextButton" text="Next" onAction="#nextQuestion" style="-fx-font-size: 14px; -fx-background-color: #87ceeb; -fx-text-fill: white; -fx-background-radius: 15; -fx-padding: 10; -fx-effect: dropshadow(gaussian, #d0d0d0, 10, 0.3, 0, 0);" />
+            <Button fx:id="submitButton" text="Submit" onAction="#submitQuiz" style="-fx-font-size: 14px; -fx-background-color: #32cd32; -fx-text-fill: white; -fx-background-radius: 15; -fx-padding: 10; -fx-effect: dropshadow(gaussian, #d0d0d0, 10, 0.3, 0, 0);" />
         </HBox>
     </children>
 </VBox>

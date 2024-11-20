@@ -8,26 +8,36 @@
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.ChoiceBox?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" style="-fx-background-repeat: stretch;-fx-background-position: center center;" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600" prefWidth="600" spacing="20.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comp3111.examsystem.controller.student.RegisterController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="600" prefWidth="600" spacing="30.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="comp3111.examsystem.controller.student.RegisterController"
+      style="-fx-background-color: linear-gradient(to bottom, #ffffff, #e8f0fe); -fx-padding: 30;">
     <children>
-        <Region prefHeight="20.0" prefWidth="600.0" />
-        <GridPane
-                alignment="CENTER"
-                hgap="10"
-                vgap="10">
+        <Label text="User Registration" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #4a4a4a;">
+            <VBox.margin>
+                <Insets top="20.0" />
+            </VBox.margin>
+        </Label>
 
+        <Region prefHeight="20.0" prefWidth="600.0" />
+
+        <!-- Registration Form -->
+        <GridPane alignment="CENTER" hgap="15" vgap="15"
+                  style="-fx-background-color: #ffffff; -fx-padding: 20; -fx-border-color: #d1d9e6; -fx-border-width: 2; -fx-border-radius: 10; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, #d0d0d0, 10, 0.3, 0, 0);">
             <columnConstraints>
                 <ColumnConstraints halignment="RIGHT" />
                 <ColumnConstraints halignment="LEFT" />
             </columnConstraints>
 
-            <Label text="Username:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-            <TextField fx:id="usernameTxtRegister" promptText="Please enter the user ID" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+            <Label text="Username:" style="-fx-font-size: 14px; -fx-text-fill: #333;" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+            <TextField fx:id="usernameTxtRegister" promptText="Please enter the user ID" GridPane.columnIndex="1" GridPane.rowIndex="0"
+                       style="-fx-border-color: #ccc; -fx-border-radius: 5; -fx-padding: 5;" />
 
-            <Label text="Name:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-            <TextField fx:id="nameTxtRegister" promptText="Please enter your name" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+            <Label text="Name:" style="-fx-font-size: 14px; -fx-text-fill: #333;" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+            <TextField fx:id="nameTxtRegister" promptText="Please enter your name" GridPane.columnIndex="1" GridPane.rowIndex="1"
+                       style="-fx-border-color: #ccc; -fx-border-radius: 5; -fx-padding: 5;" />
 
-            <Label text="Gender:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <Label text="Gender:" style="-fx-font-size: 14px; -fx-text-fill: #333;" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
             <ChoiceBox fx:id="genderRegister" GridPane.columnIndex="1" GridPane.rowIndex="2">
                 <items>
                     <FXCollections fx:factory="observableArrayList">
@@ -38,23 +48,32 @@
                 </items>
             </ChoiceBox>
 
-            <Label text="Age:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-            <TextField fx:id="ageTxtRegister" promptText="Please enter your age" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+            <Label text="Age:" style="-fx-font-size: 14px; -fx-text-fill: #333;" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+            <TextField fx:id="ageTxtRegister" promptText="Please enter your age" GridPane.columnIndex="1" GridPane.rowIndex="3"
+                       style="-fx-border-color: #ccc; -fx-border-radius: 5; -fx-padding: 5;" />
 
-            <Label text="Department:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
-            <TextField fx:id="departmentTxtRegister" promptText="Please enter your department" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+            <Label text="Department:" style="-fx-font-size: 14px; -fx-text-fill: #333;" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+            <TextField fx:id="departmentTxtRegister" promptText="Please enter your department" GridPane.columnIndex="1" GridPane.rowIndex="4"
+                       style="-fx-border-color: #ccc; -fx-border-radius: 5; -fx-padding: 5;" />
 
-            <Label text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
-            <PasswordField fx:id="passwordTxtRegister" promptText="Please enter the password" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+            <Label text="Password:" style="-fx-font-size: 14px; -fx-text-fill: #333;" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+            <PasswordField fx:id="passwordTxtRegister" promptText="Please enter the password" GridPane.columnIndex="1" GridPane.rowIndex="5"
+                           style="-fx-border-color: #ccc; -fx-border-radius: 5; -fx-padding: 5;" />
 
-            <Label text="Confirm Password:" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
-            <PasswordField fx:id="passwordConfirmTxtRegister" promptText="Please enter the password again" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+            <Label text="Confirm Password:" style="-fx-font-size: 14px; -fx-text-fill: #333;" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+            <PasswordField fx:id="passwordConfirmTxtRegister" promptText="Please enter the password again" GridPane.columnIndex="1" GridPane.rowIndex="6"
+                           style="-fx-border-color: #ccc; -fx-border-radius: 5; -fx-padding: 5;" />
         </GridPane>
+
         <Region prefHeight="20.0" prefWidth="1000.0" />
+
+        <!-- Buttons Section -->
         <HBox alignment="CENTER" prefHeight="80.0" prefWidth="600.0" BorderPane.alignment="CENTER" spacing="20.0">
             <children>
-                <Button mnemonicParsing="false" onAction="#close" text="Close" />
-                <Button mnemonicParsing="false" onAction="#storeRegister" text="Register" />
+                <Button mnemonicParsing="false" onAction="#close" text="Close"
+                        style="-fx-font-size: 14px; -fx-background-color: #87ceeb; -fx-text-fill: white; -fx-background-radius: 15; -fx-padding: 10;" />
+                <Button mnemonicParsing="false" onAction="#storeRegister" text="Register"
+                        style="-fx-font-size: 14px; -fx-background-color: #32cd32; -fx-text-fill: white; -fx-background-radius: 15; -fx-padding: 10;" />
             </children>
         </HBox>
     </children>

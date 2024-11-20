@@ -1,55 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="mainbox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600" prefWidth="600" style="-fx-background-repeat: stretch;-fx-background-position: center center;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comp3111.examsystem.controller.student.MainController">
+<VBox fx:id="mainbox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600" prefWidth="600" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comp3111.examsystem.controller.student.MainController"
+      style="-fx-background-color: linear-gradient(to bottom, #ffffff, #dbeafe); -fx-padding: 20;">
     <children>
-        <MenuBar>
+        <!-- Top Menu Bar -->
+        <MenuBar style="-fx-background-color: #4a90e2; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 5;">
             <menus>
-                <Menu mnemonicParsing="false" text="Option">
+                <Menu mnemonicParsing="false" text="Option" style="-fx-text-fill: white;">
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#exit" text="Exit" />
                     </items>
                 </Menu>
             </menus>
         </MenuBar>
-        <VBox alignment="CENTER" prefHeight="576.0" prefWidth="600.0">
+
+        <!-- Main Content -->
+        <VBox alignment="CENTER" spacing="30.0" style="-fx-padding: 20;">
             <children>
-                <HBox alignment="CENTER" prefHeight="329.0" prefWidth="600.0">
+                <!-- Exam Selection Section -->
+                <HBox alignment="CENTER" spacing="20.0" style="-fx-background-color: #f0f4fa; -fx-padding: 20; -fx-border-color: #d1d9e6; -fx-border-width: 2; -fx-border-radius: 10; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, #d0d0d0, 10, 0.3, 0, 0);">
                     <children>
-                        <Label text="Exams">
-                            <padding>
-                                <Insets right="20.0" />
-                            </padding>
-                        </Label>
-                        <ComboBox fx:id="examComboBox" promptText="Choose a Quiz" prefHeight="23.0" prefWidth="200.0" />
-                        <Button mnemonicParsing="false" onAction="#openQuizScreen" text="Start Quiz">
-                            <font>
-                                <Font size="15.0" />
-                            </font>
+                        <Label text="Exams" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333;" />
+                        <ComboBox fx:id="examComboBox" promptText="Choose a Quiz" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: white; -fx-border-color: #ccc; -fx-border-radius: 5;" />
+                        <Button mnemonicParsing="false" onAction="#openQuizScreen" text="Start Quiz" style="-fx-font-size: 15px; -fx-background-color: #32cd32; -fx-text-fill: white; -fx-background-radius: 15; -fx-padding: 10;">
                             <HBox.margin>
                                 <Insets left="10.0" />
                             </HBox.margin>
                         </Button>
                     </children>
                 </HBox>
-                <Separator prefWidth="200.0" />
-                <VBox alignment="CENTER" prefHeight="334.0" prefWidth="600.0">
+
+                <!-- Separator -->
+                <Separator prefWidth="400.0" style="-fx-background-color: #ccc;" />
+
+                <!-- Grade Statistics Section -->
+                <VBox alignment="CENTER" spacing="20.0" style="-fx-background-color: #ffffff; -fx-padding: 20; -fx-border-color: #e0e0e0; -fx-border-width: 2; -fx-border-radius: 10; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, #d0d0d0, 10, 0.3, 0, 0);">
                     <children>
-                        <Button mnemonicParsing="false" onAction="#openGradeStatistic" prefWidth="268.0" text="Grade Statistics">
-                            <font>
-                                <Font size="15.0" />
-                            </font>
+                        <Button mnemonicParsing="false" onAction="#openGradeStatistic" prefWidth="200.0" text="Grade Statistics" style="-fx-font-size: 15px; -fx-background-color: #4a90e2; -fx-text-fill: white; -fx-background-radius: 15; -fx-padding: 10;">
                             <VBox.margin>
                                 <Insets top="10.0" />
                             </VBox.margin>
