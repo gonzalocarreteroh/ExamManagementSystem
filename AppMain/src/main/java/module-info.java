@@ -2,7 +2,7 @@ module comp3111.examsystem {
     requires javafx.controls;
     requires javafx.fxml;
     requires com.fasterxml.jackson.databind;
-
+    requires javafx.media; // Added to include media functionality
 
     opens comp3111.examsystem to javafx.fxml;
     exports comp3111.examsystem;

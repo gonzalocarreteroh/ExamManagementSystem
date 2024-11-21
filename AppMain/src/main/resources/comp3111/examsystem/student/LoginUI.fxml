@@ -8,11 +8,11 @@
 <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
       prefHeight="600" prefWidth="600" spacing="30.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="comp3111.examsystem.controller.student.LoginController"
-      style="-fx-background-color: linear-gradient(to bottom, #ffffff, #f0f4f8); -fx-padding: 30;">
+      style="-fx-background-color: linear-gradient(to bottom, #ffffff, #e3efff); -fx-padding: 30;">
     <children>
         <!-- Title Section -->
         <Label fx:id="titleLbl" text="Examination Management System"
-               style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #4a4a4a;">
+               style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;">
             <VBox.margin>
                 <Insets top="50.0"/>
             </VBox.margin>
@@ -22,7 +22,7 @@
 
         <!-- Login Form Section -->
         <GridPane alignment="CENTER" hgap="15" vgap="15"
-                  style="-fx-background-color: #ffffff; -fx-padding: 20; -fx-border-color: #d4d4d4; -fx-border-width: 2; -fx-border-radius: 10; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, #d0d0d0, 10, 0.3, 0, 0);">
+                  style="-fx-background-color: #ffffff; -fx-padding: 20; -fx-border-color: #d4d4d4; -fx-border-width: 2; -fx-border-radius: 10; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0.3, 0, 0);">
             <columnConstraints>
                 <ColumnConstraints halignment="RIGHT"/>
                 <ColumnConstraints halignment="LEFT"/>
@@ -37,13 +37,15 @@
                            style="-fx-border-color: #ccc; -fx-border-radius: 5; -fx-padding: 5;" />
         </GridPane>
 
+        <Region prefHeight="20.0" />
+
         <!-- Buttons Section -->
         <HBox alignment="CENTER" spacing="20.0" style="-fx-padding: 10;">
             <children>
                 <Button mnemonicParsing="false" onAction="#register" text="Register"
-                        style="-fx-font-size: 14px; -fx-background-color: #87ceeb; -fx-text-fill: white; -fx-background-radius: 15; -fx-padding: 10; -fx-effect: dropshadow(gaussian, #d0d0d0, 10, 0.3, 0, 0);" />
+                        style="-fx-font-size: 14px; -fx-background-color: #3498db; -fx-text-fill: white; -fx-background-radius: 15; -fx-padding: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0.3, 0, 0);" />
                 <Button mnemonicParsing="false" onAction="#login" text="Login"
-                        style="-fx-font-size: 14px; -fx-background-color: #32cd32; -fx-text-fill: white; -fx-background-radius: 15; -fx-padding: 10; -fx-effect: dropshadow(gaussian, #d0d0d0, 10, 0.3, 0, 0);" />
+                        style="-fx-font-size: 14px; -fx-background-color: #32cd32; -fx-text-fill: white; -fx-background-radius: 15; -fx-padding: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0.3, 0, 0);" />
             </children>
         </HBox>
     </children>

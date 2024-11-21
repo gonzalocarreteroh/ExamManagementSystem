@@ -18,6 +18,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.scene.media.AudioClip;
+import javafx.scene.control.Alert.AlertType;
 
 import java.net.URL;
 import java.util.*;
@@ -43,6 +45,8 @@ public class QuizController extends ControllerBase implements Initializable {
     private Button prevButton;
     @FXML
     private Button submitButton;
+    @FXML
+    private ProgressBar timerProgressBar;
 
     private String username;
     private List<Question> questions;
@@ -51,6 +55,7 @@ public class QuizController extends ControllerBase implements Initializable {
     private GradeDb gradeDb;
     private Timeline quizTimer;
     private int remainingTime;
+    private int totalTime; // Total time for the quiz
     private int studentId;
     private int examId;
     private boolean quizSubmitted;
@@ -64,6 +69,8 @@ public class QuizController extends ControllerBase implements Initializable {
         nextButton.setDisable(true);
         prevButton.setDisable(true);
         submitButton.setDisable(true);
+
+        playSound("start_quiz.mp3"); // Play sound when the quiz starts
     }
 
     public void setUsername(String username) {
@@ -104,8 +111,8 @@ public class QuizController extends ControllerBase implements Initializable {
             }
         });
 
-        // Set remaining time based on the duration value in storage.json
         remainingTime = exam.getDuration();
+        totalTime = remainingTime;
         timerLabel.setText("Time Remaining: " + remainingTime + "s");
         startTimer();
 
@@ -119,6 +126,7 @@ public class QuizController extends ControllerBase implements Initializable {
             if (remainingTime > 0) {
                 remainingTime--;
                 timerLabel.setText("Time Remaining: " + remainingTime + "s");
+                timerProgressBar.setProgress((double) remainingTime / totalTime); // Update progress bar
             } else {
                 quizTimer.stop();
                 submitQuiz(); // Trigger quiz submission when the timer ends
@@ -199,6 +207,7 @@ public class QuizController extends ControllerBase implements Initializable {
 
     @FXML
     public void nextQuestion() {
+        playSound("button_click.mp3");
         if (currentQuestionIndex < questions.size() - 1) {
             currentQuestionIndex++;
             displayQuestion();
@@ -208,6 +217,7 @@ public class QuizController extends ControllerBase implements Initializable {
 
     @FXML
     public void prevQuestion() {
+        playSound("button_click.mp3");
         if (currentQuestionIndex > 0) {
             currentQuestionIndex--;
             displayQuestion();
@@ -220,6 +230,7 @@ public class QuizController extends ControllerBase implements Initializable {
         if (quizSubmitted) return;
 
         quizSubmitted = true;
+        quizTimer.stop(); // Stop the timer when the quiz is submitted
 
         int correctAnswers = 0;
         int totalScore = 0;
@@ -247,19 +258,27 @@ public class QuizController extends ControllerBase implements Initializable {
         final int finalMaxScore = maxScore;
         final double precision = (double) finalCorrectAnswers / questions.size() * 100;
 
+        // Store the grade data
         DataCollection data = loadData();
         data.getGrades().add(studentId, examId, finalTotalScore);
         storeData(data);
 
+        playSound("submit_success.mp3");
+
         Platform.runLater(() -> {
-            Alert resultAlert = new Alert(Alert.AlertType.INFORMATION);
+            Alert resultAlert = new Alert(AlertType.INFORMATION);
             resultAlert.setHeaderText("Quiz Results");
-            resultAlert.setContentText(String.format("%d/%d Correct, the precision is %.2f%%, the score is %d/%d",
+            resultAlert.setContentText(String.format("%d/%d Correct, precision: %.2f%%, score: %d/%d",
                     finalCorrectAnswers, questions.size(), precision, finalTotalScore, finalMaxScore));
             resultAlert.showAndWait();
             ((Stage) submitButton.getScene().getWindow()).close();
             openQuizSelectionScreen();
         });
+    }
+
+    private void playSound(String fileName) {
+        AudioClip sound = new AudioClip(getClass().getResource("/sounds/" + fileName).toString());
+        sound.play();
     }
 
     private void updateNavigationButtons() {

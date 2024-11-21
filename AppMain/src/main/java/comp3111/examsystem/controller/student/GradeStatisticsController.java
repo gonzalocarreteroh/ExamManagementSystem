@@ -13,6 +13,7 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -44,6 +45,9 @@ public class GradeStatisticsController extends ControllerBase {
 
     @FXML
     private BarChart<String, Number> scoreChart;
+
+    @FXML
+    private Label feedbackLabel; // Label for summary feedback
 
     private ObservableList<GradeRow> allGradeData;
     private ObservableList<GradeRow> gradeData;
@@ -77,6 +81,10 @@ public class GradeStatisticsController extends ControllerBase {
 
         if (studentId == -1) return;
 
+        int totalScore = 0;
+        int highestScore = 0;
+        int totalExams = 0;
+
         for (Grade grade : data.getGrades().all()) {
             if (grade.getStudentId() == studentId) {
                 Exam exam = grade.getExam(data.getExams());
@@ -88,12 +96,32 @@ public class GradeStatisticsController extends ControllerBase {
 
                 GradeRow row = new GradeRow(courseName, examName, score, fullScore, time);
                 allGradeData.add(row);
+
+                totalScore += score;
+                highestScore = Math.max(highestScore, score);
+                totalExams++;
             }
         }
 
         gradeData.setAll(allGradeData);
         loadCourses();
         updateChart(gradeData);
+        updateFeedback(totalScore, highestScore, totalExams);
+    }
+
+    private void updateFeedback(int totalScore, int highestScore, int totalExams) {
+        if (totalExams == 0) {
+            feedbackLabel.setText("No completed exams yet. Start now to see your progress!");
+            return;
+        }
+
+        int averageScore = totalScore / totalExams;
+        feedbackLabel.setText(
+                String.format(
+                        "Completed Exams: %d | Highest Score: %d%nKeep up the great work!",
+                        totalExams, highestScore, averageScore
+                )
+        );
     }
 
     @FXML

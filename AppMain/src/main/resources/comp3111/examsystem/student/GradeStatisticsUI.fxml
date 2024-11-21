@@ -6,16 +6,23 @@
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
 <VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comp3111.examsystem.controller.student.GradeStatisticsController"
-      spacing="20" alignment="CENTER" style="-fx-background-color: linear-gradient(to bottom, #ffffff, #dfe7f3); -fx-padding: 20;">
+      spacing="20" alignment="CENTER" style="-fx-background-color: linear-gradient(to bottom, #ffffff, #eaf3fc); -fx-padding: 20;">
     <children>
+        <!-- Header Section -->
+        <Label text="Grade Statistics" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #333;" />
+        <Label fx:id="feedbackLabel" text="Feedback Area" wrapText="true"
+               style="-fx-font-size: 16px; -fx-background-color: #eef9ff; -fx-padding: 15; -fx-border-color: #b3e5fc; -fx-border-width: 2; -fx-border-radius: 10; -fx-background-radius: 10; -fx-text-fill: #0077cc;"
+               prefWidth="700" />
+
         <!-- Filter Section -->
-        <HBox alignment="CENTER" spacing="20" style="-fx-background-color: #eef2f9; -fx-padding: 10; -fx-border-color: #d1d9e6; -fx-border-width: 2; -fx-border-radius: 10; -fx-background-radius: 10;">
+        <HBox alignment="CENTER" spacing="20" style="-fx-background-color: #eef4fa; -fx-padding: 15; -fx-border-color: #d1d9e6; -fx-border-width: 2; -fx-border-radius: 10; -fx-background-radius: 10;">
             <children>
                 <ComboBox fx:id="courseComboBox" prefWidth="200" promptText="Select Course" style="-fx-border-color: #ccc; -fx-border-radius: 5;" />
                 <Button fx:id="resetButton" text="Reset" onAction="#resetFilters" style="-fx-font-size: 14px; -fx-background-color: #87ceeb; -fx-text-fill: white; -fx-background-radius: 10; -fx-padding: 10;" />
@@ -35,14 +42,17 @@
         </TableView>
 
         <!-- Bar Chart -->
-        <BarChart fx:id="scoreChart" title="Grade Statistics" prefHeight="300" prefWidth="700" style="-fx-border-color: #dcdcdc; -fx-border-width: 1; -fx-background-radius: 5;">
-            <xAxis>
-                <CategoryAxis fx:id="xAxis" label="Exam Overview" />
-            </xAxis>
-            <yAxis>
-                <NumberAxis fx:id="yAxis" label="Score" />
-            </yAxis>
-        </BarChart>
+        <VBox spacing="10" style="-fx-background-color: #ffffff; -fx-padding: 20; -fx-border-color: #dcdcdc; -fx-border-width: 1; -fx-border-radius: 10; -fx-background-radius: 10;">
+            <Label text="Score Chart" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333;" />
+            <BarChart fx:id="scoreChart" title="Grade Statistics" prefHeight="300" prefWidth="700" style="-fx-border-color: #dcdcdc; -fx-border-width: 1; -fx-background-radius: 5;">
+                <xAxis>
+                    <CategoryAxis fx:id="xAxis" label="Exam Overview" />
+                </xAxis>
+                <yAxis>
+                    <NumberAxis fx:id="yAxis" label="Score" />
+                </yAxis>
+            </BarChart>
+        </VBox>
 
         <!-- Refresh Button -->
         <Button fx:id="refreshButton" text="Refresh" onAction="#refreshStatistics" style="-fx-font-size: 14px; -fx-background-color: #4a90e2; -fx-text-fill: white; -fx-background-radius: 15; -fx-padding: 10;" />
