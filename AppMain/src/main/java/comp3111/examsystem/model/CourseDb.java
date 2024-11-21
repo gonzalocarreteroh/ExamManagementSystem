@@ -42,9 +42,9 @@ public class CourseDb {
 
     public Course[] all(String code, String name, String department) {
         return courses.values().stream().filter(s -> {
-            return (code == null || code.equals("") || s.getCode().equals(code))
-                    && (name.equals("") || s.getName().startsWith(name))
-                    && (department.equals("") || s.getDepartment().startsWith(department));
+            return (code == null || code.isEmpty() || s.getCode().equals(code))
+                    && (name.isEmpty() || s.getName().startsWith(name))
+                    && (department.isEmpty() || s.getDepartment().startsWith(department));
         }).toList().toArray(new Course[0]);
     }
 

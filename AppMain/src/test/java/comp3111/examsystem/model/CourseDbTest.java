@@ -74,5 +74,6 @@ public class CourseDbTest {
         assertEquals(1, db.all("COMP3111", "SwEng", "").length);
         assertEquals(0, db.all("COMP3111", "SEng", "").length);
         assertEquals(2, db.all("", "", "CSE").length);
+        assertEquals(2, db.all(null, "", "CSE").length);
     }
 }

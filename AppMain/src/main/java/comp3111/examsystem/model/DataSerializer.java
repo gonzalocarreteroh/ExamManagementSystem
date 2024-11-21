@@ -84,7 +84,6 @@ public class DataSerializer {
     }
 
     private JsonNode serialize(Question question) {
-        System.out.println(question.getType());
         var n = mapper.createObjectNode();
         n.put("id", question.getId());
         n.put("title", question.getTitle());

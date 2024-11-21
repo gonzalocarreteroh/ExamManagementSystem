@@ -2,7 +2,7 @@ package comp3111.examsystem.model;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class StudentDbTest {
     @Test
@@ -20,6 +20,8 @@ public class StudentDbTest {
         assertEquals(0, db.all("x", "", "").length);
         assertEquals(0, db.all("", "x", "").length);
         assertEquals(0, db.all("", "", "x").length);
+        assertTrue(db.login("jane.smith", "123456"));
+        assertFalse(db.login("john.smith", "abcdef"));
     }
 
     @Test

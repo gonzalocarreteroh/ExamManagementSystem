@@ -3,7 +3,6 @@ package comp3111.examsystem.model;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.*;
 
 public class StudentDb {
     private int lastId;
