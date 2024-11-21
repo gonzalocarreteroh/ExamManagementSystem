@@ -16,8 +16,8 @@ public class QuestionTest {
         assertEquals("10", q.getD());
         assertEquals("B", q.getAnswer());
         assertEquals(4, q.getPoints());
-        // assertTrue(q.isSingle());
-        // assertFalse(q.isMultiple());
+        assertTrue(q.isSingle());
+        assertFalse(q.isMultiple());
         assertEquals(q.getType(), Type.Single);
     }
 
@@ -32,8 +32,8 @@ public class QuestionTest {
         assertEquals("10", q.getD());
         assertEquals("CD", q.getAnswer());
         assertEquals(4, q.getPoints());
-        // assertFalse(q.isSingle());
-        // assertTrue(q.isMultiple());
+        assertFalse(q.isSingle());
+        assertTrue(q.isMultiple());
         assertEquals(q.getType(), Type.Multiple);
     }
 }

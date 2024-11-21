@@ -122,7 +122,7 @@ public class Question {
      * @return {@code true} if the answer is a single option (a, b, c, or d); {@code false} if it is multiple-choice
      */
     public boolean isSingle() {
-        return answer.length() == 1;
+        return type.equals(Type.Single);
     }
 
     /**
@@ -131,6 +131,6 @@ public class Question {
      * @return {@code true} if the question is multiple-choice; {@code false} if it is a single-choice question
      */
     public boolean isMultiple() {
-        return !isSingle();
+        return type.equals(Type.Multiple);
     }
 }
