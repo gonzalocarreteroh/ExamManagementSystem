@@ -8,8 +8,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -20,6 +20,12 @@ import java.util.stream.Collectors;
 public class MainController extends ControllerBase implements Initializable {
     @FXML
     private ComboBox<String> examComboBox;
+
+    @FXML
+    private Label feedbackLabel;
+
+    @FXML
+    private ProgressBar quizProgressBar;
 
     private ExamDb examDb;
     private String username; // Store the logged-in username
@@ -56,14 +62,26 @@ public class MainController extends ControllerBase implements Initializable {
                 .collect(Collectors.toSet());
 
         // Now, only include exams that are not in takenExamIds
-        examComboBox.getItems().clear();
-        Arrays.stream(examDb.all())
+        List<Exam> allExams = Arrays.asList(examDb.all());
+        List<Exam> availableExams = allExams.stream()
                 .filter(exam -> !takenExamIds.contains(exam.getId()))
-                .forEach(exam -> examComboBox.getItems().add(exam.getName()));
+                .collect(Collectors.toList());
 
-        if (examComboBox.getItems().isEmpty()) {
-            // Optionally, show a message that the student has completed all exams
-            showAlert(Alert.AlertType.INFORMATION, "No Available Exams", "You have completed all available exams.");
+        // Populate ComboBox with available exams
+        examComboBox.getItems().clear();
+        availableExams.forEach(exam -> examComboBox.getItems().add(exam.getName()));
+
+        // Update progress and feedback
+        int totalExams = allExams.size();
+        int completedExams = takenExamIds.size();
+        double progress = (double) completedExams / totalExams;
+
+        quizProgressBar.setProgress(progress);
+
+        if (completedExams == totalExams) {
+            feedbackLabel.setText("Congratulations! 🎉 You have completed all quizzes!");
+        } else {
+            feedbackLabel.setText("You have completed " + completedExams + " out of " + totalExams + " quizzes.");
         }
     }
 
@@ -120,9 +138,6 @@ public class MainController extends ControllerBase implements Initializable {
             stage.setTitle("Grade Statistics");
             stage.setScene(scene);
             stage.show();
-
-            // Removed the line that closes the current window
-            // ((Stage) examComboBox.getScene().getWindow()).close();
 
         } catch (IOException ex) {
             ex.printStackTrace();

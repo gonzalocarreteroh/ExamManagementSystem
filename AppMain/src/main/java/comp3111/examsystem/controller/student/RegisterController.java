@@ -1,21 +1,15 @@
 package comp3111.examsystem.controller.student;
 
-import comp3111.examsystem.Main;
 import comp3111.examsystem.controller.ControllerBase;
 import comp3111.examsystem.model.*;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
-public class RegisterController extends ControllerBase implements Initializable {
+public class RegisterController extends ControllerBase {
     @FXML
     private TextField usernameTxtRegister;
     @FXML
@@ -31,8 +25,8 @@ public class RegisterController extends ControllerBase implements Initializable 
     @FXML
     private PasswordField passwordConfirmTxtRegister;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    @FXML
+    public void initialize() {
         // Populate gender choices
         if (genderRegister.getItems().isEmpty()) {
             genderRegister.getItems().addAll("FEMALE", "MALE", "OTHER");
@@ -41,21 +35,33 @@ public class RegisterController extends ControllerBase implements Initializable 
 
     @FXML
     public void storeRegister() {
+        // Validate password match
         if (!passwordTxtRegister.getText().equals(passwordConfirmTxtRegister.getText())) {
             showAlert(Alert.AlertType.ERROR, "Registration Failed", "Passwords do not match. Please try again.");
             return;
         }
 
-        try {
-            DataCollection data = loadData();
-            Gender genderEnum = Gender.valueOf(genderRegister.getValue());
+        // Validate gender selection
+        String selectedGender = genderRegister.getValue();
+        if (selectedGender == null || selectedGender.isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Registration Failed", "Please select a valid gender.");
+            return;
+        }
 
-            // Add student to database
+        try {
+            // Parse age
+            int age = Integer.parseInt(ageTxtRegister.getText());
+
+            // Convert gender selection to enum
+            Gender genderEnum = Gender.valueOf(selectedGender);
+
+            // Load data and add student to database
+            DataCollection data = loadData();
             data.getStudents().add(
                     usernameTxtRegister.getText(),
                     passwordTxtRegister.getText(),
                     nameTxtRegister.getText(),
-                    Integer.parseInt(ageTxtRegister.getText()),
+                    age,
                     departmentTxtRegister.getText(),
                     genderEnum
             );
@@ -65,6 +71,8 @@ public class RegisterController extends ControllerBase implements Initializable 
 
             showAlert(Alert.AlertType.INFORMATION, "Registration Successful", "Welcome to the system.");
             ((Stage) usernameTxtRegister.getScene().getWindow()).close();
+        } catch (NumberFormatException e) {
+            showAlert(Alert.AlertType.ERROR, "Registration Failed", "Invalid age. Please enter a valid number.");
         } catch (IllegalArgumentException e) {
             showAlert(Alert.AlertType.ERROR, "Registration Failed", "Invalid gender selection.");
         } catch (Exception e) {
