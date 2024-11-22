@@ -42,7 +42,7 @@ public class ExamDb {
 
     public Exam[] all(String name, Integer courseId, Boolean published) {
         return exams.values().stream().filter(s -> {
-            boolean nameMatch = name.equals("") || name.equals(s.getName());
+            boolean nameMatch = name == null || name.isEmpty() || name.equals(s.getName());
             boolean courseIdMatch = courseId == null || courseId.equals(s.getCourseId());
             boolean publishedMatch = published == null || published.equals(s.getPublished());
             return nameMatch && courseIdMatch && publishedMatch;

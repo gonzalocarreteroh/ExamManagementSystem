@@ -27,7 +27,7 @@ public class ExamDbTest {
         assertEquals(2, db.all().length);
         Exam a = db.get(db.all("Midterm")[0].getId());
         Exam b = db.get(db.all("Final", courseId)[0].getId());
-        Exam c = db.get(db.all("", courseId, false)[0].getId());
+        Exam c = db.get(db.all(null, courseId, false)[0].getId());
         assertEquals("Midterm", a.getName());
         assertEquals("Final", b.getName());
         assertEquals("Final", c.getName());

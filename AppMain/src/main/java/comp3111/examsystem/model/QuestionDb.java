@@ -56,6 +56,6 @@ public class QuestionDb {
     }
 
     public Question[] all() {
-        return all("");
+        return all(null);
     }
 }

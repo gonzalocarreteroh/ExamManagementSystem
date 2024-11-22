@@ -24,7 +24,8 @@ public class GradeDb {
     }
 
     public Grade get(int studentId, int examId) {
-        return grades.get(studentId).get(examId);
+        var studentGrades = grades.get(studentId);
+        return studentGrades == null ? null : studentGrades.get(examId);
     }
 
     public Grade[] all() {

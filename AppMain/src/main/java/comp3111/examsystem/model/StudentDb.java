@@ -46,9 +46,9 @@ public class StudentDb {
 
     public Student[] all(String username, String name, String department) {
         return students.values().stream().filter(s -> {
-            boolean usernameMatch = username.equals("") || s.getUsername().equals(username);
-            boolean nameMatch = name.equals("") || s.getName().equals(name);
-            boolean departmentMatch = department.equals("") || s.getDepartment().equals(department);
+            boolean usernameMatch = username == null || username.isEmpty() || s.getUsername().equals(username);
+            boolean nameMatch = name == null || name.isEmpty() || s.getName().equals(name);
+            boolean departmentMatch = department == null || department.isEmpty() || s.getDepartment().equals(department);
             return usernameMatch && nameMatch && departmentMatch;
         }).toArray(Student[]::new);
     }

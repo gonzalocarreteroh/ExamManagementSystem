@@ -18,8 +18,9 @@ public class StudentDbTest {
         assertEquals(5, db.all().length);
         assertEquals(1, db.all("john.smith", "", "").length);
         assertEquals(0, db.all("x", "", "").length);
-        assertEquals(0, db.all("", "x", "").length);
-        assertEquals(0, db.all("", "", "x").length);
+        assertEquals(0, db.all("", "x", null).length);
+        assertEquals(0, db.all("", null, "x").length);
+        assertEquals(0, db.all(null, "", "x").length);
         assertTrue(db.login("jane.smith", "123456"));
         assertFalse(db.login("john.smith", "abcdef"));
     }
