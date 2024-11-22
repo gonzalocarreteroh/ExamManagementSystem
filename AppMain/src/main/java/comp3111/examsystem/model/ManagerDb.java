@@ -18,6 +18,10 @@ public class ManagerDb {
     }
 
     public boolean login(String username, String password) {
-        return Arrays.stream(managers).anyMatch(m -> m.getUsername().equals(username) && m.getPassword().equals(password));
+        return Arrays.stream(managers).anyMatch(m -> {
+            String managerUsername = m.getUsername();
+            String managerPassword = m.getPassword();
+            return managerUsername.equals(username) && managerPassword.equals(password);
+        });
     }
 }

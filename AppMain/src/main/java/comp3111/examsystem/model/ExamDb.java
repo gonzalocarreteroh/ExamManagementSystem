@@ -13,7 +13,8 @@ public class ExamDb {
 
         this.exams = new HashMap<>();
         for (Exam c : exams) {
-            this.exams.put(c.getId(), c);
+            int examId = c.getId();
+            this.exams.put(examId, c);
         }
     }
 
@@ -23,12 +24,14 @@ public class ExamDb {
 
     public void add(String name, int duration, int courseId, boolean published, int[] questionIds) {
         lastId += 1;
-        exams.put(lastId, new Exam(lastId, name, duration, courseId, published, questionIds));
+        Exam exam = new Exam(lastId, name, duration, courseId, published, questionIds);
+        exams.put(lastId, exam);
     }
 
     public void update(Exam exam) {
-        if (exams.containsKey(exam.getId())) {
-            exams.put(exam.getId(), exam);
+        int examId = exam.getId();
+        if (exams.containsKey(examId)) {
+            exams.put(examId, exam);
         }
     }
 
@@ -42,9 +45,12 @@ public class ExamDb {
 
     public Exam[] all(String name, Integer courseId, Boolean published) {
         return exams.values().stream().filter(s -> {
-            boolean nameMatch = name == null || name.isEmpty() || name.equals(s.getName());
-            boolean courseIdMatch = courseId == null || courseId.equals(s.getCourseId());
-            boolean publishedMatch = published == null || published.equals(s.getPublished());
+            String examName = s.getName();
+            boolean nameMatch = name == null || name.isEmpty() || name.equals(examName);
+            int examCourseId = s.getCourseId();
+            boolean courseIdMatch = courseId == null || courseId.equals(examCourseId);
+            boolean isExamPublished = s.getPublished();
+            boolean publishedMatch = published == null || published.equals(isExamPublished);
             return nameMatch && courseIdMatch && publishedMatch;
         }).toList().toArray(new Exam[0]);
     }

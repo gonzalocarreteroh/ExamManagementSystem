@@ -70,20 +70,13 @@ public class CourseManagementController extends ControllerBase implements Initia
         refresh();
     }
 
-    private void loadCourses() {
+    @FXML
+    public void refresh() {
         Course[] courses = loadData().getCourses().all(filterCode.getText(), filterName.getText(), filterDepartment.getText());
         courseList.clear();
         courseList.addAll(Arrays.stream(courses).map(course -> new Row(
-                course.getId(),
-                course.getCode(),
-                course.getName(),
-                course.getDepartment()
+                course.getId(), course.getCode(), course.getName(), course.getDepartment()
         )).toList());
-    }
-
-    @FXML
-    public void refresh() {
-        loadCourses();
     }
 
     @FXML
@@ -91,12 +84,7 @@ public class CourseManagementController extends ControllerBase implements Initia
         filterCode.clear();
         filterName.clear();
         filterDepartment.clear();
-        loadCourses();
-    }
-
-    @FXML
-    public void query() {
-        loadCourses();
+        refresh();
     }
 
     private void clearForm() {
@@ -117,7 +105,7 @@ public class CourseManagementController extends ControllerBase implements Initia
         storeData(data);
 
         clearForm();
-        loadCourses();
+        refresh();
     }
 
     @FXML
@@ -136,8 +124,7 @@ public class CourseManagementController extends ControllerBase implements Initia
                 )
         );
         storeData(data);
-
-        loadCourses();
+        refresh();
     }
 
     public void delete() {
@@ -146,6 +133,6 @@ public class CourseManagementController extends ControllerBase implements Initia
         storeData(data);
 
         clearForm();
-        loadCourses();
+        refresh();
     }
 }

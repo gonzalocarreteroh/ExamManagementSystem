@@ -20,7 +20,9 @@ public class GradeDb {
         if (!grades.containsKey(studentId)) {
             grades.put(studentId, new HashMap<>());
         }
-        grades.get(studentId).put(examId, new Grade(studentId, examId, points));
+
+        Grade newGrade = new Grade(studentId, examId, points);
+        grades.get(studentId).put(examId, newGrade);
     }
 
     public Grade[] all(Integer studentId, Integer examId) {
@@ -32,10 +34,14 @@ public class GradeDb {
             } else {
                 return studentGrades.values().stream().toList().toArray(new Grade[0]);
             }
+
         } else {
             var gs = grades.values().stream().flatMap(gradeMap -> gradeMap.values().stream());
             if (examId != null) {
-                gs = gs.filter(grade -> grade.getExamId() == examId);
+                gs = gs.filter(grade -> {
+                    int gradeExamId = grade.getExamId();
+                    return gradeExamId == examId;
+                });
             }
             return gs.toList().toArray(new Grade[0]);
         }

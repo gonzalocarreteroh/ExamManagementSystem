@@ -99,17 +99,9 @@ public class GradeStatisticController extends ControllerBase implements Initiali
         numberAxisLine.setLabel("Avg. Score");
         gradeTable.setItems(gradeList);
 
-        for (Course course: loadData().getCourses().all()) {
-            courseCombox.getItems().add(course.getCode());
-        }
-
-        for (Student student: loadData().getStudents().all()) {
-            studentCombox.getItems().add(student.getUsername());
-        }
-
-        for (Exam exam: loadData().getExams().all()) {
-            examCombox.getItems().add(exam.getName());
-        }
+        courseCombox.getItems().addAll(Arrays.stream(loadData().getCourses().all()).map(Course::getCode).toList());
+        studentCombox.getItems().addAll(Arrays.stream(loadData().getStudents().all()).map(Student::getUsername).toList());
+        examCombox.getItems().addAll(Arrays.stream(loadData().getExams().all()).map(Exam::getName).toList());
 
         studentColumn.setCellValueFactory(new PropertyValueFactory<>("studentName"));
         courseColumn.setCellValueFactory(new PropertyValueFactory<>("courseNum"));
@@ -124,75 +116,51 @@ public class GradeStatisticController extends ControllerBase implements Initiali
 
     @FXML
     public void refresh() {
-        String courseCode = courseCombox.getValue();
-        String studentUsername = studentCombox.getValue();
-        String examName = examCombox.getValue();
-
-        CourseDb courseDb = loadData().getCourses();
-        GradeDb gradeDb = loadData().getGrades();
-        ExamDb examDb = loadData().getExams();
-        QuestionDb questionDb = loadData().getQuestions();
-        StudentDb studentDb = loadData().getStudents();
-
         gradeList.clear();
-        for (Course course: courseDb.all(courseCode)) {
-            for (Exam exam: examDb.all(examName, course.getId())) {
-                for (Student student: studentDb.all(studentUsername)) {
-                    for (Grade grade: gradeDb.all(student.getId(), exam.getId())) {
-                        gradeList.add(new StatsRow(student.getName(), course.getCode(), exam.getName(), grade.getPoints(), exam.getMaxPoints(questionDb), exam.getDuration()));
-                    }
-                }
-            }
-        }
+        gradeList.addAll(
+                Arrays.stream(loadData().getCourses().all(courseCombox.getValue()))
+                .flatMap(course -> Arrays.stream(loadData().getExams().all(examCombox.getValue(), course.getId()))
+                        .flatMap(exam -> Arrays.stream(loadData().getStudents().all(studentCombox.getValue()))
+                                .flatMap(student -> Arrays.stream(loadData().getGrades().all(student.getId(), exam.getId()))
+                                        .map(grade -> new StatsRow(student.getName(), course.getCode(), exam.getName(), grade.getPoints(), exam.getMaxPoints(loadData().getQuestions()), exam.getDuration()))))).toList()
+        );
     }
 
     private void loadChart() {
         CourseDb courseDb = loadData().getCourses();
         GradeDb gradeDb = loadData().getGrades();
         ExamDb examDb = loadData().getExams();
-        QuestionDb questionDb = loadData().getQuestions();
         StudentDb studentDb = loadData().getStudents();
 
-        XYChart.Series<String, Number> seriesBar = new XYChart.Series<>();
-        seriesBar.getData().clear();
-        barChart.getData().clear();
+        var seriesBar = new XYChart.Series<String, Number>();
+        seriesBar.getData().addAll(Arrays.stream(courseDb.all()).map(course -> {
+            var grades = Arrays.stream(examDb.all(null, course.getId()))
+                    .flatMap(exam -> Arrays.stream(gradeDb.all(null, exam.getId())))
+                    .toList();
 
-        for (Course course: courseDb.all()) {
-            int gradeSum = 0, gradeCount = 0;
-            for (Exam exam: examDb.all(null, course.getId())) {
-                Grade[] grades = gradeDb.all(null, exam.getId());
-                gradeSum += Arrays.stream(grades).map(Grade::getPoints).reduce(0, Integer::sum);
-                gradeCount += grades.length;
-            }
-
-            int avgGrade = gradeCount == 0 ? 0 : gradeSum / gradeCount;
-            seriesBar.getData().add(new XYChart.Data<>(course.getCode(), avgGrade));
-        }
+            int gradeSum = grades.stream().map(Grade::getPoints).reduce(0, Integer::sum);
+            int avgGrade = (int)(gradeSum / (grades.size() + 0.01));
+            return new XYChart.Data<String, Number>(course.getCode(), avgGrade);
+        }).toList());
         barChart.getData().add(seriesBar);
 
-        pieChart.getData().clear();
-        for (Student student: studentDb.all()) {
+        pieChart.getData().addAll(Arrays.stream(studentDb.all()).map(student -> {
             Grade[] grades = gradeDb.all(student.getId(), null);
-
             int gradeSum = Arrays.stream(grades).map(Grade::getPoints).reduce(0, Integer::sum);
-            int avgGrade = grades.length == 0 ? 0 : gradeSum / grades.length;
+            int avgGrade = (int)(gradeSum / (grades.length + 0.01));
 
-            pieChart.getData().add(new PieChart.Data(student.getName(), avgGrade));
-        }
+            return new PieChart.Data(student.getName(), avgGrade);
+        }).toList());
 
-        XYChart.Series<String, Number> seriesLine = new XYChart.Series<>();
-        seriesLine.getData().clear();
-        lineChart.getData().clear();
-        for (Exam exam: examDb.all()) {
+        var seriesLine = new XYChart.Series<String, Number>();
+        seriesLine.getData().addAll(Arrays.stream(examDb.all()).map(exam -> {
             Grade[] grades = gradeDb.all(null, exam.getId());
-
             int gradeSum = Arrays.stream(grades).map(Grade::getPoints).reduce(0, Integer::sum);
-            int avgGrade = grades.length == 0 ? 0 : gradeSum / grades.length;
+            int avgGrade = (int)(gradeSum / (grades.length + 0.01));
 
-            seriesLine.getData().add(new XYChart.Data<>(exam.getName(), avgGrade));
-        }
+            return new XYChart.Data<String, Number>(exam.getName(), avgGrade);
+        }).toList());
         lineChart.getData().add(seriesLine);
-
     }
 
     @FXML

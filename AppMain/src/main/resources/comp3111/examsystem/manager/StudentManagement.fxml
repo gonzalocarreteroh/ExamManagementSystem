@@ -22,7 +22,7 @@
          <Label text="Department"/>
          <TextField fx:id="filterDepartment"/>
          <Button mnemonicParsing="false" onAction="#reset" text="Reset"/>
-         <Button mnemonicParsing="false" onAction="#query" text="Filter"/>
+         <Button mnemonicParsing="false" onAction="#refresh" text="Filter"/>
       </HBox>
    </top>
    <right>

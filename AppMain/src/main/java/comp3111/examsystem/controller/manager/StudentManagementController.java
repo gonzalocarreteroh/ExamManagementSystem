@@ -91,23 +91,14 @@ public class StudentManagementController extends ControllerBase implements Initi
         refresh();
     }
 
-    private void loadStudents() {
-        Student[] students = loadData().getStudents().all(filterUsername.getText(), filterName.getText(), filterDepartment.getText());
-        studentList.clear();
-        studentList.addAll(Arrays.stream(students).map(student -> new Row(
-                student.getId(),
-                student.getUsername(),
-                student.getName(),
-                Integer.toString(student.getAge()),
-                student.getGender().toString(),
-                student.getDepartment(),
-                student.getPassword()
-        )).toList());
-    }
-
     @FXML
     public void refresh() {
-        loadStudents();
+        Student[] students = loadData().getStudents().all(filterUsername.getText(), filterName.getText(), filterDepartment.getText());
+        studentList.clear();
+        studentList.addAll(Arrays.stream(students).map(student ->
+                new Row(student.getId(), student.getUsername(), student.getName(),
+                        Integer.toString(student.getAge()), student.getGender().toString(),
+                        student.getDepartment(), student.getPassword())).toList());
     }
 
     @FXML
@@ -115,12 +106,7 @@ public class StudentManagementController extends ControllerBase implements Initi
         filterUsername.clear();
         filterName.clear();
         filterDepartment.clear();
-        loadStudents();
-    }
-
-    @FXML
-    public void query() {
-        loadStudents();
+        refresh();
     }
 
     private void clearForm() {
@@ -137,17 +123,14 @@ public class StudentManagementController extends ControllerBase implements Initi
     public void add() {
         DataCollection data = loadData();
         data.getStudents().add(
-                thisUsername.getText(),
-                thisPassword.getText(),
-                thisName.getText(),
-                Integer.parseInt(thisAge.getText()),
-                thisDepartment.getText(),
-                parseGender(thisGender.getValue())
+                thisUsername.getText(), thisPassword.getText(),
+                thisName.getText(), Integer.parseInt(thisAge.getText()),
+                thisDepartment.getText(), parseGender(thisGender.getValue())
         );
         storeData(data);
 
         clearForm();
-        loadStudents();
+        refresh();
     }
 
     private static Gender parseGender(String str) {
@@ -164,20 +147,14 @@ public class StudentManagementController extends ControllerBase implements Initi
         }
 
         DataCollection data = loadData();
-        data.getStudents().update(
-                new Student(
-                        thisId,
-                        thisUsername.getText(),
-                        thisPassword.getText(),
-                        thisName.getText(),
-                        Integer.parseInt(thisAge.getText()),
-                        thisDepartment.getText(),
-                        parseGender(thisGender.getValue())
-                )
-        );
+        data.getStudents().update(new Student(
+                thisId, thisUsername.getText(), thisPassword.getText(),
+                thisName.getText(), Integer.parseInt(thisAge.getText()),
+                thisDepartment.getText(), parseGender(thisGender.getValue())
+        ));
 
         storeData(data);
-        loadStudents();
+        refresh();
     }
 
     public void delete() {
@@ -186,6 +163,6 @@ public class StudentManagementController extends ControllerBase implements Initi
         storeData(data);
 
         clearForm();
-        loadStudents();
+        refresh();
     }
 }

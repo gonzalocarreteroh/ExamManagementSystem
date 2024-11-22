@@ -2,8 +2,10 @@ package comp3111.examsystem.model;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class DataStorage {
@@ -16,7 +18,10 @@ public class DataStorage {
 
     public DataCollection load() {
         try {
-            String string = new String(Files.readAllBytes(Paths.get(path)), StandardCharsets.UTF_8);
+            Path filePath = Paths.get(path);
+            byte[] fileBytes = Files.readAllBytes(filePath);
+            Charset utf8 = StandardCharsets.UTF_8;
+            String string = new String(fileBytes, utf8);
             return dataSerializer.deserialize(string);
         } catch (IOException e) {
             return null;
@@ -25,7 +30,8 @@ public class DataStorage {
 
     public void store(DataCollection dataCollection) {
         try (PrintWriter writer = new PrintWriter(path)) {
-            writer.print(dataSerializer.serialize(dataCollection));
+            String serialized = dataSerializer.serialize(dataCollection);
+            writer.print(serialized);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

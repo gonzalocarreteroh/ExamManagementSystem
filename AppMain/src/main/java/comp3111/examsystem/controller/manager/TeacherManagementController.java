@@ -88,40 +88,8 @@ public class TeacherManagementController extends ControllerBase implements Initi
         refresh();
     }
 
-    private void loadTeachers() {
-        Teacher[] teachers = loadData().getTeachers().all(filterUsername.getText(), filterName.getText(), filterDepartment.getText());
-        teacherList.clear();
-
-        teacherList.addAll(Arrays.stream(teachers).map(teacher -> new Row(
-                teacher.getId(),
-                teacher.getUsername(),
-                teacher.getName(),
-                Integer.toString(teacher.getAge()),
-                teacher.getPosition(),
-                teacher.getDepartment(),
-                teacher.getPassword()
-        )).toList());
-    }
-
-    @FXML
-    public void refresh() {
-        loadTeachers();
-    }
-
     @FXML
     public void reset() {
-        filterUsername.clear();
-        filterName.clear();
-        filterDepartment.clear();
-        loadTeachers();
-    }
-
-    @FXML
-    public void query() {
-        loadTeachers();
-    }
-
-    private void clearForm() {
         thisId = null;
         thisUsername.clear();
         thisPassword.clear();
@@ -129,23 +97,27 @@ public class TeacherManagementController extends ControllerBase implements Initi
         thisAge.clear();
         thisDepartment.clear();
         thisPosition.clear();
+        refresh();
+    }
+
+    @FXML
+    public void refresh() {
+        Teacher[] teachers = loadData().getTeachers().all(filterUsername.getText(), filterName.getText(), filterDepartment.getText());
+        teacherList.clear();
+        teacherList.addAll(Arrays.stream(teachers).map(teacher ->
+                new Row(teacher.getId(), teacher.getUsername(), teacher.getName(),
+                        Integer.toString(teacher.getAge()), teacher.getPosition(),
+                        teacher.getDepartment(), teacher.getPassword())).toList());
     }
 
     @FXML
     public void add() {
         DataCollection data = loadData();
-        data.getTeachers().add(
-                thisUsername.getText(),
-                thisPassword.getText(),
-                thisName.getText(),
-                Integer.parseInt(thisAge.getText()),
-                thisDepartment.getText(),
-                thisPosition.getText()
-        );
+        data.getTeachers().add(thisUsername.getText(), thisPassword.getText(),
+                thisName.getText(), Integer.parseInt(thisAge.getText()),
+                thisDepartment.getText(), thisPosition.getText());
         storeData(data);
-
-        clearForm();
-        loadTeachers();
+        reset();
     }
 
     @FXML
@@ -155,28 +127,19 @@ public class TeacherManagementController extends ControllerBase implements Initi
         }
 
         DataCollection data = loadData();
-        data.getTeachers().update(
-                new Teacher(
-                        thisId,
-                        thisUsername.getText(),
-                        thisPassword.getText(),
-                        thisName.getText(),
-                        Integer.parseInt(thisAge.getText()),
-                        thisDepartment.getText(),
-                        thisPosition.getText()
-                )
-        );
+        data.getTeachers().update(new Teacher(
+                thisId, thisUsername.getText(), thisPassword.getText(),
+                thisName.getText(), Integer.parseInt(thisAge.getText()),
+                thisDepartment.getText(), thisPosition.getText()
+        ));
         storeData(data);
-
-        loadTeachers();
+        refresh();
     }
 
     public void delete() {
         var data = loadData();
         data.getTeachers().remove(thisId);
         storeData(data);
-
-        clearForm();
-        loadTeachers();
+        reset();
     }
 }

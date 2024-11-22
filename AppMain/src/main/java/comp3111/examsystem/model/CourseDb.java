@@ -13,7 +13,8 @@ public class CourseDb {
 
         this.courses = new HashMap<>();
         for (Course c : courses) {
-            this.courses.put(c.getId(), c);
+            int courseId = c.getId();
+            this.courses.put(courseId, c);
         }
     }
 
@@ -23,12 +24,15 @@ public class CourseDb {
 
     public void add(String code, String name, String department) {
         lastId += 1;
-        courses.put(lastId, new Course(lastId, code, name, department));
+        Course course = new Course(lastId, code, name, department);
+        courses.put(lastId, course);
     }
 
     public void update(Course course) {
-        if (courses.containsKey(course.getId())) {
-            courses.put(course.getId(), new Course(course.getId(), course.getCode(), course.getName(), course.getDepartment()));
+        int courseId = course.getId();
+        if (courses.containsKey(courseId)) {
+            Course cclone = new Course(courseId, course.getCode(), course.getName(), course.getDepartment());
+            courses.put(courseId, cclone);
         }
     }
 

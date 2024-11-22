@@ -69,16 +69,22 @@ public class DataSerializer {
     }
 
     private JsonNode serialize(Manager manager) {
+        String username = manager.getUsername();
+        String password = manager.getPassword();
+
         var n = mapper.createObjectNode();
-        n.put("username", manager.getUsername());
-        n.put("password", manager.getPassword());
+
+        n.put("username", username);
+        n.put("password", password);
         return n;
     }
 
     private JsonNode serialize(ManagerDb managerDb) {
         var n = mapper.createArrayNode();
         for (int i = 0; i < managerDb.size(); ++i) {
-            n.add(serialize(managerDb.get(i)));
+            Manager manager = managerDb.get(i);
+            JsonNode serialized = serialize(manager);
+            n.add(serialized);
         }
         return n;
     }
@@ -92,7 +98,11 @@ public class DataSerializer {
         n.put("c", question.getC());
         n.put("d", question.getD());
         n.put("answer", question.getAnswer());
-        n.put("type", question.getType() == Type.Single ? "Single" : "Multiple");
+        if (question.getType() == Type.Single) {
+            n.put("type", "Single");
+        } else {
+            n.put("type", "Multiple");
+        }
         n.put("points", question.getPoints());
         return n;
     }
@@ -100,7 +110,8 @@ public class DataSerializer {
     private JsonNode serialize(QuestionDb questionDb) {
         var n = mapper.createArrayNode();
         for (var question : questionDb.all()) {
-            n.add(serialize(question));
+            JsonNode serialized = serialize(question);
+            n.add(serialized);
         }
         return n;
     }
@@ -113,14 +124,19 @@ public class DataSerializer {
         n.put("name", student.getName());
         n.put("age", student.getAge());
         n.put("department", student.getDepartment());
-        n.put("gender", student.getGender() == Gender.Male ? "male" : "female");
+        if (student.getGender() == Gender.Male) {
+            n.put("gender", "male");
+        } else {
+            n.put("gender", "female");
+        }
         return n;
     }
 
     private JsonNode serialize(StudentDb studentDb) {
         var n = mapper.createArrayNode();
         for (var student : studentDb.all()) {
-            n.add(serialize(student));
+            JsonNode serialized = serialize(student);
+            n.add(serialized);
         }
         return n;
     }
@@ -140,20 +156,30 @@ public class DataSerializer {
     private JsonNode serialize(TeacherDb teacherDb) {
         var n = mapper.createArrayNode();
         for (var teacher : teacherDb.all()) {
-            n.add(serialize(teacher));
+            JsonNode serialized = serialize(teacher);
+            n.add(serialized);
         }
         return n;
     }
 
     public String serialize(DataCollection data) throws JsonProcessingException {
         var n = mapper.createObjectNode();
-        n.put("courses", serialize(data.getCourses()));
-        n.put("exams", serialize(data.getExams()));
-        n.put("grades", serialize(data.getGrades()));
-        n.put("managers", serialize(data.getManagers()));
-        n.put("questions", serialize(data.getQuestions()));
-        n.put("students", serialize(data.getStudents()));
-        n.put("teachers", serialize(data.getTeachers()));
+
+        CourseDb courses = data.getCourses();
+        ExamDb exams = data.getExams();
+        GradeDb grades = data.getGrades();
+        ManagerDb managers = data.getManagers();
+        QuestionDb questions = data.getQuestions();
+        StudentDb students = data.getStudents();
+        TeacherDb teachers = data.getTeachers();
+
+        n.put("courses", serialize(courses));
+        n.put("exams", serialize(exams));
+        n.put("grades", serialize(grades));
+        n.put("managers", serialize(managers));
+        n.put("questions", serialize(questions));
+        n.put("students", serialize(students));
+        n.put("teachers", serialize(teachers));
 
         return mapper.writeValueAsString(n);
     }
@@ -170,7 +196,9 @@ public class DataSerializer {
     private CourseDb deserializeCourseDb(JsonNode n) {
         var courses = new Course[n.size()];
         for (int i = 0; i < courses.length; ++i) {
-            courses[i] = deserializeCourse(n.get(i));
+            JsonNode node = n.get(i);
+            Course deserialized = deserializeCourse(node);
+            courses[i] = deserialized;
         }
         return new CourseDb(courses);
     }
@@ -179,7 +207,8 @@ public class DataSerializer {
         var qn = n.get("questionIds");
         int[] questionIds = new int[qn.size()];
         for (int i = 0; i < questionIds.length; ++i) {
-            questionIds[i] = qn.get(i).asInt();
+            JsonNode q = qn.get(i);
+            questionIds[i] = q.asInt();
         }
 
         return new Exam(
@@ -201,25 +230,34 @@ public class DataSerializer {
     }
 
     private Grade deserializeGrade(JsonNode n) {
-        return new Grade(n.get("studentId").asInt(), n.get("examId").asInt(), n.get("points").asInt());
+        return new Grade(
+                n.get("studentId").asInt(),
+                n.get("examId").asInt(),
+                n.get("points").asInt()
+        );
     }
 
     private GradeDb deserializeGradeDb(JsonNode n) {
         var grades = new Grade[n.size()];
         for (int i = 0; i < grades.length; ++i) {
-            grades[i] = deserializeGrade(n.get(i));
+            JsonNode g = n.get(i);
+            grades[i] = deserializeGrade(g);
         }
         return new GradeDb(grades);
     }
 
     private Manager deserializeManager(JsonNode n) {
-        return new Manager(n.get("username").asText(), n.get("password").asText());
+        return new Manager(
+                n.get("username").asText(),
+                n.get("password").asText()
+        );
     }
 
     private ManagerDb deserializeManagerDb(JsonNode n) {
         var managers = new Manager[n.size()];
         for (int i = 0; i < managers.length; ++i) {
-            managers[i] = deserializeManager(n.get(i));
+            JsonNode m = n.get(i);
+            managers[i] = deserializeManager(m);
         }
         return new ManagerDb(managers);
     }
@@ -241,21 +279,34 @@ public class DataSerializer {
     private QuestionDb deserializeQuestionDb(JsonNode n) {
         var question = new Question[n.size()];
         for (int i = 0; i < question.length; ++i) {
-            question[i] = deserializeQuestion(n.get(i));
+            JsonNode q = n.get(i);
+            question[i] = deserializeQuestion(q);
         }
         return new QuestionDb(question);
     }
 
     private Student deserializeStudent(JsonNode n) {
-        return new Student(
-                n.get("id").asInt(),
-                n.get("username").asText(),
-                n.get("password").asText(),
-                n.get("name").asText(),
-                n.get("age").asInt(),
-                n.get("department").asText(),
-                n.get("gender").asText().equals("male") ? Gender.Male : Gender.Female
-        );
+        if (n.get("gender").asText().equals("male")) {
+            return new Student(
+                    n.get("id").asInt(),
+                    n.get("username").asText(),
+                    n.get("password").asText(),
+                    n.get("name").asText(),
+                    n.get("age").asInt(),
+                    n.get("department").asText(),
+                    Gender.Male
+            );
+        } else {
+            return new Student(
+                    n.get("id").asInt(),
+                    n.get("username").asText(),
+                    n.get("password").asText(),
+                    n.get("name").asText(),
+                    n.get("age").asInt(),
+                    n.get("department").asText(),
+                    Gender.Female
+            );
+        }
     }
 
     private StudentDb deserializeStudentDb(JsonNode n) {
@@ -281,20 +332,36 @@ public class DataSerializer {
     private TeacherDb deserializeTeacherDb(JsonNode n) {
         var teachers = new Teacher[n.size()];
         for (int i = 0; i < teachers.length; ++i) {
-            teachers[i] = deserializeTeacher(n.get(i));
+            JsonNode t = n.get(i);
+            teachers[i] = deserializeTeacher(t);
         }
         return new TeacherDb(teachers);
     }
 
     public DataCollection deserialize(String json) throws JsonProcessingException {
         var tree = mapper.readTree(json);
-        var courseDb = deserializeCourseDb(tree.get("courses"));
-        var examDb = deserializeExamDb(tree.get("exams"));
-        var gradeDb = deserializeGradeDb(tree.get("grades"));
-        var managerDb = deserializeManagerDb(tree.get("managers"));
-        var questionDb = deserializeQuestionDb(tree.get("questions"));
-        var studentDb = deserializeStudentDb(tree.get("students"));
-        var teacherDb = deserializeTeacherDb(tree.get("teachers"));
+
+        JsonNode courses = tree.get("courses");
+        var courseDb = deserializeCourseDb(courses);
+
+        JsonNode exams = tree.get("exams");
+        var examDb = deserializeExamDb(exams);
+
+        JsonNode grades = tree.get("grades");
+        var gradeDb = deserializeGradeDb(grades);
+
+        JsonNode managers = tree.get("managers");
+        var managerDb = deserializeManagerDb(managers);
+
+        JsonNode questions = tree.get("questions");
+        var questionDb = deserializeQuestionDb(questions);
+
+        JsonNode students = tree.get("students");
+        var studentDb = deserializeStudentDb(students);
+
+        JsonNode teachers = tree.get("teachers");
+        var teacherDb = deserializeTeacherDb(teachers);
+
         return new DataCollection(courseDb, examDb, gradeDb, managerDb, questionDb, studentDb, teacherDb);
     }
 }
