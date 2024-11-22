@@ -19,6 +19,7 @@ public class ExamTest {
         int qId1 = qb.all()[0].getId(), qId2 = qb.all()[1].getId();
 
         Exam x = new Exam(3, "Midterm", 60, courseId, false, new int[]{qId1, qId2});
+        assertEquals(8, x.getMaxPoints(qb));
         assertEquals(3, x.getId());
         assertEquals("Midterm", x.getName());
         x.setName("Final");

@@ -3,7 +3,6 @@ package comp3111.examsystem.model;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class GradeDbTest {
     @Test
@@ -15,11 +14,13 @@ public class GradeDbTest {
         db.add(1, 2, 10);
         db.add(1, 3, 20);
         assertEquals(3, db.all().length);
+        assertEquals(2, db.all(1, null).length);
+        assertEquals(2, db.all(null, 3).length);
 
-        assertEquals(95, db.get(2, 3).getPoints());
-        assertEquals(10, db.get(1, 2).getPoints());
-        assertEquals(20, db.get(1, 3).getPoints());
-        assertNull(db.get(99, 99));
+        assertEquals(95, db.all(2, 3)[0].getPoints());
+        assertEquals(10, db.all(1, 2)[0].getPoints());
+        assertEquals(20, db.all(1, 3)[0].getPoints());
+        assertEquals(0, db.all(99, 99).length);
     }
 
     @Test

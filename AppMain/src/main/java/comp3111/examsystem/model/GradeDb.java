@@ -23,12 +23,25 @@ public class GradeDb {
         grades.get(studentId).put(examId, new Grade(studentId, examId, points));
     }
 
-    public Grade get(int studentId, int examId) {
-        var studentGrades = grades.get(studentId);
-        return studentGrades == null ? null : studentGrades.get(examId);
+    public Grade[] all(Integer studentId, Integer examId) {
+        if (studentId != null) {
+            var studentGrades = grades.getOrDefault(studentId, new HashMap<>());
+            if (examId != null) {
+                Grade grade = studentGrades.get(examId);
+                return grade == null ? new Grade[0] : new Grade[] {grade};
+            } else {
+                return studentGrades.values().stream().toList().toArray(new Grade[0]);
+            }
+        } else {
+            var gs = grades.values().stream().flatMap(gradeMap -> gradeMap.values().stream());
+            if (examId != null) {
+                gs = gs.filter(grade -> grade.getExamId() == examId);
+            }
+            return gs.toList().toArray(new Grade[0]);
+        }
     }
 
     public Grade[] all() {
-        return grades.values().stream().flatMap(g -> g.values().stream()).toList().toArray(new Grade[0]);
+        return all(null, null);
     }
 }

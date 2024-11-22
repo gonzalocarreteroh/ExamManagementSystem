@@ -1,5 +1,7 @@
 package comp3111.examsystem.model;
 
+import java.util.Arrays;
+
 /**
  * Represents an exam in the system, containing information about its ID, name, duration,
  * associated course, publication status, and questions.
@@ -154,5 +156,15 @@ public class Exam {
             questions[i] = db.get(questionIds[i]);
         }
         return questions;
+    }
+
+    /**
+     * Computes the maximum points a student can get from this exam.
+     *
+     * @param db the question database
+     * @return the maximum value a student can get from this exam
+     */
+    public int getMaxPoints(QuestionDb db) {
+        return Arrays.stream(getQuestions(db)).map(Question::getPoints).reduce(0, Integer::sum);
     }
 }
