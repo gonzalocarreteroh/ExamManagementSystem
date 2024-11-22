@@ -107,6 +107,10 @@ public class GradeStatisticController extends ControllerBase implements Initiali
             studentCombox.getItems().add(student.getUsername());
         }
 
+        for (Exam exam: loadData().getExams().all()) {
+            examCombox.getItems().add(exam.getName());
+        }
+
         studentColumn.setCellValueFactory(new PropertyValueFactory<>("studentName"));
         courseColumn.setCellValueFactory(new PropertyValueFactory<>("courseNum"));
         examColumn.setCellValueFactory(new PropertyValueFactory<>("examName"));
@@ -165,9 +169,8 @@ public class GradeStatisticController extends ControllerBase implements Initiali
 
     @FXML
     public void reset() {
-    }
-
-    @FXML
-    public void query() {
+        studentCombox.setValue(null);
+        examCombox.setValue(null);
+        courseCombox.setValue(null);
     }
 }
