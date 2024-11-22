@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class TeacherManagementController extends ControllerBase implements Initializable {
@@ -90,17 +91,16 @@ public class TeacherManagementController extends ControllerBase implements Initi
     private void loadTeachers() {
         Teacher[] teachers = loadData().getTeachers().all(filterUsername.getText(), filterName.getText(), filterDepartment.getText());
         teacherList.clear();
-        for (Teacher teacher : teachers) {
-            teacherList.add(new Row(
-                    teacher.getId(),
-                    teacher.getUsername(),
-                    teacher.getName(),
-                    Integer.toString(teacher.getAge()),
-                    teacher.getPosition(),
-                    teacher.getDepartment(),
-                    teacher.getPassword()
-            ));
-        }
+
+        teacherList.addAll(Arrays.stream(teachers).map(teacher -> new Row(
+                teacher.getId(),
+                teacher.getUsername(),
+                teacher.getName(),
+                Integer.toString(teacher.getAge()),
+                teacher.getPosition(),
+                teacher.getDepartment(),
+                teacher.getPassword()
+        )).toList());
     }
 
     @FXML
@@ -172,13 +172,11 @@ public class TeacherManagementController extends ControllerBase implements Initi
     }
 
     public void delete() {
-        if (thisId != null) {
-            var data = loadData();
-            data.getTeachers().remove(thisId);
-            storeData(data);
+        var data = loadData();
+        data.getTeachers().remove(thisId);
+        storeData(data);
 
-            clearForm();
-            loadTeachers();
-        }
+        clearForm();
+        loadTeachers();
     }
 }

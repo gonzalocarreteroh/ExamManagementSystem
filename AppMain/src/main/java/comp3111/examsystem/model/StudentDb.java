@@ -36,7 +36,7 @@ public class StudentDb {
         return students.get(id);
     }
 
-    public void remove(int id) {
+    public void remove(Integer id) {
         students.remove(id);
     }
 

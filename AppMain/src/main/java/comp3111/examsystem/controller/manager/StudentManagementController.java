@@ -15,6 +15,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class StudentManagementController extends ControllerBase implements Initializable {
@@ -92,17 +94,15 @@ public class StudentManagementController extends ControllerBase implements Initi
     private void loadStudents() {
         Student[] students = loadData().getStudents().all(filterUsername.getText(), filterName.getText(), filterDepartment.getText());
         studentList.clear();
-        for (Student student : students) {
-            studentList.add(new Row(
-                    student.getId(),
-                    student.getUsername(),
-                    student.getName(),
-                    Integer.toString(student.getAge()),
-                    student.getGender() == Gender.Male ? "Male" : "Female",
-                    student.getDepartment(),
-                    student.getPassword()
-            ));
-        }
+        studentList.addAll(Arrays.stream(students).map(student -> new Row(
+                student.getId(),
+                student.getUsername(),
+                student.getName(),
+                Integer.toString(student.getAge()),
+                student.getGender().toString(),
+                student.getDepartment(),
+                student.getPassword()
+        )).toList());
     }
 
     @FXML
@@ -142,12 +142,19 @@ public class StudentManagementController extends ControllerBase implements Initi
                 thisName.getText(),
                 Integer.parseInt(thisAge.getText()),
                 thisDepartment.getText(),
-                thisGender.getValue().equals("Female") ? Gender.Female : Gender.Male
+                parseGender(thisGender.getValue())
         );
         storeData(data);
 
         clearForm();
         loadStudents();
+    }
+
+    private static Gender parseGender(String str) {
+        var genderMap = new HashMap<String, Gender>();
+        genderMap.put("Female", Gender.Female);
+        genderMap.put("Male", Gender.Male);
+        return genderMap.get(str);
     }
 
     @FXML
@@ -165,7 +172,7 @@ public class StudentManagementController extends ControllerBase implements Initi
                         thisName.getText(),
                         Integer.parseInt(thisAge.getText()),
                         thisDepartment.getText(),
-                        thisGender.getValue().equals("Female") ? Gender.Female : Gender.Male
+                        parseGender(thisGender.getValue())
                 )
         );
 
@@ -174,13 +181,11 @@ public class StudentManagementController extends ControllerBase implements Initi
     }
 
     public void delete() {
-        if (thisId != null) {
-            var data = loadData();
-            data.getStudents().remove(thisId);
-            storeData(data);
+        var data = loadData();
+        data.getStudents().remove(thisId);
+        storeData(data);
 
-            clearForm();
-            loadStudents();
-        }
+        clearForm();
+        loadStudents();
     }
 }

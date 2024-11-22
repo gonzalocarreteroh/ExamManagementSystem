@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class CourseManagementController extends ControllerBase implements Initializable {
@@ -72,14 +73,12 @@ public class CourseManagementController extends ControllerBase implements Initia
     private void loadCourses() {
         Course[] courses = loadData().getCourses().all(filterCode.getText(), filterName.getText(), filterDepartment.getText());
         courseList.clear();
-        for (Course course : courses) {
-            courseList.add(new Row(
-                    course.getId(),
-                    course.getCode(),
-                    course.getName(),
-                    course.getDepartment()
-            ));
-        }
+        courseList.addAll(Arrays.stream(courses).map(course -> new Row(
+                course.getId(),
+                course.getCode(),
+                course.getName(),
+                course.getDepartment()
+        )).toList());
     }
 
     @FXML
@@ -142,13 +141,11 @@ public class CourseManagementController extends ControllerBase implements Initia
     }
 
     public void delete() {
-        if (thisId != null) {
-            var data = loadData();
-            data.getCourses().remove(thisId);
-            storeData(data);
+        var data = loadData();
+        data.getCourses().remove(thisId);
+        storeData(data);
 
-            clearForm();
-            loadCourses();
-        }
+        clearForm();
+        loadCourses();
     }
 }

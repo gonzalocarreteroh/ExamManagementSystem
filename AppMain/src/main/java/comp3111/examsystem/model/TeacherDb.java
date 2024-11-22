@@ -3,7 +3,6 @@ package comp3111.examsystem.model;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.*;
 
 public class TeacherDb {
     private int lastId;
@@ -37,7 +36,7 @@ public class TeacherDb {
         return teachers.get(id);
     }
 
-    public void remove(int id) {
+    public void remove(Integer id) {
         teachers.remove(id);
     }
 
