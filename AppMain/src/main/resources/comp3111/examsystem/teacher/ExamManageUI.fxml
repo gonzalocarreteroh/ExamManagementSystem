@@ -69,14 +69,14 @@
             <HBox>
                 <TableView fx:id="newQuestionTable" prefHeight="282.0" prefWidth="375.0" BorderPane.alignment="CENTER">
                     <columns>
-                        <TableColumn fx:id="columnnewquestionText" text="Question in Exam" minWidth="150"/>
+                        <TableColumn fx:id="columnnewquestionText" text="Question in Exam" minWidth="250"/>
                         <TableColumn fx:id="columnnewtype" text="Type" />
                         <TableColumn fx:id="columnnewscore" text="Score" />
                     </columns>
                 </TableView>
                 <TableView fx:id="questionTable" prefHeight="282.0" prefWidth="375.0" BorderPane.alignment="CENTER">
                     <columns>
-                        <TableColumn fx:id="columnquestionText" text="Question" minWidth="150"/>
+                        <TableColumn fx:id="columnquestionText" text="Question" minWidth="270"/>
                         <TableColumn fx:id="columntype" text="Type" />
                         <TableColumn fx:id="columnscore" text="Score" />
                     </columns>

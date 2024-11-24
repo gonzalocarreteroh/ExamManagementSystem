@@ -15,6 +15,11 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
+/**
+ * Controller class for managing exams and questions in the teacher module.
+ * Provides functionalities for filtering, querying, and updating exam and question data,
+ * as well as managing relationships between exams and questions.
+ */
 public class ExamManageController extends ControllerBase implements Initializable {
     public TextField filterExamName;
     public ChoiceBox<String> filterCourseID;
@@ -31,16 +36,6 @@ public class ExamManageController extends ControllerBase implements Initializabl
 
     // For left table
     public Integer thisId = null;
-    /*
-    public TextField thisQuestion;
-    public TextField thisOptionA;
-    public TextField thisOptionB;
-    public TextField thisOptionC;
-    public TextField thisOptionD;
-    public TextField thisAnswer;
-    public ChoiceBox<String> thisType;
-    public TextField thisScore;
-    */
 
     // For right table
     public Integer thisIdQuestion = null;
@@ -53,7 +48,9 @@ public class ExamManageController extends ControllerBase implements Initializabl
     public String thisNewType;
     public String thisNewScore;
 
-
+    /**
+     * Represents a row in the exam table.
+     */
     public static class Row {
         public int id;
         public String examName, courseID, examTime, publish;
@@ -71,7 +68,11 @@ public class ExamManageController extends ControllerBase implements Initializabl
         public String getExamTime() { return examTime; }
         public String getPublish() { return publish; }
     }
+
     // For right and centre tables
+    /**
+     * Represents a row in the question table.
+     */
     public static class RowQuestions {
         public int idQuestion;
         public String questionText, type, score;
@@ -116,7 +117,12 @@ public class ExamManageController extends ControllerBase implements Initializabl
     private final ObservableList<RowQuestions> newQuestionList = FXCollections.observableArrayList();
 
 
-    // @Override
+    /**
+     * Initializes the controller. Configures table bindings and populates choice boxes.
+     *
+     * @param url            The location of the FXML resource.
+     * @param resourceBundle The resource bundle for localization.
+     */
     public void initialize(URL url, ResourceBundle resourceBundle) {
         examTable.setItems(examList);
         // For right table
@@ -179,6 +185,9 @@ public class ExamManageController extends ControllerBase implements Initializabl
         refresh();
     }
 
+    /**
+     * Loads exams into the table based on filter criteria.
+     */
     public void loadExams() {
         // Get the id of the course from the course name
         Integer course_id;
@@ -211,6 +220,9 @@ public class ExamManageController extends ControllerBase implements Initializabl
         }
     }
 
+    /**
+     * Loads questions into the table based on filter criteria.
+     */
     public void loadQuestions() {
         int s;
 
@@ -236,6 +248,9 @@ public class ExamManageController extends ControllerBase implements Initializabl
         }
     }
 
+    /**
+     * Loads questions associated with the selected exam.
+     */
     public void loadNewQuestions() {
         if (thisId != null) {
             Exam exam = loadData().getExams().get(thisId);
@@ -257,12 +272,18 @@ public class ExamManageController extends ControllerBase implements Initializabl
         }
     }
 
+    /**
+     * Refreshes the data in all tables.
+     */
     @FXML
     public void refresh() {
         loadExams();
         loadQuestions();
     }
 
+    /**
+     * Resets filters for the exams table and reloads data.
+     */
     @FXML
     public void reset_exams() {
         filterExamName.clear();
@@ -274,6 +295,9 @@ public class ExamManageController extends ControllerBase implements Initializabl
     @FXML
     public void query_exams() { loadExams(); }
 
+    /**
+     * Resets filters for the questions table and reloads data.
+     */
     @FXML
     public void reset_questions() {
         filterQuestion.clear();
@@ -285,6 +309,9 @@ public class ExamManageController extends ControllerBase implements Initializabl
     @FXML
     public void query_questions() { loadQuestions(); }
 
+    /**
+     * Deletes the currently selected exam.
+     */
     @FXML
     public void delete() {
         if (thisId != null) {
@@ -297,6 +324,9 @@ public class ExamManageController extends ControllerBase implements Initializabl
         }
     }
 
+    /**
+     * Adds the selected question to the new question list.
+     */
     @FXML
     public void addLeft() {
         if (thisIdQuestion != null) {
@@ -304,6 +334,9 @@ public class ExamManageController extends ControllerBase implements Initializabl
         }
     }
 
+    /**
+     * Deletes the selected question from the new question list.
+     */
     @FXML
     public void deleteLeft() {
         if (thisIdNewQuestion != null) {
@@ -321,6 +354,9 @@ public class ExamManageController extends ControllerBase implements Initializabl
         }
     }
 
+    /**
+     * Adds a new exam with the current input parameters.
+     */
     @FXML
     public void add_exam() {
         DataCollection data = loadData();
@@ -336,6 +372,9 @@ public class ExamManageController extends ControllerBase implements Initializabl
         loadExams();
     }
 
+    /**
+     * Updates the currently selected exam with the current input parameters.
+     */
     @FXML
     public void update_exam() {
         ExamDb db = loadData().getExams();

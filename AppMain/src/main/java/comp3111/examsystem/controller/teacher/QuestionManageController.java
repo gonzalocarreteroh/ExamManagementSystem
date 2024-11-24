@@ -18,6 +18,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Controller class for managing questions in the teacher's view of the exam system.
+ */
 public class QuestionManageController extends ControllerBase implements Initializable {
     public TextField filterQuestion;
     public ChoiceBox<String> filterType;
@@ -33,10 +36,26 @@ public class QuestionManageController extends ControllerBase implements Initiali
     public ChoiceBox<String> thisType;
     public TextField thisScore;
 
+    /**
+     * Data class for representing a row in the question table.
+     */
     public static class Row {
         public int id;
         public String question, optionA, optionB, optionC, optionD, answer, type, score;
 
+        /**
+         * Constructs a new Row object.
+         *
+         * @param id       the ID of the question
+         * @param question the content of the question
+         * @param optionA  option A
+         * @param optionB  option B
+         * @param optionC  option C
+         * @param optionD  option D
+         * @param answer   the correct answer
+         * @param type     the type of the question
+         * @param score    the score of the question
+         */
         public Row(int id, String question, String optionA, String optionB, String optionC, String optionD, String answer, String type, String score) {
             this.id = id;
             this.question = question;
@@ -72,7 +91,12 @@ public class QuestionManageController extends ControllerBase implements Initiali
     private TableView<Row> questionTable;
     private final ObservableList<Row> questionList = FXCollections.observableArrayList();
 
-    // @Override
+    /**
+     * Initializes the controller.
+     *
+     * @param url            the location of the FXML file
+     * @param resourceBundle the resources for localization
+     */
     public void initialize(URL url, ResourceBundle resourceBundle) {
         questionTable.setItems(questionList);
 
@@ -103,6 +127,9 @@ public class QuestionManageController extends ControllerBase implements Initiali
         refresh();
     }
 
+    /**
+     * Loads questions based on filters and populates the table.
+     */
     public void loadQuestions() {
         int s;
 
@@ -133,11 +160,17 @@ public class QuestionManageController extends ControllerBase implements Initiali
         }
     }
 
+    /**
+     * Refreshes the question table.
+     */
     @FXML
     public void refresh() {
         loadQuestions();
     }
 
+    /**
+     * Resets all filters and reloads questions.
+     */
     @FXML
     public void reset() {
         filterQuestion.clear();
@@ -146,9 +179,15 @@ public class QuestionManageController extends ControllerBase implements Initiali
         loadQuestions();
     }
 
+    /**
+     * Filters questions based on the provided inputs.
+     */
     @FXML
     public void query() { loadQuestions(); }
 
+    /**
+     * Clears the question form fields.
+     */
     private void clearForm() {
         thisId = null;
         thisQuestion.clear();
@@ -161,6 +200,9 @@ public class QuestionManageController extends ControllerBase implements Initiali
         thisScore.clear();
     }
 
+    /**
+     * Adds a new question to the system.
+     */
     @FXML
     public void add() {
         DataCollection data = loadData();
@@ -180,6 +222,9 @@ public class QuestionManageController extends ControllerBase implements Initiali
         loadQuestions();
     }
 
+    /**
+     * Updates the selected question with new details.
+     */
     @FXML
     public void update() {
         if (thisId == null) {
@@ -206,6 +251,9 @@ public class QuestionManageController extends ControllerBase implements Initiali
         loadQuestions();
     }
 
+    /**
+     * Deletes the selected question from the system.
+     */
     @FXML
     public void delete() {
         if (thisId != null) {
