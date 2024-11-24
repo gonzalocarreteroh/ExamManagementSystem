@@ -29,7 +29,7 @@ public class RegisterController extends ControllerBase {
     public void initialize() {
         // Populate gender choices
         if (genderRegister.getItems().isEmpty()) {
-            genderRegister.getItems().addAll("FEMALE", "MALE", "OTHER");
+            genderRegister.getItems().addAll("FEMALE", "MALE");
         }
     }
 
