@@ -34,7 +34,7 @@
     </top>
     <right>
         <VBox prefHeight="400.0" prefWidth="180.0" BorderPane.alignment="CENTER">
-            <Label text="Question" prefWidth="100"/>
+            <Label text="Question" prefWidth="10"/>
             <TextField fx:id="thisQuestion"/>
             <Label text="Type"/>
             <Label text="Option A"/>

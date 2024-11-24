@@ -14,15 +14,32 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Controller class for the teacher login interface.
+ * Handles user authentication and navigation to other parts of the application.
+ */
 public class LoginController extends ControllerBase implements Initializable {
     @FXML
     private TextField usernameTxt;
     @FXML
     private PasswordField passwordTxt;
 
+    /**
+     * Initializes the login controller. Currently, no specific setup is required.
+     *
+     * @param location  the location used to resolve relative paths for the root object, or null if unknown.
+     * @param resources the resources used to localize the root object, or null if not specified.
+     */
     public void initialize(URL location, ResourceBundle resources) {
     }
 
+    /**
+     * Handles the login action. Authenticates the user with the provided credentials
+     * and navigates to the main teacher interface if successful. Shows an alert dialog
+     * if the login fails.
+     *
+     * @param e the action event triggered by the login button.
+     */
     @FXML
     public void login(ActionEvent e) {
         if (loadData().getTeachers().login(usernameTxt.getText(), passwordTxt.getText())) {
@@ -50,6 +67,9 @@ public class LoginController extends ControllerBase implements Initializable {
         }
     }
 
+    /**
+     * Handles the register action. Opens the teacher registration interface in a new window.
+     */
     @FXML
     public void register() {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("teacher/RegisterUI.fxml"));
