@@ -10,4 +10,4 @@ Members:
 
 
 The folder [documentation](/documentation) contains a pdf file with useful information like screenshots of different inputs/ outputs on the UI, the test coverage using Jacoco, etc.
-Inside, there is also a folder [videos](/documentation/videos) containing a separate video for each task, showing the main functionalities of the app.
+Inside, there is also a folder [videos](/documentation/videos) containing a separate video for each task, showing the main functionalities of the app. Additionally, inside the [javadoc](/documentation/javadoc) folder you may find all the html files related with the Javadoc documentation.
