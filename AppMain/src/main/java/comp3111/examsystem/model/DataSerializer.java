@@ -4,6 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * Utility class for serializing and deserializing objects related to the exam system.
+ * This class provides methods to convert objects to JSON format and vice versa.
+ */
 public class DataSerializer {
     private final ObjectMapper mapper;
 
