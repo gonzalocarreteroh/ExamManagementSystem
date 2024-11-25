@@ -23,10 +23,10 @@ import java.util.*;
 public class GradeStatisticsController extends ControllerBase {
 
     @FXML
-    private ComboBox<String> courseComboBox;
+    ComboBox<String> courseComboBox;
 
     @FXML
-    private TableView<GradeRow> gradesTable;
+    TableView<GradeRow> gradesTable;
 
     @FXML
     private TableColumn<GradeRow, String> courseColumn;
@@ -44,13 +44,13 @@ public class GradeStatisticsController extends ControllerBase {
     private TableColumn<GradeRow, Integer> timeColumn;
 
     @FXML
-    private BarChart<String, Number> scoreChart;
+    BarChart<String, Number> scoreChart;
 
     @FXML
-    private Label feedbackLabel; // Label for summary feedback
+    Label feedbackLabel; // Label for summary feedback
 
-    private ObservableList<GradeRow> allGradeData;
-    private ObservableList<GradeRow> gradeData;
+    ObservableList<GradeRow> allGradeData;
+    ObservableList<GradeRow> gradeData;
     private String username;
 
     public void setUsername(String username) {
@@ -72,7 +72,7 @@ public class GradeStatisticsController extends ControllerBase {
     }
 
     @FXML
-    private void refreshStatistics() {
+    void refreshStatistics() {
         allGradeData.clear();
         gradeData.clear();
 
@@ -109,7 +109,7 @@ public class GradeStatisticsController extends ControllerBase {
         updateFeedback(totalScore, highestScore, totalExams);
     }
 
-    private void updateFeedback(int totalScore, int highestScore, int totalExams) {
+    void updateFeedback(int totalScore, int highestScore, int totalExams) {
         if (totalExams == 0) {
             feedbackLabel.setText("No completed exams yet. Start now to see your progress!");
             return;
@@ -125,7 +125,7 @@ public class GradeStatisticsController extends ControllerBase {
     }
 
     @FXML
-    private void filterResults() {
+    void filterResults() {
         String selectedCourse = courseComboBox.getValue();
         if (selectedCourse == null || selectedCourse.isEmpty() || selectedCourse.equals("Pick Course")) {
             refreshStatistics();
@@ -144,14 +144,14 @@ public class GradeStatisticsController extends ControllerBase {
     }
 
     @FXML
-    private void resetFilters() {
+    void resetFilters() {
         courseComboBox.getSelectionModel().clearSelection();
         courseComboBox.setPromptText("Pick Course");
         gradeData.setAll(allGradeData);
         updateChart(gradeData);
     }
 
-    private void loadCourses() {
+    void loadCourses() {
         Set<String> courseNames = new LinkedHashSet<>();
         for (GradeRow row : allGradeData) {
             courseNames.add(row.getCourse());
@@ -161,7 +161,7 @@ public class GradeStatisticsController extends ControllerBase {
         courseComboBox.setPromptText("Pick Course");
     }
 
-    private void updateChart(List<GradeRow> dataToDisplay) {
+    void updateChart(List<GradeRow> dataToDisplay) {
         scoreChart.getData().clear();
 
         // Disable legend
@@ -213,7 +213,7 @@ public class GradeStatisticsController extends ControllerBase {
         scoreChart.setBarGap(0);
     }
 
-    private String insertLineBreaks(String label) {
+    String insertLineBreaks(String label) {
         String[] words = label.split("\\s+");
         StringBuilder modifiedLabel = new StringBuilder();
         int maxCharsPerLine = 10;
@@ -244,7 +244,7 @@ public class GradeStatisticsController extends ControllerBase {
         return totalPoints;
     }
 
-    private int getStudentIdFromUsername(DataCollection data) {
+    int getStudentIdFromUsername(DataCollection data) {
         for (var student : data.getStudents().all()) {
             if (student.getUsername().equals(username)) {
                 return student.getId();

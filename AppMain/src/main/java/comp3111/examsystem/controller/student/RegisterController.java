@@ -11,19 +11,19 @@ import javafx.stage.Stage;
 
 public class RegisterController extends ControllerBase {
     @FXML
-    private TextField usernameTxtRegister;
+    TextField usernameTxtRegister;
     @FXML
     private TextField nameTxtRegister;
     @FXML
-    private ChoiceBox<String> genderRegister;
+    ChoiceBox<String> genderRegister;
     @FXML
-    private TextField ageTxtRegister;
+    TextField ageTxtRegister;
     @FXML
     private TextField departmentTxtRegister;
     @FXML
-    private PasswordField passwordTxtRegister;
+    PasswordField passwordTxtRegister;
     @FXML
-    private PasswordField passwordConfirmTxtRegister;
+    PasswordField passwordConfirmTxtRegister;
 
     @FXML
     public void initialize() {
