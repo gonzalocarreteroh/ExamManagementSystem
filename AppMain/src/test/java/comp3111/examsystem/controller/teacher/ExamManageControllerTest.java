@@ -111,4 +111,32 @@ public class ExamManageControllerTest {
         });
     }
 
+    @Test
+    void testEditExam() {
+        Platform.runLater(() -> {
+            controller.examTable = new TableView<>();
+            ObservableList<ExamManageController.Row> data = controller.examList;
+            controller.examTable.setItems(data);
+
+            // Simulate selecting the first exam
+            controller.examTable.getSelectionModel().select(0);
+
+            controller.parameterExamName = new TextField("Edited Midterm");
+            controller.parameterCourseID = new ChoiceBox<>();
+            controller.parameterExamTime = new TextField("75");
+            controller.parameterPublish = new ChoiceBox<>();
+            controller.parameterPublish.setValue("no");
+
+            controller.update_exam();
+
+            ObservableList<ExamManageController.Row> examList = controller.examList;
+            ExamManageController.Row editedExam = examList.get(0);
+
+            assertEquals("Edited Midterm", editedExam.getExamName());
+            assertEquals("COMP1012", editedExam.getCourseID());
+            assertEquals("75", editedExam.getExamTime());
+            assertEquals("no", editedExam.getPublish());
+        });
+    }
+
 }
