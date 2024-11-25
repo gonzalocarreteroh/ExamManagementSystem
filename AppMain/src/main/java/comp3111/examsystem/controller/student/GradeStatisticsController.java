@@ -151,7 +151,7 @@ public class GradeStatisticsController extends ControllerBase {
         updateChart(gradeData);
     }
 
-    private void loadCourses() {
+    void loadCourses() {
         Set<String> courseNames = new LinkedHashSet<>();
         for (GradeRow row : allGradeData) {
             courseNames.add(row.getCourse());

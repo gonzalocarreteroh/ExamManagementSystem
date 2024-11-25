@@ -6,6 +6,23 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
+import javafx.collections.FXCollections;
+
+import comp3111.examsystem.model.GradeDb;
+import comp3111.examsystem.controller.ControllerBase;
+
+import comp3111.examsystem.model.Grade;
+import comp3111.examsystem.model.Exam;
+import comp3111.examsystem.model.ExamDb;
+import comp3111.examsystem.model.Question;
+import comp3111.examsystem.model.Type;
+import comp3111.examsystem.model.Course;
+import comp3111.examsystem.model.CourseDb;
+import comp3111.examsystem.model.DataCollection;
+import comp3111.examsystem.model.StudentDb;
+import comp3111.examsystem.model.Student;
+import comp3111.examsystem.model.Gender;
+
 import javafx.application.Platform;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
@@ -140,6 +157,128 @@ class GradeStatisticsControllerTest {
         assertEquals(2, controller.scoreChart.getData().get(0).getData().size(),
                 "Chart should have two data points.");
     }
+
+
+
+    @Test
+    void refreshStatisticsTest() {
+        // Initialize the controller, which extends ControllerBase
+        GradeStatisticsController controller = new GradeStatisticsController();
+
+        // Initialize JavaFX components
+        controller.feedbackLabel = new Label();
+        controller.courseComboBox = new ComboBox<>();
+        controller.scoreChart = new BarChart<>(new CategoryAxis(), new NumberAxis());
+        controller.allGradeData = FXCollections.observableArrayList();
+        controller.gradeData = FXCollections.observableArrayList();
+
+        // Mock the DataCollection directly in ControllerBase
+        DataCollection mockData = new DataCollection(
+                new CourseDb(new Course[]{new Course(1, "MAT101", "Math", "Mathematics Department")}),
+                new ExamDb(new Exam[]{new Exam(1, "Midterm", 60, 1, true, new int[]{})}),
+                new GradeDb(new Grade[]{new Grade(1, 1, 85)}),
+                null, null,
+                new StudentDb(new Student[]{new Student(1, "testUser", "password", "Test User", 20, "CS", Gender.Male)}),
+                null
+        );
+
+        // Use reflection to set the private collection field in ControllerBase
+        try {
+            var field = ControllerBase.class.getDeclaredField("collection");
+            field.setAccessible(true);
+            field.set(null, mockData);
+        } catch (Exception e) {
+            fail("Failed to set mock data in ControllerBase: " + e.getMessage());
+        }
+
+        // Simulate username
+        controller.setUsername("testUser");
+
+        // Call method
+        controller.refreshStatistics();
+
+        // Assertions
+        assertEquals(1, controller.gradeData.size(), "Grade data should have one entry.");
+        assertEquals("Math", controller.gradeData.get(0).getCourse(), "Course name should match.");
+        assertEquals("Midterm", controller.gradeData.get(0).getExam(), "Exam name should match.");
+        assertEquals("Completed Exams: 1 | Highest Score: 85\nKeep up the great work!",
+                controller.feedbackLabel.getText(), "Feedback label should summarize results.");
+    }
+
+
+
+
+
+
+    @Test
+    void filterResultsTest() {
+        // Initialize controller
+        GradeStatisticsController controller = new GradeStatisticsController();
+
+        // Initialize JavaFX components
+        controller.courseComboBox = new ComboBox<>();
+        controller.scoreChart = new BarChart<>(new CategoryAxis(), new NumberAxis());
+        controller.allGradeData = FXCollections.observableArrayList(
+                new GradeStatisticsController.GradeRow("Math", "Midterm", 85, 100, 60),
+                new GradeStatisticsController.GradeRow("Science", "Final", 90, 100, 90),
+                new GradeStatisticsController.GradeRow("Math", "Final", 88, 100, 60)
+        );
+        controller.gradeData = FXCollections.observableArrayList(controller.allGradeData);
+
+        // Mock the DataCollection directly in ControllerBase
+        DataCollection mockData = new DataCollection(
+                new CourseDb(new Course[]{new Course(1, "MAT101", "Math", "Mathematics Department")}),
+                new ExamDb(new Exam[]{
+                        new Exam(1, "Midterm", 60, 1, true, new int[]{}),
+                        new Exam(2, "Final", 60, 1, true, new int[]{})
+                }),
+                new GradeDb(new Grade[]{
+                        new Grade(1, 1, 85),
+                        new Grade(1, 2, 90)
+                }),
+                null, null,
+                new StudentDb(new Student[]{
+                        new Student(1, "testUser", "password", "Test User", 20, "CS", Gender.Male)
+                }),
+                null
+        );
+
+        // Use reflection to set the private collection field in ControllerBase
+        try {
+            var field = ControllerBase.class.getDeclaredField("collection");
+            field.setAccessible(true);
+            field.set(null, mockData);
+        } catch (Exception e) {
+            fail("Failed to set mock data in ControllerBase: " + e.getMessage());
+        }
+
+        // Case 1: Filter by "Math"
+        controller.courseComboBox.setValue("Math");
+        controller.filterResults();
+
+        // Assertions
+        assertEquals(2, controller.gradeData.size(), "Filtered data should contain two entries.");
+        assertEquals("Math", controller.gradeData.get(0).getCourse(), "First filtered course should be Math.");
+        assertEquals("Math", controller.gradeData.get(1).getCourse(), "Second filtered course should be Math.");
+
+        // Case 2: Filter by "Science"
+        controller.courseComboBox.setValue("Science");
+        controller.filterResults();
+
+        // Assertions
+        assertEquals(1, controller.gradeData.size(), "Filtered data should contain one entry.");
+        assertEquals("Science", controller.gradeData.get(0).getCourse(), "Filtered course should be Science.");
+
+        // Case 3: No course selected (reset filter)
+        controller.courseComboBox.setValue(null);
+        controller.filterResults();
+
+        // Assertions
+        assertEquals(0, controller.gradeData.size(), "Filtered data should contain all entries.");
+    }
+
+
+
 
 
 

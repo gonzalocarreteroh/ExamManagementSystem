@@ -121,7 +121,7 @@ public class QuizController extends ControllerBase implements Initializable {
         updateNavigationButtons();
     }
 
-    private void startTimer() {
+    void startTimer() {
         quizTimer = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
             if (remainingTime > 0) {
                 remainingTime--;

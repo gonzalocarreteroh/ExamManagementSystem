@@ -19,13 +19,13 @@ import java.util.stream.Collectors;
 
 public class MainController extends ControllerBase implements Initializable {
     @FXML
-    private ComboBox<String> examComboBox;
+    ComboBox<String> examComboBox;
 
     @FXML
-    private Label feedbackLabel;
+    Label feedbackLabel;
 
     @FXML
-    private ProgressBar quizProgressBar;
+    ProgressBar quizProgressBar;
 
     private ExamDb examDb;
     private String username; // Store the logged-in username
