@@ -26,39 +26,39 @@ import java.util.*;
 
 public class QuizController extends ControllerBase implements Initializable {
     @FXML
-    private Label quizNameLabel;
+    Label quizNameLabel;
     @FXML
-    private Label totalQuestionsLabel;
+    Label totalQuestionsLabel;
     @FXML
-    private Label timerLabel;
+    Label timerLabel;
     @FXML
-    private ListView<String> questionListView;
+    ListView<String> questionListView;
     @FXML
-    private Label questionNumberLabel;
+    Label questionNumberLabel;
     @FXML
-    private Label questionLabel;
+    Label questionLabel;
     @FXML
-    private VBox answerOptionsBox;
+    VBox answerOptionsBox;
     @FXML
-    private Button nextButton;
+    Button nextButton;
     @FXML
-    private Button prevButton;
+    Button prevButton;
     @FXML
-    private Button submitButton;
+    Button submitButton;
     @FXML
-    private ProgressBar timerProgressBar;
+    ProgressBar timerProgressBar;
 
-    private String username;
-    private List<Question> questions;
-    private int currentQuestionIndex;
-    private Map<Integer, Set<String>> studentAnswers;
-    private GradeDb gradeDb;
-    private Timeline quizTimer;
-    private int remainingTime;
-    private int totalTime; // Total time for the quiz
-    private int studentId;
-    private int examId;
-    private boolean quizSubmitted;
+    String username;
+    List<Question> questions;
+    int currentQuestionIndex;
+    Map<Integer, Set<String>> studentAnswers;
+    GradeDb gradeDb;
+    Timeline quizTimer;
+    int remainingTime;
+    int totalTime; // Total time for the quiz
+    int studentId;
+    int examId;
+    boolean quizSubmitted;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -136,7 +136,7 @@ public class QuizController extends ControllerBase implements Initializable {
         quizTimer.play();
     }
 
-    private void displayQuestion() {
+    void displayQuestion() {
         Question question = questions.get(currentQuestionIndex);
         questionLabel.setText(question.getTitle());
         questionNumberLabel.setText("Question " + (currentQuestionIndex + 1) + " of " + questions.size());
@@ -287,7 +287,7 @@ public class QuizController extends ControllerBase implements Initializable {
         submitButton.setDisable(questions.isEmpty());
     }
 
-    private void openQuizSelectionScreen() {
+    void openQuizSelectionScreen() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("student/MainUI.fxml"));
             Stage stage = new Stage();

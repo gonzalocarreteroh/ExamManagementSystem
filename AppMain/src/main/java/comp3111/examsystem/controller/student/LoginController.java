@@ -20,11 +20,11 @@ import java.util.ResourceBundle;
 
 public class LoginController extends ControllerBase implements Initializable {
     @FXML
-    private TextField usernameTxt;
+    TextField usernameTxt;
     @FXML
-    private PasswordField passwordTxt;
+    PasswordField passwordTxt;
 
-    private DataCollection data; // Store a reference to DataCollection for shared access
+    DataCollection data; // Store a reference to DataCollection for shared access
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
