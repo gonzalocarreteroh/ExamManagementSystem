@@ -105,8 +105,8 @@ public class ExamManageController extends ControllerBase implements Initializabl
 
     // For left table
     @FXML
-    private TableView<Row> examTable;
-    private final ObservableList<Row> examList = FXCollections.observableArrayList();
+    TableView<Row> examTable;
+    ObservableList<Row> examList = FXCollections.observableArrayList();
     // For right table
     @FXML
     private TableView<RowQuestions> questionTable;
@@ -114,7 +114,7 @@ public class ExamManageController extends ControllerBase implements Initializabl
     // For centre table
     @FXML
     private TableView<RowQuestions> newQuestionTable;
-    private final ObservableList<RowQuestions> newQuestionList = FXCollections.observableArrayList();
+    ObservableList<RowQuestions> newQuestionList = FXCollections.observableArrayList();
 
 
     /**
