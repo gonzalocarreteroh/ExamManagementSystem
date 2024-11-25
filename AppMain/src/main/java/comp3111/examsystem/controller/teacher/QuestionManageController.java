@@ -88,7 +88,7 @@ public class QuestionManageController extends ControllerBase implements Initiali
     public TableColumn<Row, String> columnScore;
 
     @FXML
-    private TableView<Row> questionTable;
+    TableView<Row> questionTable;
     private final ObservableList<Row> questionList = FXCollections.observableArrayList();
 
     /**

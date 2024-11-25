@@ -139,4 +139,24 @@ public class ExamManageControllerTest {
         });
     }
 
+    @Test
+    void testClearFilters() {
+        Platform.runLater(() -> {
+            controller.filterCourseID = new ChoiceBox<>();
+            controller.filterExamName = new TextField("Midterm");
+            controller.filterPublish = new ChoiceBox<>();
+
+            controller.filterCourseID.getItems().addAll("COMP1011", "COMP2021");
+            controller.filterCourseID.setValue("COMP1011");
+            controller.filterPublish.getItems().addAll("yes", "no");
+            controller.filterPublish.setValue("yes");
+
+            controller.reset_exams();
+
+            assertNull(controller.filterCourseID.getValue());
+            assertEquals("", controller.filterExamName.getText());
+            assertNull(controller.filterPublish.getValue());
+        });
+    }
+
 }
